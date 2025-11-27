@@ -43,10 +43,14 @@
     * [Eliminar CURP mediante CURP](#eliminar-curp-mediante-curp) [POST]
     * [Eliminar CURP mediante EUV](#eliminar-curp-mediante-folio-euv) [POST]
     * [Restaurar CURP mediante EUV](#restaura-el-curp-mediante-folio-euv) [POST]
+      
     *[Actualizar registro de víctima](#actualizar-registro-de-víctima). [PUT]
+  
     *[Actualizar datos de la víctima](#actualizar-datos-de-la-víctima)[PUT]
+  
     *[Actualizar dependiente de la víctima](#actualizar-datos-de-la-víctima)[PUT]
-     *[Campos opcionales de captura]
+  
+     *[Campos opcionales de captura](#campos-opcionales-de-captura)
       
 
 ## Cómo identificarse con el sistema
