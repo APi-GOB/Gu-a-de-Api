@@ -43,14 +43,10 @@
     * [Eliminar CURP mediante CURP](#eliminar-curp-mediante-curp) [POST]
     * [Eliminar CURP mediante EUV](#eliminar-curp-mediante-folio-euv) [POST]
     * [Restaurar CURP mediante EUV](#restaura-el-curp-mediante-folio-euv) [POST]
-    * Actualizar registro de víctima
-    * Endpoint: PUT /api/actualizar-registro-victimas/{id}
-    * Actualizar Datos de la Víctima
-    * Endpoint: PUT /api/actualizar-datos-victima/{id}
-    * Actualizar Dependiente de la Víctima
-    * Endpoint: PUT /api/actualizar-dependiente-victima/{id}
-    * Campos opcionales para identificación del usuario que captura (usuario_corresponde, usuario_cargo_corresponde)
-
+    *[Actualizar registro de víctima](#actualizar-registro-de-víctima). [PUT]
+    *[Actualizar datos de la víctima](#actualizar-datos-de-la-víctima)[PUT]
+    *[Actualizar dependiente de la víctima](#actualizar-datos-de-la-víctima)[PUT]
+     *[Campos opcionales de captura]
       
 
 ## Cómo identificarse con el sistema
@@ -1927,37 +1923,34 @@ $request->validate([
 ]);
 `````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
-### Actualizar los registros de victimas
 ### Actualizar registro de víctima
-URL
+url
 
 PUT /api/actualizar-registro-victimas/{id}
 
-Props
-
-Todos los campos son opcionales; solo se actualizarán los que envíes.
-
+props
 {
     "nombre": "María",
-    "primer_apellido": "López",
-    "segundo_apellido": "Torres",
-    "fecha_nacimiento": "1990-01-01",
-    "cve_ent": 14,
+    "primer_apellido": "García",
+    "segundo_apellido": "Lopez",
+    "fecha_nacimiento": "1990-05-12",
+    "cve_ent": 15,
     "nacionalidad_id": 1,
     "extranjera": false,
     "sexo": "F",
     "folio_euv": "ABC123",
-    "curp": "LOTM900101MDFRRR01",
-    "users_id": 2,
-    "sexo_id": 1,
+    "curp": "GAML900512MJCRLR00",
+    "users_id": 41,
+    "sexo_id": 2,
     "from_api": true,
     "identifica_mujer": true,
-    "cve_ent_captura": 14,
-    "cve_mun_captura": 101,
-    "dependencia_captura": "Unidad X",
-    "dependencia_corresponde": 99,
-    "usuario_corresponde": "Nombre del usuario",
-    "usuario_cargo_corresponde": "Cargo del usuario"
+    "cve_ent_captura": 15,
+    "cve_mun_captura": 45,
+    "dependencia_captura": "Institución X",
+    "dependencia_corresponde": "Institución Y",
+
+    "usuario_corresponde": "Nombre Capturista",
+    "usuario_cargo_corresponde": "Cargo del Capturista"
 }
 
 curl
@@ -1965,142 +1958,137 @@ curl --location --request PUT 'http://localhost/api/actualizar-registro-victimas
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
---data '{
+--data-raw '{
     "nombre": "María",
-    "primer_apellido": "López",
-    "usuario_corresponde": "Sistema Estatal",
-    "usuario_cargo_corresponde": "Capturista"
+    "primer_apellido": "García",
+    "segundo_apellido": "Lopez",
+    "fecha_nacimiento": "1990-05-12",
+    "cve_ent": 15,
+    "nacionalidad_id": 1,
+    "extranjera": false,
+    "sexo": "F",
+    "folio_euv": "ABC123",
+    "curp": "GAML900512MJCRLR00",
+    "users_id": 41,
+
+    "usuario_corresponde": "Nombre Capturista",
+    "usuario_cargo_corresponde": "Cargo del Capturista"
 }'
 
-Respuesta
+respuesta
 {
     "message": "Datos de la víctima actualizados correctamente",
-    "victima": { ... }
+    "victima": {
+        "id": 1,
+        "nombre": "María",
+        "primer_apellido": "García",
+        "segundo_apellido": "Lopez",
+        "folio_euv": "ABC123"
+    }
 }
 
-Tipo de usuario
-
-Cualquier usuario autenticado con permisos de edición.
-
-### Actualizar Datos de la Víctima
-URL
+### Actualizar datos de la víctima
+url
 
 PUT /api/actualizar-datos-victima/{id}
 
-Props
-
-Todos los campos son opcionales; solo se actualizan los que envíes.
-
-Ejemplo:
-
+props
 {
-    "edad": 28,
+    "edad": 34,
     "telefono": "4491234567",
     "correo_electronico": "correo@example.com",
-    "calle": "Av. Siempre Viva",
+    "calle": "Av. Principal",
     "num_exterior": "123",
     "num_interior": "4B",
     "cve_ent": 1,
     "cve_mun": 10,
-    "cve_loc": 5,
-    "colonias_id": 33,
+    "codigo_postal": 20000,
+    "colonias_id": 15,
     "estado_conyugal": 2,
-    "escolaridad_id": 4,
-    "ocupacion_id": 7,
+    "ocupacion_id": 3,
     "presenta_discapacidad": false,
-    "migrante": false,
-    "usuario_corresponde": "Capturista Estatal",
-    "usuario_cargo_corresponde": "Auxiliar"
+    "enfermedad": true,
+    "cual_enfermedad": "Asma",
+
+    "usuario_corresponde": "Nombre Capturista",
+    "usuario_cargo_corresponde": "Cargo Capturista"
 }
 
 curl
-curl --location --request PUT 'http://localhost/api/actualizar-datos-victima/12' \
+curl --location --request PUT 'http://localhost/api/actualizar-datos-victima/5' \
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
---data '{
-    "telefono": "4490001122",
-    "correo_electronico": "test@test.com",
-    "usuario_corresponde": "Admin Estatal",
-    "usuario_cargo_corresponde": "Operador"
+--data-raw '{
+    "edad": 34,
+    "telefono": "4491234567",
+    "correo_electronico": "correo@example.com",
+
+    "usuario_corresponde": "Nombre Capturista",
+    "usuario_cargo_corresponde": "Cargo Capturista"
 }'
 
-Respuesta
+respuesta
 {
     "message": "Datos de víctima actualizados correctamente",
-    "datos_victima": { ... }
+    "datos_victima": {
+        "id": 5,
+        "edad": 34,
+        "telefono": "4491234567"
+    }
 }
 
-Tipo de usuario
-
-Usuarios con permisos para editar datos de víctima.
-
-### Actualizar Dependiente de la Víctima
-URL
+### Actualizar dependiente de la víctima
+url
 
 PUT /api/actualizar-dependiente-victima/{id}
 
-Props
+props
 {
-    "nombre": "Ana",
-    "apellido_paterno": "García",
-    "apellido_materno": "Ramos",
+    "nombre": "Juan",
+    "apellido_paterno": "Pérez",
+    "apellido_materno": "Gómez",
     "parentesco_id": 3,
-    "telefono": "4495556677",
+    "telefono": "4499876543",
     "correo": "dependiente@example.com",
-    "domicilio": "Calle Falsa 123",
-    "usuario_corresponde": "Capturista Estatal",
-    "usuario_cargo_corresponde": "Auxiliar"
+    "domicilio": "Calle 5, #321",
+
+    "usuario_corresponde": "Nombre Capturista",
+    "usuario_cargo_corresponde": "Cargo Capturista"
 }
 
 curl
-curl --location --request PUT 'http://localhost/api/actualizar-dependiente-victima/5' \
+curl --location --request PUT 'http://localhost/api/actualizar-dependiente-victima/10' \
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
---data '{
-    "nombre": "Ana",
-    "telefono": "4494445566",
-    "usuario_corresponde": "Unidad Estatal",
-    "usuario_cargo_corresponde": "Capturista"
+--data-raw '{
+    "nombre": "Juan",
+    "apellido_paterno": "Pérez",
+
+    "usuario_corresponde": "Nombre Capturista",
+    "usuario_cargo_corresponde": "Cargo Capturista"
 }'
 
-Respuesta
+respuesta
 {
     "message": "Dependiente actualizado correctamente",
-    "data": { ... }
+    "data": {
+        "id": 10,
+        "nombre": "Juan",
+        "apellido_paterno": "Pérez"
+    }
 }
 
-Tipo de usuario
+### Campos opcionales de captura
 
-Usuarios con permisos de edición sobre el expediente.
+En todos los endpoints de registro y actualización, pueden enviarse opcionalmente los campos:
 
-#Campos de usuario que captura
+"usuario_corresponde": "Nombre de quien captura",
+"usuario_cargo_corresponde": "Cargo de quien captura"
 
-Campos opcionales disponibles en casi todos los endpoints
 
-En la mayoría de los endpoints del sistema se pueden enviar dos campos opcionales:
-
-{
-    "usuario_corresponde": "Nombre del usuario que captura",
-    "usuario_cargo_corresponde": "Cargo del usuario que captura"
-}
-
-¿Para qué sirven?
-
-Permiten rastrear quién capturó o modificó la información.
-
-No son obligatorios.
-
-Si no se envían, el sistema guarda solo la información principal.
-
-Ejemplo rápido
-{
-    "telefono": "4491112233",
-    "usuario_corresponde": "Oficial de Atención",
-    "usuario_cargo_corresponde": "Capturista"
-}
-
+Estos campos no son obligatorios, pero permiten identificar quién realizó la captura o modificación.
 
 
 
