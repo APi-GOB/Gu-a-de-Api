@@ -44,7 +44,6 @@
     * [Eliminar CURP mediante CURP](#eliminar-curp-mediante-curp)
     * [Eliminar CURP mediante EUV](#eliminar-curp-mediante-euv)
     * [Restaurar CURP mediante EUV](#restaurar-curp-mediante-euv)
-
    * [Campos opcionales de captura](#campos-opcionales-de-captura)
 
 --------------------------------------------------------------------------    
