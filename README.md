@@ -1,1172 +1,4226 @@
-# Guía de uso para el API
-
+# Guía de uso para el API  
 ## Índice
 
-* [Cómo identificarse con el sistema](#cómo-identificarse-con-el-sistema)
-    * [Cómo obtener un token](#1-cómo-obtener-un-token) [POST]
-    * [Cómo usar el token](#2-cómo-usar-el-token)
+* [Trabajar con el API.](#trabajar-con-el-api)
+    * [Identificarse para obtener un token](#identificarse-para-obtener-un-token)
 * [Métodos de consulta](#métodos-de-consulta-disponibles)
-    * [Buscar víctima por CURP](#buscar-víctima-por-curp) [POST]
-    * [Datos de la víctima por hecho id](#datos-de-la-víctima-por-hecho-id) [GET]
-    * [Datos de los agresores por hecho id](#datos-de-los-agresores-por-hecho-id) [GET]
-    * [Seguimientos por folio EUV / id de Hecho de violencia](#seguimientos-por-folio-euv--id-de-hecho-de-violencia) [POST]
-    * [Seguimientos por folio EUV](#seguimientos-por-folio-euv) [POST]
-    * [Folios EUV por enlace estatal](#folios-euv-por-enlace-estatal) [POST]
-    * [Folios EUV por estado](#folios-euv-por-estado) [POST]
-    * [Hecho por id](#hecho-por-id) [POST]
-    * [Hechos por entidad y rango de fecha](#hechos-de-violencia-por-entidad-y-rango-de-fecha) [POST]
-    * [Orden de protección por id](#orden-de-protección-por-id)[POST]
-    * [Órdenes de protección paginadas](#ordenes-de-protección-paginadas)[POST]
+    * [Búsqueda de una víctima por curp.](#búsqueda-de-una-víctima-por-curp)
+    * [Búsqueda de una víctima por hecho_id.](#búsqueda-de-una-víctima-por-hecho_id)
+    * [Búsqueda de agresores por hecho_id.](#búsqueda-de-agresores-por-hecho_id)
+    * [Búsqueda de seguimientos por folio EUV y el hecho_id.](#búsqueda-de-seguimientos-por-folio-euv-y-el-hecho_id)
+    * [Búsqueda de seguimientos por folio EUV.](#búsqueda-de-seguimientos-por-folio-euv)
+    * [Búsqueda de folios por enlace estatal en un período de tiempo.](#búsqueda-de-folios-por-enlace-estatal-en-un-período-de-tiempo)
+    * [Búsqueda de folios euv por estado en un período de tiempo.](#búsqueda-de-folios-euv-por-estado-en-un-período-de-tiempo)
+    * [Búsqueda de hechos por id.](#búsqueda-de-hechos-por-id)
+    * [Búsqueda de hechos por entidad y rango de fecha](#búsqueda-de-hechos-por-entidad-y-rango-de-fecha)
+    * [Búsqueda de una orden de protección por id](#búsqueda-de-orden-de-protección-por-id) <sub><small>nuevo</small></sub>
+    * [Búsqueda de órdenes de protección paginadas](#búsqueda-de-órdenes-de-protección-paginadas) <sub><small>nuevo</small></sub>
+    * [Búsqueda de hechos y ordenes de protección vinculadas por curp](#búsqueda-de-hechos-y-ordenes-de-protección-vinculadas-por-curp) <sub><small>nuevo</small></sub>
 * [Métodos de registro disponibles](#métodos-de-registro-disponibles)
-    * [Registro de víctima con CURP](#registro-de-víctima-con-curp) [POST]
-    * [Registro de víctima con Datos](#registro-de-víctima-con-datos) [POST]
-    * [Registro de víctima sin CURP](#registro-de-víctima-sin-curp) [POST]
-    * [Registro de hecho de violencia](#registro-de-hecho-de-violencia) [POST]
-    * [Registro de datos de la víctima por hecho id](#registroedición-de-datos-de-la-víctima-por-hecho-de-violencia)[POST]
-    * [Registro de dependiente por hecho id](#registro-de-dependiente-por-hecho-de-violencia)[POST]
-    * [Registro de red de apoyo por hecho id](#registro-de-red-de-apoyo-por-hecho-de-violencia)[POST]
-    * [Registro de mujeres en prisión para un hecho de violencia](#registro-de-mujeres-en-prisión-para-un-hecho-de-violencia) [POST]
-    * [Registro de mujeres víctimas de trata para un hecho de violencia](#registro-de-mujeres-víctimas-de-trata-para-un-hecho-de-violencia) [POST]
-    * [Registro de mujeres desaparecidas para un hecho de violencia](#registro-de-mujeres-desaparecidas-para-un-hecho-de-violencia) [POST]
-    * [Registro una canalización para un hecho de violencia](#registro-una-canalización-para-un-hecho-de-violencia) [POST]
-    * [Registro de un agresor para un hecho de violencia](#registro-de-un-agresor-para-un-hecho-de-violencia) [POST]
-    * [Registro de orden de protección](#registro-de-una-orden-de-protección)[POST]
+    * [Registro de víctima con CURP](#registro-de-víctima-con-curp)
+    * [Registro de víctima con Datos](#registro-de-víctima-con-datos)
+    * [Registro de víctima sin CURP](#registro-de-víctima-sin-curp)
+    * [Registro de un hecho de violencia](#registro-de-un-hecho-de-violencia)
+    * [Registro de los datos de una víctima](#registro-o-edición-de-los-datos-de-una-víctima) <sub><small>nuevo</small></sub>
+    * [Registro de un dependiente de una víctima por hecho de violencia](#registro-de-un-dependiente-de-una-víctima-por-hecho-de-violencia) <sub><small>nuevo</small></sub>
+    * [Registro de la red de apoyo de una víctima por hecho de violencia](#registro-de-la-red-de-apoyo-de-una-víctima-por-hecho-de-violencia) <sub><small>nuevo</small></sub>
+    * [Registro del seguimiento de un hecho de violencia.](#registro-del-seguimiento-de-un-hecho-de-violencia)
+    * [Registro de mujeres en prisión para un hecho de violencia](#registro-de-mujeres-en-prisión-para-un-hecho-de-violencia)
+    * [Registro de mujeres víctimas de trata para un hecho de violencia](#registro-de-mujeres-víctimas-de-trata-para-un-hecho-de-violencia)
+    * [Registro de mujeres desaparecidas para un hecho de violencia](#registro-de-mujeres-desaparecidas-para-un-hecho-de-violencia)
+    * [Registro una canalización para un hecho de violencia](#registro-una-canalización-para-un-hecho-de-violencia)
+    * [Registro de un agresor para un hecho de violencia](#registro-de-un-agresor-para-un-hecho-de-violencia)
+    * [Registro de una orden de protección.](#registro-de-una-orden-de-protección)<sub><small>nuevo</small></sub>
 * [Métodos de edición disponibles](#métodos-de-edición-disponibles)
-    * [Editar hecho de violencia](#editar-hecho-de-violencia) [POST]
-    * [Editar datos de la víctima por hecho id](#registroedición-de-datos-de-la-víctima-por-hecho-de-violencia)[POST]
-    * [Editar registro de mujeres en prisión para un hecho de violencia](#editar-registro-de-mujeres-en-prisión-para-un-hecho-de-violencia) [POST]
-    * [Editar registro de mujeres víctimas de trata](#editar-registro-de-mujeres-víctimas-de-trata) [POST]
-    * [Editar orden de protección](#editar-orden-de-protección)
+    * [Editar hecho de violencia ](#editar-hecho-de-violencia) <sub><small>nuevo</small></sub>
+    * [Editar los datos de una víctima](#registro-o-edición-de-los-datos-de-una-víctima) <sub><small>nuevo</small></sub>
+    * [Editar nacionalidad de víctima](#editar-nacionalidad-de-víctima) <sub><small>nuevo</small></sub>
+    * [Editar registro de mujeres en prisión para un hecho de violencia](#editar-registro-de-mujeres-en-prisión-para-un-hecho-de-violencia)
+    * [Editar registro de mujeres víctimas de trata](#editar-registro-de-mujeres-víctimas-de-trata)
+    * [Editar una orden de protección](#editar-una-orden-de-protección) <sub><small>nuevo</small></sub>
 * [Método de consulta personalizados](#métodos-de-consulta-personalizados-disponibles)
-    * [Infoname](#infoname) [POST]
-* [Métodos de prueba disponibles](#métodos-de-prueba)
-    * [Eliminar CURP mediante CURP](#eliminar-curp-mediante-curp) [POST]
-    * [Eliminar CURP mediante EUV](#eliminar-curp-mediante-folio-euv) [POST]
-    * [Restaurar CURP mediante EUV](#restaura-el-curp-mediante-folio-euv) [POST]
-      
-    *[Actualizar registro de víctima](#actualizar-registro-de-víctima). [PUT]
-  
-    *[Actualizar datos de la víctima](#actualizar-datos-de-la-víctima)[PUT]
-  
-    *[Actualizar dependiente de la víctima](#actualizar-datos-de-la-víctima)[PUT]
-  
-     *[Campos opcionales de captura](#campos-opcionales-de-captura)
-      
+    * [Infoname](#infoname)
+* [Métodos disponibles únicamente en el api de prueba](#métodos-de-prueba)
+    * [Eliminar CURP mediante CURP](#eliminar-curp-mediante-curp)
+    * [Eliminar CURP mediante EUV](#eliminar-curp-mediante-euv)
+    * [Restaurar CURP mediante EUV](#restaurar-curp-mediante-euv)
 
-## Cómo identificarse con el sistema
+   * [Campos opcionales de captura](#campos-opcionales-de-captura)
 
-### 1. Cómo obtener un token
-Para obtener un token, se debe hacer una petición a __/api/tokens/create__ enviando dos parámetros: email y password. Si las credenciales son correctas, se obtendrá un objeto json con la llave para realizar peticiones durante un día.
+--------------------------------------------------------------------------    
+### Versión de la documentación
+--------------------------------------------------------------------------
+v 1.1
 
-Con curl se puede realizar así:
+--------------------------------------------------------------------------    
+### Trabajar con el API
+--------------------------------------------------------------------------
+Para trabajar con el API, es fundamental realizar un proceso controlado que garantice que las integraciones funcionen correctamente antes de operar en un entorno real. Para lograrlo, se utilizan dos entornos diferenciados:
 
-```bash
-curl --location 'https://localhost/api/tokens/create' \
---header 'Accept: application/json' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "email" : "VALID_EMAIL",
-    "password" : "VALID_PASSWORD"
-}'
+ - Entorno de Pruebas (IP Pruebas): Donde se llevan a cabo ensayos y validaciones sin afectar datos reales ni operaciones en curso.
+ - Entorno de Producción: El entorno final en el que la API interactúa con datos reales y soporta la operación diaria.
+
+La transición del entorno de pruebas al de producción es un paso clave, ya que asegura que la API esté lista para usarse en condiciones reales sin errores ni interrupciones. Este cambio se realiza únicamente al finalizar todas las pruebas necesarias, garantizando que la implementación en producción sea exitosa.
+Utilizaremos variables de entorno para facilitar la gestión de dominios.
+Ejemplo:
+```text
+API_URL=https://banavim-capacitacion.mujeres.gob.mx:443                # Pruebas
+API_URL=https://banavim.mujeres.gob.mx:443                             # Producción
 ```
+La transición al entorno de producción **debe hacerse solo después de finalizar las pruebas** y garantizar que no haya errores. Esto asegura que la API funcione de manera eficiente en operaciones reales sin interrupciones por lo que durante la guia se utilizará el entorno de pruebas.
 
-La respuesta que se recibe tiene este formato:
+----------------------------------------------------------------
+### Identificarse para obtener un token.
+----------------------------------------------------------------
+Los tokens se generan con un algoritmo de combinación única de caracteres que determinan su duración y ámbito de acción. Para obtenerlo es necesario realizar una petición de tipo post con los parámetros de email y password, que son utilizados como credenciales y de ser correctas regresan como respuesta un json con un token generado. El tiempo de vida de un token es de 24 horas. La api usa el método bearer token por lo que deberá llevar un header de ese tipo.
 
+#### POST
+```
+    API_URL/api/tokens/create
+```
+#### Body raw (json)
 ```json
 {
-    "token": "YOUR_ACCESS_TOKEN"
+    "email"    : "CORREO",
+    "password" : "CONTRASEÑA"
 }
 ```
+#### Campos Obligatorios
 
-### PHP Rules
+|   Campo  | Obligatorio | Tipo de dato |
+|:--------:|:-----------:|:------------:|
+| email    |      SI     |    string    |
+| password |      SI     |    string    |
 
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/tokens/create' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "email"    : "CORREO",
+        "password" : "CONTRASEÑA"
+    }'
+```
+con PHP - cURL.
 ```php
-$request->validate([
-    'email'     => 'required|email|exists:users,email',
-    'password'  => 'required'
-]);
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/tokens/create',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "email"    : "CORREO",
+        "password" : "CONTRASEÑA"
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;    
 ```
+con JavaScrip - fetch
+```JavaScript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    const raw = JSON.stringify({
+    "email"    : "CORREO",
+    "password" : "CONTRASEÑA"
+    });
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+    fetch("API_URL/api/tokens/create", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+    {
+        "token": "cadena_de_caracteres_token"
+    }
+```
+con estatus 422. Email incorrecto en formato json.
+```json
+    {
+        "message": "El formato del dirección de correo electrónico no es válido.",
+        "errors": {
+            "email": [
+                "El formato del dirección de correo electrónico no es válido."
+            ]
+        }
+    }
+```
+con estatus 422. Password incorrecto en formato json.
+```json
+    {
+        "message": "El password es incorrecto",
+        "errors": {
+            "email": [
+                "El password es incorrecto"
+            ]
+        }
+    }
+```
+Los métodos siguientes utilizan el Bearer token para autenticar al usuario que consume los servicios.
 
+-----------------------------------------------------------------------------
+### Búsqueda de una víctima por curp
+-----------------------------------------------------------------------------
+El curp es una clave única e intransferible que identifica a una persona que habita nuestro país, así como mexicanos que radican en el extranjero. La búsqueda por curp permite tener mayor certeza de identificación de los datos de la víctima.
 
---------------------------------------------------------------------------------
+#### POST
+```
+    API_URL/api/curp
+```
+#### Body raw (json)
+```json
+    {
+        "curp" : "CURP000000XXXXXXX0"
+    }
+```
+#### Campos Obligatorios
 
+|   Campo  | Obligatorio | Tipo de dato |
+|:--------:|:-----------:|:------------:|
+| curp     |      SI     |    string    | 
 
-### 2. Cómo usar el token
-El tiempo de vida de un token es de un día (24 horas). El sistema usa el método _bearer token_ por lo que deberá llevar un header de tipo
-
+#### Ejemplo de solicitud.
+con curl.
 ```bash
-header: Authorization: Bearer YOUR_ACCESS_TOKEN
+    curl --location 'API_URL/api/curp' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "curp" : "CURP000000XXXXXXX0"
+    }'
 ```
+con PHP - cURL.
+```php
+    $curl = curl_init();
 
-## Métodos de consulta disponibles
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/curp',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "curp" : "CURP000000XXXXXXX0"
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
 
-### Buscar víctima por CURP
+    $response = curl_exec($curl);
 
-#### url
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
 
-/api/curp
+    const raw = JSON.stringify({
+    "curp": "CURP000000XXXXXXX0"
+    });
 
-#### props
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
 
+    fetch("API_URL/api/curp", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+    {
+        "curp": "CURP000000XXXXXXX0",
+        "folio_euv": "FOLIOOO-EUV6-381f-a2cb-33372d4ad034"
+    }
+```
+con estatus 422. Curp no está registrado.
 ```json
 {
-    "curp" : "VALID_CURP"
+    "message": "El CURP no está registrado en el sistema",
+    "errors": {
+        "curp": [
+            "El CURP no está registrado en el sistema"
+        ]
+    }
 }
 ```
+---------------------------------------------------------------
+### Búsqueda de una víctima por hecho_id.
+---------------------------------------------------------------
+El método permite identificar a la víctima por el hecho de violencia. La búsqueda se realiza a través de envíar por la url el hecho_id.
 
-#### curl
-
+#### GET
+```
+    API_URL/api/datos-victima-por-hecho/{hecho_id}
+```
+#### Ejemplo de solicitud.
+con curl.
 ```bash
-curl --location 'http://localhost/api/curp' \
---header 'Accept: application/json' \
---header 'Content-Type: application/json' \
---header 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
---data '{
-    "curp" : "VALID_CURP"
-}'
+    curl --location 'API_URL/api/datos-victima-por-hecho/10' \
+    --header 'Authorization: Bearer TOKEN'
+```
+con PHP - cURL.
+```php
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/datos-victima-por-hecho/10',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array(
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/datos-victima-por-hecho/10", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+    {
+        "id": 10,
+        "hechos_id": 10,
+        "users_id": 226,
+        "edad": 84,
+        "telefono": "+1-680-943-4840",
+        "correo_electronico": "kop.mpetz@hotmail.com",
+        "calle": "Jaylan Point",
+        "num_exterior": "657",
+        "num_interior": "81658",
+        "cve_ent": 11,
+        "cve_mun": 4,
+        "cve_loc": 4,
+        "colonias_id": null,
+        "entre_calle_uno": "Gerhold Flats",
+        "entre_calle_dos": "Swift Oval",
+        "referencia": "Voluptas eum moluptasnde corporis aut sunt voluptatem.",
+        "estado_conyugal": {
+            "id": 8,
+            "pk_catalogo": 3,
+            "descripcion_mujer": "Viuda",
+            "descripcion_hombre": "Viudo",
+            "orden": 4,
+            "es_activo": true,
+            "created_at": "2023-12-01T17:04:35.000000Z",
+            "updated_at": "2023-12-01T17:04:35.000000Z"
+        },
+        "pais": 238,
+        "codigo_postal": "77220",
+        "escolaridad_id": 8,
+        "ingreso_economico_id": 5,
+        "ocupacion_id": 30,
+        "presenta_discapacidad": false,
+        "discapacidad": "[4]",
+        "otra_discapacidad": "Unde minima qui error magni. Provident  beatae.",
+        "enfermedad": true,
+        "cual_enfermedad": "Ipsum omnis possimus ut aepe.",
+        "enfermedad_psiquiatrica": true,
+        "cual_enfermedad_psiquiatrica": "Suscipit sequi fuga et est.m beatae.",
+        "tratamiento": true,
+        "cual_tratamiento": "Rem ut esse em illum magni ex cupiditate quo earum.",
+        "situacion_calle": false,
+        "migrante": false,
+        "pueblo_indigena": true,
+        "pueblo_indigena_id": 53,
+        "lgbtti": true,
+        "identidad_genero_id": 3,
+        "orientacion_sexual_id": 4,
+        "embarazada": false,
+        "numero_semanas_emb": null,
+        "dependientes": false,
+        "red_apoyo": false,
+        "adiccion": true,
+        "created_at": "2023-10-31T19:51:47.000000Z",
+        "updated_at": "2023-10-31T19:51:47.000000Z",
+        "cual_adiccion": "[2]",
+        "deleted_at": null,
+        "persona_afrodescendiente": null,
+        "caso_name": null,
+        "realiza_mas_actividades": null,
+        "discapacidad_por_violencia": null,
+        "gestacion_id": null,
+        "clave_centro_escolar": null,
+        "numero_seguro_social": null,
+        "ocupacion": {
+            "id": 30,
+            "descripcion_hombre": "VETERINARIO",
+            "descripcion_mujer": "VETERINARIA",
+            "esactivo": true,
+            "created_at": "2023-12-01T17:04:36.000000Z",
+            "updated_at": "2023-12-01T17:04:36.000000Z"
+        },
+        "escolaridad": {
+            "id": 8,
+            "pk_catalogo": 9,
+            "descripcion": "No identificado",
+            "orden": 11,
+            "es_activo": true,
+            "created_at": "2023-12-01T17:04:35.000000Z",
+            "updated_at": "2023-12-01T17:04:35.000000Z"
+        },
+        "ingreso_economico": {
+            "id": 5,
+            "descripcion": "$25,846.09 A $43,076.80 (HASTA 10 SALARIOS MÍNIMOS)",
+            "esactivo": true,
+            "created_at": "2023-12-01T17:04:35.000000Z",
+            "updated_at": "2023-12-01T17:04:35.000000Z"
+        },
+        "colonia": null,
+        "identidad_genero": {
+            "id": 3,
+            "descripcion": "TRANSGÉNERO",
+            "esactivo": true,
+            "created_at": "2023-12-01T17:04:36.000000Z",
+            "updated_at": "2023-12-01T17:04:36.000000Z"
+        },
+        "orientacion_sexual": {
+            "id": 4,
+            "descripcion": "LESBIANA",
+            "esactivo": true,
+            "created_at": "2023-12-01T17:04:36.000000Z",
+            "updated_at": "2023-12-01T17:04:36.000000Z"
+        },
+        "semanas_gestacion": {
+            "id": null
+        }
+    }
+```
+----------------------------------------------------------------
+### Búsqueda de agresores por hecho_id.
+----------------------------------------------------------------
+Los agresores que realizaron un hecho de violencia están registrados y pueden ser consultados por este método con el hecho_id.
+
+#### GET
+```
+    API_URL/api/datos-agresor-por-hecho/{hecho_id}
+```
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/datos-agresor-por-hecho/3' \
+    --header 'Authorization: Bearer TOKEN'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/datos-agresor-por-hecho/3',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array(
+        'Authorization: TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/datos-agresor-por-hecho/3", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+[
+    {
+        "id": 20,
+        "hechos_id": 3,
+        "users_id": 1,
+        "nombre": "nombre",
+        "primer_apellido": "primer_apellido",
+        "segundo_apellido": "segundo_apellido",
+        "curp": "CURP000000XXXXXXX0",
+        "sexo": "masculino",
+        "edad": 40,
+        "mismo_domicilio_victima": false,
+        "acceso_a_armas": false,
+        "vinculo_victima_id": 5,
+        "identidad_genero_id": 1,
+        "orientacion_sexual_id": 2,
+        "calle": "X",
+        "num_exterior": "3",
+        "num_interior": "7",
+        "cve_ent": 21,
+        "cve_mun": 114,
+        "cve_loc": 501,
+        "codigo_postal": "72550",
+        "colonias_id": null,
+        "entre_calle_uno": null,
+        "entre_calle_dos": null,
+        "referencia": null,
+        "escolaridad_id": 10,
+        "ingreso_economico_id": 3,
+        "ocupacion_id": 9,
+        "created_at": "2023-12-13T23:50:30.000000Z",
+        "updated_at": "2023-12-13T23:50:30.000000Z",
+        "conoce_persona": true,
+        "deleted_at": null,
+        "sexo_id": null,
+        "tipos_armas": "[]",
+        "consume_drogas": null,
+        "tipos_drogas": "[]"
+    }
+]
+```
+----------------------------------------------------------------
+### Búsqueda de seguimientos por folio EUV y el hecho_id.
+----------------------------------------------------------------
+Esté método permite buscar seguimientos con el folio EUV y el hecho_id 
+#### POST
+```
+    API_URL/api/seguimientos-por-hecho
+```
+#### Body raw (json)
+```json
+    {
+        "folio_euv" : "folio_euv-31ec-3455-a838-f34fb5c53dca",
+        "hecho_id"  : 1382
+    }
+```
+#### Campos Obligatorios
+
+|   Campo  | Obligatorio | Tipo de dato |
+|:--------:|:-----------:|:------------:|
+|folio_euv |      SI     |    string    |
+|hecho_id  |      SI     |    string    |
+
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/seguimientos-por-hecho' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "folio_euv" : "folio_euv-31ec-3455-a838-f34fb5c53dca",
+        "hecho_id"  : 1382
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/seguimientos-por-hecho',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "folio_euv" : "folio_euv-31ec-3455-a838-f34fb5c53dca",
+        "hecho_id"  : 1382
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "folio_euv": "folio_euv-31ec-3455-a838-f34fb5c53dca",
+    "hecho_id" : 1382
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/seguimientos-por-hecho", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+[
+    {
+        "id": 2445,
+        "users_id": 755,
+        "hechos_id": 1382,
+        "fecha_seguimiento": "2004-02-21",
+        "hora_seguimiento": "16:44:21",
+        "tipo_id": 7,
+        "servicios_id": 26,
+        "acciones": "Excepturi qciendis ut facilis illum dolorem.",
+        "observaciones": "Doloremque non modi necessitatibus natus.",
+        "created_at": "2023-10-31T19:53:20.000000Z",
+        "updated_at": "2023-10-31T19:53:20.000000Z",
+        "deleted_at": null,
+        "servicio": {
+            "id": 26,
+            "tipo_servicio_id": 7,
+            "descripcion": "PONER EN OBSERVACIONES",
+            "esactivo": true,
+            "created_at": "2023-12-01T17:04:35.000000Z",
+            "updated_at": "2023-12-01T17:04:35.000000Z"
+        },
+        "tipo_servicio": {
+            "id": 7,
+            "descripcion": "ACTIVIDAD NO CATALOGADA",
+            "esactivo": false,
+            "created_at": "2023-12-01T17:04:35.000000Z",
+            "updated_at": "2023-12-01T17:04:35.000000Z"
+        }
+    },
+    {
+        "id": 2446,
+        "users_id": 755,
+        "hechos_id": 1382,
+        "fecha_seguimiento": "2003-09-11",
+        "hora_seguimiento": "12:30:11",
+        "tipo_id": 7,
+        "servicios_id": 26,
+        "acciones": "Est sequlitia quis et id. Illum veritatis ab harum voluptatum expedita.",
+        "observaciones": "Voluptates tetur alias harum atque animi non.",
+        "created_at": "2023-10-31T19:53:20.000000Z",
+        "updated_at": "2023-10-31T19:53:20.000000Z",
+        "deleted_at": null,
+        "servicio": {
+            "id": 26,
+            "tipo_servicio_id": 7,
+            "descripcion": "PONER EN OBSERVACIONES",
+            "esactivo": true,
+            "created_at": "2023-12-01T17:04:35.000000Z",
+            "updated_at": "2023-12-01T17:04:35.000000Z"
+        },
+        "tipo_servicio": {
+            "id": 7,
+            "descripcion": "ACTIVIDAD NO CATALOGADA",
+            "esactivo": false,
+            "created_at": "2023-12-01T17:04:35.000000Z",
+            "updated_at": "2023-12-01T17:04:35.000000Z"
+        }
+    }
+]
+```
+--------------------------------------------------------------
+### Búsqueda de seguimientos por folio EUV.
+--------------------------------------------------------------
+Esté método permite buscar seguimientos con el folio EUV.
+#### POST
+```
+    API_URL/api/seguimientos-por-euv
+```
+#### Body raw (json)
+```json
+    {
+        "folio_euv" : "folio_euv-31ec-3455-a838-f34fb5c53dca"
+    }
+```
+#### Campos Obligatorios
+
+|   Campo  | Obligatorio | Tipo de dato |
+|:--------:|:-----------:|:------------:|    
+|folio_euv |      SI     |    string    | 
+
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/seguimientos-por-euv' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: TOKEN' \
+    --data '{
+        "folio_euv" : "folio_euv-31ec-3455-a838-f34fb5c53dca"
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/seguimientos-por-euv',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "folio_euv" : "folio_euv-31ec-3455-a838-f34fb5c53dca"
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "folio_euv": "folio_euv-31ec-3455-a838-f34fb5c53dca"
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/seguimientos-por-euv", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```javascript
+[
+    {
+        "id": 2445,
+        "users_id": 755,
+        "hechos_id": 1382,
+        "fecha_seguimiento": "2004-02-21",
+        "hora_seguimiento": "16:44:21",
+        "tipo_id": 7,
+        "servicios_id": 26,
+        "acciones": "Excepturi quidis ut facilis illum dolorem.",
+        "observaciones": "Doloremque ulpa non modi necessitatibus natus.",
+        "created_at": "2023-10-31T19:53:20.000000Z",
+        "updated_at": "2023-10-31T19:53:20.000000Z",
+        "deleted_at": null,
+        "servicio": {
+            "id": 26,
+            "tipo_servicio_id": 7,
+            "descripcion": "PONER EN OBSERVACIONES",
+            "esactivo": true,
+            "created_at": "2023-12-01T17:04:35.000000Z",
+            "updated_at": "2023-12-01T17:04:35.000000Z"
+        },
+        "tipo_servicio": {
+            "id": 7,
+            "descripcion": "ACTIVIDAD NO CATALOGADA",
+            "esactivo": false,
+            "created_at": "2023-12-01T17:04:35.000000Z",
+            "updated_at": "2023-12-01T17:04:35.000000Z"
+        }
+    },
+    {
+        "id": 2446,
+        "users_id": 755,
+        "hechos_id": 1382,
+        "fecha_seguimiento": "2003-09-11",
+        "hora_seguimiento": "12:30:11",
+        "tipo_id": 7,
+        "servicios_id": 26,
+        "acciones": "Est sequi itatis ab harum voluptatum expedita.",
+        "observaciones": "Volnsectetur alias harum atque animi non.",
+        "created_at": "2023-10-31T19:53:20.000000Z",
+        "updated_at": "2023-10-31T19:53:20.000000Z",
+        "deleted_at": null,
+        "servicio": {
+            "id": 26,
+            "tipo_servicio_id": 7,
+            "descripcion": "PONER EN OBSERVACIONES",
+            "esactivo": true,
+            "created_at": "2023-12-01T17:04:35.000000Z",
+            "updated_at": "2023-12-01T17:04:35.000000Z"
+        },
+        "tipo_servicio": {
+            "id": 7,
+            "descripcion": "ACTIVIDAD NO CATALOGADA",
+            "esactivo": false,
+            "created_at": "2023-12-01T17:04:35.000000Z",
+            "updated_at": "2023-12-01T17:04:35.000000Z"
+        }
+    }
+]
+```
+--------------------------------------------------------------
+### Búsqueda de folios por enlace estatal en un período de tiempo.
+--------------------------------------------------------------
+El método requiere que las fechas sean válidas, en orden con la fecha inicial y la final, utilizando el enlace_id correspondiente a su estado.
+#### POST
+```
+    API_URL/api/folios-euv-por-enlace-estatal
+```
+#### Body raw (json)
+```json
+    {
+        "fecha_inicial" : "2022-5-27",
+        "fecha_final"   : "2024-7-27",
+        "enlace_id"     : 1
+    }
+```
+#### Campos Obligatorios
+
+|      Campo     | Obligatorio | Tipo de dato |
+|:--------------:|:-----------:|:------------:|
+| fecha_inicial  |     SI      |     date     | 
+| fecha_final    |     SI      |     date     |
+| enlace_id      |     SI      |    integer   |
+
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/folios-euv-por-enlace-estatal' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "fecha_inicial" : "2022-5-27",
+        "fecha_final"   : "2024-7-27",
+        "enlace_id"     : 1
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/folios-euv-por-enlace-estatal',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "fecha_inicial" : "2022-5-27",
+        "fecha_final"   : "2024-7-27",
+        "enlace_id"     : 1
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "fecha_inicial": "2022-5-27",
+    "fecha_final"  : "2024-7-27",
+    "enlace_id"    : 1
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/folios-euv-por-enlace-estatal", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+[
+    "EUV000000000005234072024",
+    "EUV000000000005235072024",
+    "EUV000000000005236072024",
+    "EUV000000000005237072024",
+    "EUV000000000005238072024",
+    "EUV000000000005239072024",
+    "EUV000000000005240072024",
+    "EUV000000000005241072024",
+    "EUV000000000005242072024",
+    "EUV000000000005243072024",
+    "EUV000000000005248072024"
+]
+```
+con estatus 422. Usuario no tiene permisos para realizar esta acción.
+```json
+    {
+        "message": "El usuario no tiene permisos para realizar esta acción",
+        "errors": {
+            "user": [
+                "El usuario no tiene permisos para realizar esta acción"
+            ]
+        }
+    }
 ```
 
-#### respuesta
+--------------------------------------------------------------
+### Búsqueda de folios euv por estado en un período de tiempo.
+--------------------------------------------------------------
+El método requiere que las fechas sean válidas, en orden con la fecha inicial y la final, utilizando la clave de la entidad y la página.
+#### POST
+```
+    API_URL/api/folios-euv-por-estado
+```
+catálogos: [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing)
+#### Body raw (json)
+```json
+    {
+        "fecha_inicial" : "2022-5-27",
+        "fecha_final"   : "2024-5-27",
+        "page"          : 1,
+        "cve_ent"       : 21
+    }
+```
+#### Campos Obligatorios
 
+|     Campo    | Obligatorio | Tipo de dato |
+|:------------:|:-----------:|:------------:|
+|fecha_inicial |      SI     |     date     |
+|fecha_final   |      SI     |     date     |
+|page          |      SI     |    integer   |
+|cve_ent       |      SI     |    integer   |
+
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/folios-euv-por-estado' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "fecha_inicial" : "2022-5-27",
+        "fecha_final"   : "2024-5-27",
+        "page"          : 1,
+        "cve_ent"       : 21
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/folios-euv-por-estado',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "fecha_inicial" : "2022-5-27",
+        "fecha_final"   : "2024-5-27",
+        "page"          : 1,
+        "cve_ent"       : 21
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "fecha_inicial": "2022-5-27",
+    "fecha_final"  : "2024-5-27",
+    "page"         : 1,
+    "cve_ent"      : 21
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/folios-euv-por-estado", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
 ```json
 {
-    "victima": {
-        "curp": "VALID_CURP",
-        "folio_euv": "VALID_EUV"
+    "total": 185,
+    "page": 1,
+    "folios": [
+        "folios-9ffd-30f0-b946-77216a37b78a",
+        "folios-d24b-3337-b85d-df7cd57dbe0a",
+        "folios-43d7-36d3-acc0-7b9ec22c36a5",
+        "folios-ac12-3924-ac7b-45aeef3cf8ba",
+        "folios-ba35-384e-a4a9-edc32d09b136",
+        "folios-da44-3de6-a911-b470d0a9cb31",
+        "folios-62ee-387f-8175-d96355f8e529",
+        "folios-22be-3b44-8d2d-789baee3f8c0",
+        "folios-42d2-33d3-bcff-42feab544d89"
+    ]
+}
+```
+con estatus 422. Error en la paginación.
+```json
+{
+    "message": "El campo page debe tener al menos 1.",
+    "errors": {
+        "page": [
+            "El campo page debe tener al menos 1."
+        ]
+    }
+}
+```
+con estatus 422. Faltan parámetros.
+```json
+{
+    "message": "El campo fecha inicial es requerido. (and 2 more errors)",
+    "errors": {
+        "fecha_inicial": [
+            "El campo fecha inicial es requerido."
+        ],
+        "fecha_final": [
+            "El campo fecha final es requerido."
+        ],
+        "cve_ent": [
+            "El campo cve ent es requerido."
+        ]
     }
 }
 ```
 
-### PHP Rules
-
-```php
-$request->validate([
-    'curp' => 'required'
-]);
+--------------------------------------------------------------
+### Búsqueda de Hechos por id.
+--------------------------------------------------------------
+#### POST
 ```
-
-#### tipo de usuario
-
-* cualquiera
-
---------------------------------------------------------------------------------
-
-### Datos de la víctima por hecho id
-
-#### url
-/api/datos-victima-por-hecho/{hecho_id}
-
-### PHP Rules
-
-```php
-// aquí ni validación hay O___O, hay que actualizar esto
-if(!$hecho){
-    throw ValidationException::withMessages([
-        'hecho_id' => ['No se encontró el hecho']
-    ]);
-}
+    API_URL/api/hecho
 ```
-
---------------------------------------------------------------------------------
-
-### Datos de los agresores por hecho id
-
-#### url
-/api/datos-agresor-por-hecho/{hecho_id}
-
-### PHP Rules
-
-```php
-// aquí ni validación hay O___O, hay que actualizar esto
-if(!$hecho){
-    throw ValidationException::withMessages([
-        'hecho_id' => ['No se encontró el hecho']
-    ]);
-}
+#### Body raw (json)
+```json
+    {
+        "id" : 2
+    }
 ```
+#### Campos Obligatorios
 
---------------------------------------------------------------------------------
+|   Campo  | Obligatorio | Tipo de dato |
+|:--------:|:-----------:|:------------:|
+|   id     |     SI      |    integer   |
 
-### Seguimientos por folio EUV / id de Hecho de violencia
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/hecho' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "id" : 2
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
 
-#### url
+    $curl = curl_init();
 
-/api/seguimientos-por-hecho
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/hecho',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "id" : 2
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
 
-#### props
+    $response = curl_exec($curl);
 
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+        "id": 2
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/hecho", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
 ```json
 {
-    "folio_euv" : "VALID_EUV",
-    "hecho_id" : 3
-}
-```
-
-#### curl
-
-```bash
-curl --location 'http://localhost/api/seguimientos-por-hecho' \
---header 'Accept: application/json' \
---header 'Content-Type: application/json' \
---header 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
---data '{
-    "folio_euv" : "VALID_EUV",
-    "hecho_id" : 3
-}'
-```
-
-#### respuesta
-
-[ver json](api-response-examples/seguimientos-por-hecho-de-violencia.json)
-
-### PHP Rules
-
-```php
-// aquí ni validación hay O___O, hay que actualizar esto
-if(!$victima){
-    throw ValidationException::withMessages([
-        'folio_euv' => ['El folio EUV no está registrado en el sistema']
-    ]);
-}
-```
-
---------------------------------------------------------------------------------
-
-### Seguimientos por folio EUV
-
-#### url
-
-/api/seguimientos-por-euv
-
-#### props
-
-```json
-{
-    "folio_euv": "VALID_EUV"
-}
-```
-
-#### curl
-
-```bash
-curl --location 'http://localhost/api/seguimientos-por-euv' \
---header 'Accept: application/json' \
---header 'Content: application/json' \
---header 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
---data '{
-    "folio_euv": "VALID_EUV"
-}'
-```
-
-#### respuesta
-
-[ver json](api-response-examples/hechos-de-violencia-por-euv.json)
-
-### PHP Rules
-
-```php
-// aquí ni validación hay O___O, hay que actualizar esto
-if(!$victima){
-    throw ValidationException::withMessages([
-        'folio_euv' => ['El folio EUV no está registrado en el sistema']
-    ]);
-}
-```
-
-#### tipo de usuario
-
-* cualquiera
-
---------------------------------------------------------------------------------
-
-### Folios EUV por enlace estatal
-
-#### url
-/api/folios-euv-por-enlace-estatal
-
-#### props
-
-```json
-{
-    "fecha_inicial" : "2022-5-27",
-    "fecha_final"   : "2024-5-27",
-    "enlace_id"     : 41
-}
-```
-
-#### curl
-
-```bash
-curl --location 'http://localhost/api/folios-euv-por-enlace-estatal' \
---header 'Accept: application/json' \
---header 'Content-Type: application/json' \
---header 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
---data '{
-    "fecha_inicial" : "2022-5-27",
-    "fecha_final"   : "2024-5-27",
-    "enlace_id"     : 41
-}'
-```
-
-#### respuesta
-
-```json
-[
-    "d581d199-9808-316c-bbf3-e83afec4486f",
-    "1bd73c3e-3929-35f8-9603-9f108c67d588",
-    "b49cc65c-eaa9-36a1-b5c7-95ca59fb4a1c",
-    "d191d3da-2a32-3c9d-bfa5-2aaaf41b50d7",
-    "f3066d0e-1000-3c87-9825-d761219d16d5"
-]
-```
-
-### PHP Rules
-
-```php
-$user       = $request->user();
-$perfil_id  = env('ENLACE_ESTATAL', 3);
-
-if($user->perfiles_id != $perfil_id ){
-    throw ValidationException::withMessages([
-        'user' => ['El usuario no tiene permisos para realizar esta acción']
-    ]);
-}
-
-$request->validate([
-    'fecha_inicial'  => 'required|date|before:fecha_final',
-    'fecha_final'    => 'required|date|before:tomorrow',
-    'enlace_id' => [ 
-        'required', 
-        'exists:users,id', 
-        function($attribute, $value, $fail) use ($perfil_id, $user) {
-            $enlace = User::find($value);
-            if($enlace->perfiles_id != $perfil_id){
-                $fail('El usuario no es un enlace estatal');
+    "id": 2,
+    "victimas_id": 5258,
+    "users_id": 1095,
+    "fecha_hechos": "2024-08-09",
+    "hora_hechos": "01:19:00",
+    "descripcion_hechos": "fsdfsfsf",
+    "lugar_id": 3,
+    "lugar_detalle_id": 36,
+    "en_domicilio_victima": true,
+    "pais_id": 238,
+    "cve_ent": 9,
+    "cve_mun": 14,
+    "calle": "dgdg",
+    "num_exterior_km": "100",
+    "num_interior": "101",
+    "cve_loc": 1,
+    "cp": "06700",
+    "lat": null,
+    "lng": null,
+    "es_festivo": false,
+    "conoce_la_autoridad": false,
+    "conoce_la_autoridad_detalle": "",
+    "tipo_violencia": [
+        "8"
+    ],
+    "modalidad_violencia": 1,
+    "es_victima_de_delincuencia_organizada": false,
+    "hay_denuncia": false,
+    "efectos_fisicos": "{\"6\":\"6\",\"3\":\"3\"}",
+    "consecuencias_sexuales": "{\"4\":\"4\"}",
+    "efectos_psicologicos": "{\"19\":\"19\"}",
+    "efectos_economicos_y_patrimoniales": "{\"3\":\"3\"}",
+    "agente_de_lesion": "{\"2\":\"2\"}",
+    "area_anatomica_lesionada": "{\"4\":\"4\"}",
+    "es_relacionada_con_orientacion_o_identidad": false,
+    "created_at": "2024-08-12T17:20:11.000000Z",
+    "updated_at": "2024-08-12T17:20:11.000000Z",
+    "deleted_at": null,
+    "folio": "EUV1500A1R00005258082024-1",
+    "colonias_id": 114929,
+    "culmino_en_muerte": null,
+    "tipo_muerte_id": null,
+    "tipo_muerte_otro": null,
+    "tipo_conducta_violencia_sexual_id": null,
+    "tipo_violencia_sexual": null,
+    "tipo_agresor_sexual_id": null,
+    "tipo_agresor_sexual_otro": null,
+    "victima": {
+        "id": 5258,
+        "nombre": "ELISA",
+        "primer_apellido": "LOPEZ",
+        "segundo_apellido": "x",
+        "fecha_nacimiento": "2005-01-12",
+        "cve_ent": 9,
+        "created_at": "2024-08-12T17:18:32.000000Z",
+        "updated_at": "2024-08-12T17:18:32.000000Z",
+        "curp": "false",
+        "folio_euv": "EUV1500A1R00005258082024",
+        "sexo": null,
+        "extranjera": false,
+        "users_id": 1095,
+        "instancias_id": null,
+        "areas_id": null,
+        "sedes_id": null,
+        "nacionalidad_id": 1,
+        "deleted_at": null,
+        "sexo_id": 2,
+        "from_api": false
+    },
+    "lugar": {
+        "id": 3,
+        "pk_catalogo": 1,
+        "descripcion": "Espacio particular",
+        "orden": 1,
+        "es_activo": true,
+        "created_at": "2023-12-01T17:04:30.000000Z",
+        "updated_at": "2023-12-01T17:04:30.000000Z",
+        "detalles_localidad": [
+            {
+                "id": 36,
+                "pk_catalogo": 1,
+                "descripcion": "Casa habitación",
+                "fk_lugar_ocurrencia": 1,
+                "orden": 1,
+                "es_activo": true,
+                "created_at": "2023-12-01T17:04:30.000000Z",
+                "updated_at": "2023-12-01T17:04:30.000000Z"
+            },
+            {
+                "id": 35,
+                "pk_catalogo": 2,
+                "descripcion": "Empresa",
+                "fk_lugar_ocurrencia": 1,
+                "orden": 2,
+                "es_activo": true,
+                "created_at": "2023-12-01T17:04:30.000000Z",
+                "updated_at": "2023-12-01T17:04:30.000000Z"
+            },
+            {
+                "id": 34,
+                "pk_catalogo": 3,
+                "descripcion": "Negocio",
+                "fk_lugar_ocurrencia": 1,
+                "orden": 3,
+                "es_activo": true,
+                "created_at": "2023-12-01T17:04:30.000000Z",
+                "updated_at": "2023-12-01T17:04:30.000000Z"
             }
-            else if($enlace->cve_ent != $user->cve_ent){
-                $fail('El enlace no pertenece a la entidad federativa del usuario');
-            }
-        }]
-]);
-```
-
-#### tipo de usuario
-
-* enlace estatal
-
---------------------------------------------------------------------------------
-
-### Folios EUV por estado
-
-#### url
-/api/folios-euv-por-estado
-
-#### props
-
-```json
-{
-    "fecha_inicial" : "2022-5-27",
-    "fecha_final"   : "2024-5-27",
-    "page" : 2,
-    "cve_ent" : 21
+        ]
+    },
+    "lugar_detalle": {
+        "id": 36,
+        "pk_catalogo": 1,
+        "descripcion": "Casa habitación",
+        "fk_lugar_ocurrencia": 1,
+        "orden": 1,
+        "es_activo": true,
+        "created_at": "2023-12-01T17:04:30.000000Z",
+        "updated_at": "2023-12-01T17:04:30.000000Z"
+    },
+    "seguimientos": [],
+    "canalizaciones": [],
+    "ordenes": [],
+    "victimas_trata": [],
+    "mujeres_prision": [],
+    "colonia": {
+        "id": 114929,
+        "cve_ent": 9,
+        "cve_mun": 15,
+        "cp": 6700,
+        "descripcion": "ROMA NORTE",
+        "created_at": "2024-08-08T23:00:59.000000Z",
+        "updated_at": "2024-08-08T23:00:59.000000Z"
+    }
 }
 ```
 
-#### curl
+--------------------------------------------------------------
+### Búsqueda de hechos por entidad y rango de fecha.
+--------------------------------------------------------------
+El consumo de este método requiere cuatro parámetros que permitirá obtener la información de la entidad y rango de fecha.
+#### POST
+```
+    API_URL/api/hechos
+```
+catálogos: [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing)
+#### Body raw (json)
+```json
+    {
+        "fecha_inicial" : "2022-5-27",
+        "fecha_final"   : "2024-10-27",
+        "page"          : 2,
+        "cve_ent"       : 2
+    }
+```
+#### Campos Obligatorios
 
+|     Campo    | Obligatorio | Tipo de dato |
+|:------------:|:-----------:|:------------:|
+|fecha_inicial |      No     |     date     |
+|fecha_final   |      No     |     date     |
+|page          |      No     |    integer   |
+|cve_ent       |      No     |    integer   |
+
+#### Ejemplo de solicitud.
+con curl.
 ```bash
-curl --location 'http://localhost/api/folios-euv-por-estado' \
+curl --location 'API_URL/api/hechos' \
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Bearer YOUR_ACCES_TOKEN' \
+--header 'Authorization: Bearer TOKEN' \
 --data '{
     "fecha_inicial" : "2022-5-27",
-    "fecha_final"   : "2024-5-27"
-}'
-```
-
-#### respuesta
-
-```json
-{
-    "total": 5,
-    "page": 1,
-    "folios": [
-        "fc2eba0f-a220-37d4-a524-b552e81db699",
-        "ac8ffb0a-c7e1-3c33-9180-e72f5dd5d5ee",
-        "3542dcee-7d42-3b22-bbf5-d0d372327ef7",
-        "eba43c76-b2eb-3b7b-a047-3523c3d3c436",
-        "1912314a-97ef-31e9-8b05-e4b1c42fd8e9"
-    ]
-}
-```
-
-### PHP Rules
-
-```php
-$request->validate([
-    'fecha_inicial'  => 'required|date|before:fecha_final',
-    'fecha_final'    => 'required|date|before:tomorrow',
-    'cve_ent'        => 'required|integer|between:1,32',
-    'page'           => 'integer|min:1'
-]);
-```
-
-#### tipo de usuario
-
-* cualquiera
-
---------------------------------------------------------------------------------
-
-### Hechos de violencia por entidad y rango de fecha
-
-#### url
-/api/hechos
-
-#### props
-
-```json
-{
-    "fecha_inicial" : "2022-5-27",
-    "fecha_final"   : "2024-5-27",
+    "fecha_final"   : "2024-10-25",
     "page"          : 2,
-    "cve_ent"       : 21
-}
+    "cve_ent"       : 2
+}'
 ```
+con PHP - cURL.
+```php
+    <?php
 
+    $curl = curl_init();
 
-#### respuesta
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/hechos',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "fecha_inicial" : "2022-5-27",
+        "fecha_final"   : "2024-10-25",
+        "page"          : 2,
+        "cve_ent"       : 2
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
 
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+const myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", "Bearer TOKEN");
+
+const raw = JSON.stringify({
+  "fecha_inicial": "2022-5-27",
+  "fecha_final"  : "2024-10-25",
+  "page"         : 2,
+  "cve_ent"      : 2
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
+
+fetch("API_URL/api/hechos", requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
 ```json
 {
-    "total": 14,
-    "page": 2,
-    "pages": 2,
+    "total": 559,
+    "page": 1,
+    "pages": 56,
     "hechos_id": [
-        2,
         3,
-        4,
-        5,
         6,
         7,
+        8,
         9,
-        10,
         11,
-        12
+        12,
+        13,
+        14,
+        15
     ]
 }
 ```
+con estatus 422. El campo fecha final debe ser una fecha valida.
+```json
+    {
+        "message": "El campo fecha final debe ser una fecha antes de tomorrow.",
+        "errors": {
+            "fecha_final": [
+                "El campo fecha final debe ser una fecha antes de tomorrow."
+            ]
+        }
+    }
+```
+--------------------------------------------------------------
+### Búsqueda de orden de protección por id
+--------------------------------------------------------------
+El consumo de este método requiere del parámetro que permitirá obtener la información de la orden de protección.
+#### POST
+```json
+   API_URL/api/orden-de-proteccion
+```
+#### Body raw (json)
+```json
+{
+    "id": 1
+}
+```
+#### Campos Obligatorios
 
-### PHP Rules
+|   Campo  | Obligatorio |Tipo de dato |
+|:--------:|:-----------:|:-----------:|
+|    id    |     SI      |   integer   | 
 
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/orden-de-proteccion' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: TOKEN' \
+    --data '{
+        "id": 1
+    }'
+```
+con PHP - cURL.
 ```php
-$request->validate([
-    'fecha_inicial' => 'nullable|date|before:tomorrow',
-    'fecha_final'   => 'nullable|date|before:tomorrow|after:fecha_inicial',
-    'page'          => 'nullable|integer|min:1',
-    'cve_ent'       => 'nullable|integer|between:1,32'
-]);
+<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'API_URL/api/orden-de-proteccion',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+    "id": 1
+}',
+  CURLOPT_HTTPHEADER => array(
+    'Accept: application/json',
+    'Content-Type: application/json',
+    'Authorization: Bearer TOKEN'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
 ```
+con JavaScrip - fetch.
+```javascript
+const myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", "Bearer TOKEN");
 
---------------------------------------------------------------------------------
+const raw = JSON.stringify({
+  "id": 1
+});
 
-### Hecho por id
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
 
-#### url
-/api/hecho
-
-#### props
-
-```json
-{
-    
-    "id" : 21
-}
+fetch("API_URL/api/orden-de-proteccion", requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
 ```
-
-
-#### respuesta
-
-```json
-{
-    "id": 1,
-    "victimas_id": 1,
-    "users_id": 1,
-    "fecha_hechos": "2022-10-24",
-    "hora_hechos": "08:12:00",
-    "descripcion_hechos": "hecho de violencia",
-    "lugar_id": 1,
-    "lugar_detalle_id": 1,
-    "en_domicilio_victima": true,
-    "pais_id": 1,
-    "cve_ent": 21,
-    "cve_mun": 1,
-    "calle": "1",
-    ...
-}
-```
-
-### PHP Rules
-
-```php
-$request->validate([
-    'id' => 'required|integer|exists:hechos,id'
-]);
-```
-
-
-#### tipo de usuario
-
-* cualquiera
-
---------------------------------------------------------------------------------
-
-### Orden de protección por id
-
-#### url
-/api/orden-de-proteccion
-
-#### props
-
-```json
-{
-    
-    "id" : 1
-}
-```
-
-
-#### respuesta
-
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
 ```json
 {
     "id": 1,
     "tipo_id": 2,
-    "en_que_consiste": "Descripción de la orden",
-    "autoridad_emisora_otro": "Otra autoridad",
-    "cve_ent": 15,
+    "en_que_consiste": "SE PROHIBE AL AGRESOR ACERCARSE AL DOMICILIO DE LA VICTIMA Y CONTACTARLA O BUSCARLA POR CUALQUIER MEDIO",
+    "autoridad_emisora_otro": "Juez de Primera Instancia",
+    "cve_ent": 2,
     "cve_mun": 1,
-    "fecha_de_emision": "2023-10-01",
+    "fecha_de_emision": "2024-08-12",
     "tiempo_indefinido": true,
-    "fecha_aproximada_de_termino": "2023-12-31",
-    "otro_tipo_de_orden": "Otro tipo de orden",
-    "created_at": "2024-11-20T17:24:13.000000Z",
-    "updated_at": "2024-11-20T17:37:01.000000Z",
-    "fecha_de_inicio": "2023-10-01",
+    "fecha_aproximada_de_termino": "2025-02-12",
+    "otro_tipo_de_orden": null,
+    "created_at": "2024-08-12T22:35:55.000000Z",
+    "updated_at": "2024-08-12T22:37:04.000000Z",
+    "fecha_de_inicio": "2024-08-12",
     "deleted_at": null,
-    "users_id": 1,
-    "hechos_id": 1,
-    "autoridad_id": 1,
-    "folio": "ABC123",
-    "dia_id": 1,
-    "tipo_orden_id": 1,
-    "tipo_medida_id": 1,
-    "fracciones_tipo_orden": [
-        1,
-        2
-    ],
-    "fracciones_tipo_medida": [
-        1,
-        2
-    ],
+    "users_id": 1004,
+    "hechos_id": 4,
+    "autoridad_id": null,
+    "folio": null,
+    "dia_id": null,
+    "tipo_orden_id": null,
+    "tipo_medida_id": null,
+    "fracciones_tipo_orden": null,
+    "fracciones_tipo_medida": null,
     "tipo": {
         "id": 2,
         "descripcion": "Orden de Protección",
         "es_activo": true,
-        "created_at": "2024-11-13T19:56:12.000000Z",
-        "updated_at": "2024-11-13T19:56:12.000000Z"
+        "created_at": "2023-12-01T17:04:37.000000Z",
+        "updated_at": "2023-12-01T17:04:37.000000Z"
     },
-    "tipo_orden": {
-        "id": 1,
-        "descripcion": "Administrativa",
-        "es_activo": true,
-        "created_at": "2024-11-13T19:56:12.000000Z",
-        "updated_at": "2024-11-13T19:56:12.000000Z"
-    },
+    "tipo_orden": null,
     "estado": {
-        "cve_ent": 15,
-        "nom_ent": "México",
-        "created_at": "2024-11-13T19:54:13.000000Z",
-        "updated_at": "2024-11-13T19:54:13.000000Z",
-        "codigo": "mc"
+        "cve_ent": 2,
+        "nom_ent": "Baja California",
+        "created_at": "2023-12-01T16:38:18.000000Z",
+        "updated_at": "2023-12-01T16:38:18.000000Z",
+        "codigo": "bc"
+    }
+}
+```
+con estatus 422. Que exista el id.
+```json
+{
+    "message": "El campo id seleccionado no es válido.",
+    "errors": {
+        "id": [
+            "El campo id seleccionado no es válido."
+        ]
+    }
+}
+con estatus 422. Que se envíe el id.
+```json
+{
+    "message": "El campo id es requerido.",
+    "errors": {
+        "id": [
+            "El campo id es requerido."
+        ]
     }
 }
 ```
 
-### PHP Rules
-
-```php
-$request->validate([
-    "id" => "required|integer|exists:ordenes_de_proteccions,id",
-]);
+--------------------------------------------------------------
+### Búsqueda de órdenes de protección paginadas
+--------------------------------------------------------------
+El consumo de este método requiere cuatro parámetros que permitirá obtener la información de la entidad y rango de fecha.
+#### POST
+```json
+   API_URL/api/ordenes-de-proteccion
 ```
-
-
-#### tipo de usuario
-
-* cualquiera
-
---------------------------------------------------------------------------------
-
-### Ordenes de protección paginadas
-
-#### url
-/api/ordenes-de-proteccion
-
-#### props
-
+catálogos: [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing)
+#### Body raw (json)
 ```json
 {
     "fecha_inicial": "2023-10-01",
-    "fecha_final": "2023-10-10",
-    "page": 1,
-    "cve_ent": 15
+    "fecha_final"  : "2023-10-10",
+    "page"         : 1,
+    "cve_ent"      : 15
 }
 ```
+#### Campos Obligatorios
 
+|     Campo     | Obligatorio |Tipo de dato |
+|:-------------:|:-----------:|:-----------:|
+| fecha_inicial |     NO      |    date     | 
+| fecha_final   |     NO      |    date     | 
+| page          |     NO      |   integer   | 
+| cve_ent       |     NO      |   integer   | 
+|||
 
-#### respuesta
+#### Ejemplo de solicitud.
+con curl.
+```bash
+curl --location 'API_URL/api/ordenes-de-proteccion' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer TOKEN' \
+--data '{
+    "fecha_inicial": "2023-10-01",
+    "fecha_final"  : "2023-10-10",
+    "page"         : 1,
+    "cve_ent"      : 15
+}'
+```
+con PHP - cURL.
+```php
+<?php
 
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'API_URL/api/ordenes-de-proteccion',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+    "fecha_inicial": "2023-10-01",
+    "fecha_final"  : "2023-10-10",
+    "page"         : 1,
+    "cve_ent"      : 15
+}',
+  CURLOPT_HTTPHEADER => array(
+    'Accept: application/json',
+    'Content-Type: application/json',
+    'Authorization: Bearer TOKEN'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+const myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", "Bearer TOKEN");
+
+const raw = JSON.stringify({
+  "fecha_inicial": "2023-10-01",
+  "fecha_final"  : "2023-10-10",
+  "page"         : 1,
+  "cve_ent"      : 15
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
+
+fetch("API_URL/api/ordenes-de-proteccion", requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
 ```json
 {
-    "total": 2,
+    "total": 1,
     "page": 1,
     "pages": 1,
     "ordenes_id": [
-        2,
-        1
+        17
     ]
 }
 ```
-
-### PHP Rules
-
-```php
-$request->validate([
-    'fecha_inicial' => 'nullable|date|before:tomorrow',
-    'fecha_final'   => 'nullable|date|before:tomorrow|after:fecha_inicial',
-    'page'          => 'nullable|integer|min:1',
-    'cve_ent'       => 'nullable|integer|between:1,32'
-]);
+-----------------------------------------------------------------------------
+### Búsqueda de hechos y ordenes de protección vinculadas por curp
+-----------------------------------------------------------------------------
+El consumo de este método requiere un parámetro que permitirá obtener la información de los hechos vinculados al curp y las ordenes de protección vinculadas a los hechos (en caso de existir).
+#### POST
+```json
+   API_URL/api/hechos-por-curp
 ```
 
+#### Body raw (json)
+```json
+{
+    "curp" : "RISL850120XDFVTSXX"
+}
+```
+#### Campos Obligatorios
 
-#### tipo de usuario
+|     Campo     | Obligatorio |Tipo de dato |
+|:-------------:|:-----------:|:-----------:|
+|      curp     |     SI      |   String    | 
+|||
 
-* cualquiera
+#### Ejemplo de solicitud.
+con curl.
+```bash
+curl --location 'API_URL/api/hechos-por-curp' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer TOKEN' \
+--data '{
+    "curp" : "RISL850120XDFVTSXX"
+}'
+```
+con PHP - cURL.
+```php
+<?php
 
-## Métodos de registro disponibles
+$curl = curl_init();
 
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'API_URL/api/hechos-por-curp',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+    "curp" : "RISL850120XDFVTSXX"
+}',
+  CURLOPT_HTTPHEADER => array(
+    'Accept: application/json',
+    'Content-Type: application/json',
+    'Authorization: Bearer TOKEN'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+const myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", "Bearer TOKEN");
+
+const raw = JSON.stringify({
+  "curp" : "RISL850120XDFVTSXX"
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
+
+fetch("API_URL/api/hechos-por-curp", requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+## NOTA: Los datos utilizados en este ejemplo son para ilustrar el tipo de respuesta esperada, 
+los datos en la respuesta pueden variar de acuerdo al uso del operador del API.
+con estatus 200 en formato json.
+```json
+[
+    {
+        "id": 3,
+        "victimas_id": 10,
+        "users_id": 1,
+        "fecha_hechos": "2022-10-26",
+        "hora_hechos": "08:12:00",
+        "descripcion_hechos": "Este es un hecho",
+        "lugar_id": 3,
+        "lugar_detalle_id": 36,
+        "en_domicilio_victima": true,
+        "pais_id": 238,
+        "cve_ent": 21,
+        "cve_mun": 133,
+        "calle": "siempre viva 23",
+        "num_exterior_km": "45",
+        "num_interior": null,
+        "cve_loc": 1,
+        "cp": "74069",
+        "lat": "19.28431",
+        "lng": "-98.43885",
+        "es_festivo": false,
+        "conoce_la_autoridad": false,
+        "conoce_la_autoridad_detalle": "",
+        "tipo_violencia": [
+            1,
+            3,
+            5,
+            8
+        ],
+        "modalidad_violencia": 6,
+        "es_victima_de_delincuencia_organizada": false,
+        "hay_denuncia": false,
+        "efectos_fisicos": [
+            1,
+            2
+        ],
+        "consecuencias_sexuales": [],
+        "efectos_psicologicos": [],
+        "efectos_economicos_y_patrimoniales": [],
+        "agente_de_lesion": [],
+        "area_anatomica_lesionada": [],
+        "es_relacionada_con_orientacion_o_identidad": false,
+        "created_at": "2025-06-20T00:37:46.000000Z",
+        "updated_at": "2025-06-20T00:37:46.000000Z",
+        "deleted_at": null,
+        "folio": "EUV310017610062025-1",
+        "colonias_id": null,
+        "culmino_en_muerte": null,
+        "tipo_muerte_id": null,
+        "tipo_muerte_otro": null,
+        "tipo_violencia_sexual": null,
+        "tipo_agresor_sexual_id": null,
+        "tipo_agresor_sexual_otro": null,
+        "tipos_conductas_violencia_sexual": null,
+        "lugar_detalle_otro": "",
+        "tipo_violencia_otro": "",
+        "efecto_fisico_otro": "",
+        "consecuencia_sexual_otro": "",
+        "efecto_psicologico_otro": "",
+        "efecto_economico_patrimonial_otro": "",
+        "agente_lesion_otro": "",
+        "area_anatomica_lesionada_otro": "",
+        "en_extranjero": null,
+        "via_linea_bienestar": false,
+        "cve_ent_captura": 31,
+        "cve_mun_captura": null,
+        "dependencia_captura": 176,
+        "folio_cabi": null,
+        "dependencia_corresponde": 113,
+        "victima": {
+            "id": 10,
+            "nombre": "Luisa",
+            "primer_apellido": "Rivera",
+            "segundo_apellido": "Soto",
+            "fecha_nacimiento": "1985-01-20",
+            "cve_ent": 9,
+            "created_at": "2025-06-20T00:33:11.000000Z",
+            "updated_at": "2025-06-20T00:33:11.000000Z",
+            "curp": "RISL850120XDFVTSXX",
+            "folio_euv": "EUV310017610062025",
+            "sexo": null,
+            "extranjera": false,
+            "users_id": 1,
+            "instancias_id": null,
+            "areas_id": null,
+            "sedes_id": null,
+            "nacionalidad_id": 1,
+            "deleted_at": null,
+            "sexo_id": 2,
+            "from_api": true,
+            "identifica_mujer": null,
+            "cve_ent_captura": 31,
+            "cve_mun_captura": null,
+            "dependencia_captura": 176,
+            "dependencia_corresponde": 113
+        },
+        "lugar": {
+            "id": 3,
+            "pk_catalogo": 3,
+            "descripcion": "Transporte foráneo",
+            "orden": 4,
+            "es_activo": true,
+            "created_at": "2025-06-10T03:03:06.000000Z",
+            "updated_at": "2025-06-10T03:03:06.000000Z",
+            "detalles_localidad": [
+                {
+                    "id": 23,
+                    "pk_catalogo": 19,
+                    "descripcion": "Autobús",
+                    "fk_lugar_ocurrencia": 3,
+                    "orden": 1,
+                    "es_activo": true,
+                    "created_at": "2025-06-10T03:03:06.000000Z",
+                    "updated_at": "2025-06-10T03:03:06.000000Z"
+                },
+                {
+                    "id": 21,
+                    "pk_catalogo": 21,
+                    "descripcion": "Avión",
+                    "fk_lugar_ocurrencia": 3,
+                    "orden": 2,
+                    "es_activo": true,
+                    "created_at": "2025-06-10T03:03:06.000000Z",
+                    "updated_at": "2025-06-10T03:03:06.000000Z"
+                },
+                {
+                    "id": 22,
+                    "pk_catalogo": 20,
+                    "descripcion": "Barco",
+                    "fk_lugar_ocurrencia": 3,
+                    "orden": 3,
+                    "es_activo": true,
+                    "created_at": "2025-06-10T03:03:06.000000Z",
+                    "updated_at": "2025-06-10T03:03:06.000000Z"
+                },
+                {
+                    "id": 19,
+                    "pk_catalogo": 23,
+                    "descripcion": "Ferrocarril",
+                    "fk_lugar_ocurrencia": 3,
+                    "orden": 4,
+                    "es_activo": true,
+                    "created_at": "2025-06-10T03:03:06.000000Z",
+                    "updated_at": "2025-06-10T03:03:06.000000Z"
+                },
+                {
+                    "id": 18,
+                    "pk_catalogo": 24,
+                    "descripcion": "Lancha",
+                    "fk_lugar_ocurrencia": 3,
+                    "orden": 5,
+                    "es_activo": true,
+                    "created_at": "2025-06-10T03:03:06.000000Z",
+                    "updated_at": "2025-06-10T03:03:06.000000Z"
+                },
+                {
+                    "id": 20,
+                    "pk_catalogo": 22,
+                    "descripcion": "Tren suburbano",
+                    "fk_lugar_ocurrencia": 3,
+                    "orden": 6,
+                    "es_activo": true,
+                    "created_at": "2025-06-10T03:03:06.000000Z",
+                    "updated_at": "2025-06-10T03:03:06.000000Z"
+                },
+                {
+                    "id": 17,
+                    "pk_catalogo": 25,
+                    "descripcion": "Otro",
+                    "fk_lugar_ocurrencia": 3,
+                    "orden": 7,
+                    "es_activo": true,
+                    "created_at": "2025-06-10T03:03:06.000000Z",
+                    "updated_at": "2025-06-10T03:03:06.000000Z"
+                }
+            ]
+        },
+        "lugar_detalle": {
+            "id": 36,
+            "pk_catalogo": 6,
+            "descripcion": "Centro comercial",
+            "fk_lugar_ocurrencia": 2,
+            "orden": 3,
+            "es_activo": true,
+            "created_at": "2025-06-10T03:03:06.000000Z",
+            "updated_at": "2025-06-10T03:03:06.000000Z"
+        },
+        "seguimientos": [],
+        "canalizaciones": [],
+        "ordenes": [
+            {
+                "id": 2,
+                "tipo_id": 1,
+                "en_que_consiste": "Descripción de la orden",
+                "autoridad_emisora_otro": "Otra autoridad",
+                "cve_ent": 15,
+                "cve_mun": 1,
+                "fecha_de_emision": "2023-10-01",
+                "tiempo_indefinido": true,
+                "fecha_aproximada_de_termino": "2023-12-31",
+                "otro_tipo_de_orden": "Otro tipo de orden",
+                "created_at": "2025-06-18T02:30:58.000000Z",
+                "updated_at": "2025-06-18T02:30:58.000000Z",
+                "fecha_de_inicio": "2023-10-01",
+                "deleted_at": null,
+                "users_id": 1,
+                "hechos_id": 3,
+                "autoridad_id": 1,
+                "folio": "ABC123",
+                "dia_id": 1,
+                "tipo_orden_id": 1,
+                "tipo_medida_id": 1,
+                "mes_id": null,
+                "cve_ent_captura": 31,
+                "cve_mun_captura": null,
+                "dependencia_captura": 176,
+                "dependencia_corresponde": 113,
+                "tipo": {
+                    "id": 1,
+                    "descripcion": "Medida de Protección",
+                    "es_activo": true,
+                    "created_at": "2025-06-10T03:03:07.000000Z",
+                    "updated_at": "2025-06-10T03:03:07.000000Z"
+                },
+                "tipo_orden": {
+                    "id": 1,
+                    "descripcion": "Administrativa",
+                    "es_activo": true,
+                    "created_at": "2025-06-10T03:03:08.000000Z",
+                    "updated_at": "2025-06-10T03:03:08.000000Z"
+                },
+                "estado": {
+                    "cve_ent": 15,
+                    "nom_ent": "México",
+                    "created_at": "2025-06-10T03:00:00.000000Z",
+                    "updated_at": "2025-06-10T03:00:00.000000Z",
+                    "codigo": "mc"
+                }
+            }
+        ],
+        "victimas_trata": [],
+        "mujeres_prision": [],
+        "colonia": null
+    }
+]
+```
+con estatus 422. Error con número de caracteres del curp.
+```json
+{
+    "message": "El campo curp debe tener 18 caracteres.",
+    "errors": {
+        "curp": [
+            "El campo curp debe tener 18 caracteres."
+        ]
+    }
+}
+```
+--------------------------------------------------------------
 ### Registro de víctima con CURP
+--------------------------------------------------------------
+El consumo de este método requiere cuatro parámetros de la víctima debido a que realiza una consulta a la renapo permitiendo traer el registro de sus datos.
 
-#### url
-/api/registrar-victima-con-curp
-
-#### props
-
+#### POST
+```
+    API_URL/api/registrar-victima-con-curp
+```
+catálogos: [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing), [nacionalidad_id](https://drive.google.com/file/d/1Q0gUDPgv9_3xfmPYPJ6WLfrUrFdqvEGB/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
 ```json
 {
-  "curp"              : "XXXXXXXXXXXXXXXXXX",
-  "cve_ent"           : 22,
-  "nacionalidad_id"   : 1,
-  "extranjera"        : false
+    "curp"                     : "FOGW030824MTSLRNA5",
+    "cve_ent"                  : 22,
+    "nacionalidad_id"          : 1,
+    "extranjera"               : false,
+    "dependencia_corresponde"  : 103
 }
 ```
+#### Campos Obligatorios
 
-### PHP Rules
+|         Campo             | Obligatorio | Tipo de dato |
+|:-------------------------:|:-----------:|:------------:|
+| curp                      |      SI     |    string    |
+| cve_ent                   |      SI     |    integer   | 
+| nacionalidad_id           |      NO     |    integer   |
+| extranjera                |      NO     |    boolean   |
+| dependencia_corresponde   |      SI     |    integer   |
+|||
 
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/registrar-victima-con-curp' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+    "curp"                     : "CURP000000XXXXXXX0",
+    "cve_ent"                  : 22,
+    "nacionalidad_id"          : 1,
+    "extranjera"               : false,
+    "dependencia_corresponde"  : 103
+    }'
+```
+con PHP - cURL.
 ```php
-$request->validate([
-    'cve_ent'           =>  'required|integer|between:1,32',
-    'nacionalidad_id'   =>  'integer|exists:nacionalidades,id',
-    'extranjera'        =>  'boolean',
-    'instancias_id'     =>  'nullable|integer',
-    'areas_id'          =>  'nullable|integer',
-    'sedes_id'          =>  'nullable|integer',
-    'identifica_mujer'  =>  'sometimes|boolean',
-    'curp'              =>  ['required', 'size:18', function ($attribute, $value, $fail) {
-                                $victima = Victima::where('curp', $value)->first();
-                                if($victima){
-                                    $fail('La CURP ya existe en el sistema, folio_euv: ' . $victima->folio_euv);
-                                }
-                            }]
-]);
+    <?php
 
-// esto podría integrarse a la validación principal, pero 
-// podría se una carga que no es necesaria
-if($curpFromRenapo['status'] == 'error'){
-    throw ValidationException::withMessages([
-        'curp' => [$curpFromRenapo['message']]
-    ]);
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/registrar-victima-con-curp',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+    "curp"                     : "CURP000000XXXXXXX0",
+    "cve_ent"                  : 22,
+    "nacionalidad_id"          : 1,
+    "extranjera"               : false,
+    "dependencia_corresponde"  : 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "curp"                   : "CURP000000XXXXXXX0",
+    "cve_ent"                : 22,
+    "nacionalidad_id"        : 1,
+    "extranjera"             : false,
+    "dependencia_corresponde": 103
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/registrar-victima-con-curp", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+    {
+        "curp": "CURP000000XXXXXXX0",
+        "nombre": "nombre",
+        "primer_apellido": "primer_apellido",
+        "segundo_apellido": "segundo_apellido",
+        "fecha_nacimiento": "1999-08-11",
+        "sexo_id": 2,
+        "cve_ent": 9,
+        "nacionalidad_id": 1,
+        "extranjera": false,
+        "dependencia_corresponde": 103,
+        "users_id": 1,
+        "instancias_id": null,
+        "areas_id": null,
+        "sedes_id": null,
+        "updated_at": "2024-07-26T01:52:57.000000Z",
+        "created_at": "2024-07-26T01:52:57.000000Z",
+        "id": 5237,
+        "folio_euv": "EUV000000000005238072024"
+    }
+```
+con estatus 422. Error con número de caracteres el curp.
+```json
+{
+    "message": "El campo curp debe tener 18 caracteres.",
+    "errors": {
+        "curp": [
+            "El campo curp debe tener 18 caracteres."
+        ]
+    }
 }
 ```
-
---------------------------------------------------------------------------------
-
+con estatus 422. No hay registro del curp en la renapo.
+```json
+{
+    "message": "La CURP no se encuentra en la base de datos",
+    "errors": {
+        "curp": [
+            "La CURP no se encuentra en la base de datos"
+        ]
+    }
+}
+```
+--------------------------------------------------------------
 ### Registro de víctima con Datos
+--------------------------------------------------------------
+El consumo de este método requiere el curp y datos, es necesario enviarlos como parámetros.
+#### POST
+```
+    API_URL/api/registrar-victima-con-datos
+```
+catálogos: [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing), [nacionalidad_id](https://drive.google.com/file/d/1Q0gUDPgv9_3xfmPYPJ6WLfrUrFdqvEGB/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
+```json
+    {
+        "nombre"                   : "nombre",
+        "primer_apellido"          : "primer_apellido",
+        "segundo_apellido"         : "segundo_apellido",
+        "fecha_nacimiento"         : "1965-11-20",
+        "sexo"                     : "H",
+        "cve_ent"                  : 24,
+        "extranjera"               : false,
+        "curp"                     : "CURP000000XXXXXXX0",
+        "nacionalidad_id"          : 1,
+        "dependencia_corresponde"  : 103
+    }
+```
+#### Campos Obligatorios
 
-#### url
-/api/registrar-victima-con-datos
+|       Campo      |  Obligatorio  |  Tipo de dato |
+|:------------------------:|:-------------:|:-------------:|
+| nombre                   |      SI       |     string    | 
+| primer_apellido          |      SI       |     string    |
+| segundo_apellido         |      SI       |     string    |
+| fecha_nacimiento         |      SI       |      date     |  
+| sexo                     |      SI       |     string    |
+| cve_ent                  |      SI       |     integer   |
+| extranjera               |      NO       |     boolean   |
+| curp                     |      SI       |     string    |
+| nacionalidad_id          |      NO       |     integer   |
+| dependencia_Corresponde  |      SI       |     integer   |
+|||
 
-#### props
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/registrar-victima-con-datos' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+    "nombre"                   : "nombre",
+    "primer_apellido"          : "primer_apellido",
+    "segundo_apellido"         : "segundo_apellido",
+    "fecha_nacimiento"         : "1965-11-20",
+    "sexo"                     : "H",
+    "cve_ent"                  : 24,
+    "extranjera"               : false,
+    "curp"                     : "CURP000000XXXXXXX0",
+    "nacionalidad_id"          : 1,
+    "dependencia_corresponde"  : 103
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
 
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/registrar-victima-con-datos',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+    "nombre"                   : "nombre",
+    "primer_apellido"          : "primer_apellido",
+    "segundo_apellido"         : "segundo_apellido",
+    "fecha_nacimiento"         : "1965-11-20",
+    "sexo"                     : "H",
+    "cve_ent"                  : 24,
+    "extranjera"               : false,
+    "curp"                     : "CURP000000XXXXXXX0",
+    "nacionalidad_id"          : 1,
+    "dependencia_corresponde"  : 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "nombre"                  : "nombre",
+    "primer_apellido"         : "primer_apellido",
+    "segundo_apellido"        : "segundo_apellido",
+    "fecha_nacimiento"        : "1965-11-20",
+    "sexo"                    : "H",
+    "cve_ent"                 : 24,
+    "extranjera"              : false,
+    "curp"                    : "CURP000000XXXXXXX0",
+    "nacionalidad_id"         : 1,
+    "dependencia_corresponde" : 103
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/registrar-victima-con-datos", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
 ```json
 {
-  "nombre"            : "FRANCISCO",
-  "primer_apellido"   : "CAMPOS",
-  "segundo_apellido"  : "BAUTISTA",
-  "fecha_nacimiento"  : "1965-11-20",
-  "sexo"              : "H",
-  "cve_ent"           : 24,
-  "extranjera"        : false
+    "curp": "CURP000000XXXXXXX0",
+    "nombre": "nombre",
+    "primer_apellido": "primer_apellido",
+    "segundo_apellido": "segundo_apellido",
+    "fecha_nacimiento": "1999-08-11",
+    "sexo_id": 2,
+    "cve_ent": 9,
+    "nacionalidad_id": 1,
+    "dependencia_corresponde": 103,
+    "extranjera": false,
+    "users_id": 1,
+    "instancias_id": null,
+    "areas_id": null,
+    "sedes_id": null,
+    "updated_at": "2024-07-26T01:52:57.000000Z",
+    "created_at": "2024-07-26T01:52:57.000000Z",
+    "id": 5237,
+    "folio_euv": "EUV000000000005238072024"
 }
 ```
-
-### PHP Rules
-
-```php
-$request->validate([
-    'nombre'            =>  'required',
-    'primer_apellido'   =>  'required',
-    'segundo_apellido'  =>  'required',
-    'fecha_nacimiento'  =>  'required|date',
-    'sexo'              =>  'required|string|uppercase|exists:catalogo_sexos,renapo_id',
-    'cve_ent'           =>  'required|integer|between:1,32',
-    'nacionalidad_id'   =>  'nullable|integer|exists:nacionalidades,id',
-    'extranjera'        =>  'boolean',
-    'instancias_id'     =>  'nullable|integer',
-    'areas_id'          =>  'nullable|integer',
-    'sedes_id'          =>  'nullable|integer',
-    'identifica_mujer'  =>  'sometimes|boolean',
-]);
-
-// esto podría integrarse a la validación principal, pero 
-// podría se una carga que no es necesaria
-if($curpFromRenapo['status'] == 'error'){
-    throw ValidationException::withMessages([
-        'curp' => [$curpFromRenapo['message']]
-    ]);
+con estatus 422. La CURP ya existe en el sistema.
+```json
+{
+    "message": "La CURP ya existe en el sistema, folio_euv: EUV000000000005241072024",
+    "errors": {
+        "curp": [
+            "La CURP ya existe en el sistema, folio_euv: EUV000000000005241072024"
+        ]
+    }
 }
 ```
-
---------------------------------------------------------------------------------
-
+con estatus 422. Faltan parámetros.
+```json
+{
+    "message": "El campo nombre es requerido. (and 5 more errors)",
+    "errors": {
+        "nombre": [
+            "El campo nombre es requerido."
+        ],
+        "primer_apellido": [
+            "El campo primer apellido es requerido."
+        ],
+        "segundo_apellido": [
+            "El campo segundo apellido es requerido."
+        ],
+        "fecha_nacimiento": [
+            "El campo fecha nacimiento es requerido."
+        ],
+        "sexo": [
+            "El campo sexo es requerido."
+        ],
+        "cve_ent": [
+            "El campo cve ent es requerido."
+        ]
+    }
+}
+```
+con estatus 500. No se envió el curp.
+```json
+ "message": "buscar_curp(): Argument #1 ($curp) must be of type string, null given, called in /var/www/html/app/Http/Controllers/ApiVictimaMethodsController.php on line 129",
+```
+--------------------------------------------------------------
 ### Registro de víctima sin CURP
-
-#### url
-/api/registrar-victima-sin-curp
-
-#### props
-
+--------------------------------------------------------------
+El consumo de este método no requiere el curp de la víctima, sin embargo es necesario envíar los datos como parámetros.
+#### POST
+```
+    API_URL/api/registrar-victima-sin-curp
+```
+catálogos: [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing), [nacionalidad_id](https://drive.google.com/file/d/1Q0gUDPgv9_3xfmPYPJ6WLfrUrFdqvEGB/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
 ```json
 {
-  "nombre"            : "FRANCISCO",
-  "primer_apellido"   : "CAMPOS",
-  "segundo_apellido"  : "BAUTISTA",
-  "fecha_nacimiento"  : "1965-11-20",
-  "sexo"              : "H",
-  "cve_ent"           : 24,
-  "extranjera"        : false
+    "nombre"                   : "nombre",
+    "primer_apellido"          : "primer_apellido",
+    "segundo_apellido"         : "segundo_apellido",
+    "fecha_nacimiento"         : "1965-11-20",
+    "sexo"                     : "H",
+    "cve_ent"                  : 24,
+    "extranjera"               : false,
+    "nacionalidad_id"          : 1,
+    "dependencia_corresponde"  : 103
 }
 ```
+#### Campos Obligatorios
+ 
+|       Campo       |  Obligatorio  |  Tipo de dato  |
+|:-------------------------:|:-------------:|:--------------:|
+| nombre                    |      SI       |     string     |  
+| primer_apellido           |      SI       |     string     | 
+| segundo_apellido          |      SI       |     string     |
+| fecha_nacimiento          |      SI       |      date      |
+| sexo                      |      SI       |     string     |
+| cve_ent                   |      SI       |     integer    |
+| extranjera                |      NO       |     boolean    |
+| nacionalidad_id           |      NO       |     integer    |
+| dependencia_corresponde   |      SI       |     integer    |
+|||
 
-### PHP Rules
-
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/registrar-victima-sin-curp' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+    "nombre"                   : "nombre",
+    "primer_apellido"          : "primer_apellido",
+    "segundo_apellido"         : "segundo_apellido",
+    "fecha_nacimiento"         : "1965-11-20",
+    "sexo"                     : "H",
+    "cve_ent"                  : 24,
+    "extranjera"               : false,
+    "nacionalidad_id"          : 1,
+    "dependencia_corresponde"  : 103
+    }'
+```
+con PHP - cURL.
 ```php
-$request->validate([
-    'nombre'            =>  'required',
-    'primer_apellido'   =>  'required',
-    'segundo_apellido'  =>  'required',
-    'fecha_nacimiento'  =>  'required|date',
-    'sexo'              =>  'required|string|uppercase|exists:catalogo_sexos,renapo_id',
-    'cve_ent'           =>  'required|integer|between:1,32',
-    'nacionalidad_id'   =>  'nullable|integer|exists:nacionalidades,id',
-    'extranjera'        =>  'boolean',
-    'instancias_id'     =>  'nullable|integer',
-    'areas_id'          =>  'nullable|integer',
-    'sedes_id'          =>  'nullable|integer',
-    'identifica_mujer'  =>  'sometimes|boolean',
-]);
+    <?php
 
-// esto revisa si ya se ha registrdo alguien con el mismo curp falso
-$fakeCurp = crear_curp([
-    'nombre'            => $request->nombre,
-    'primer_apellido'   => $request->primer_apellido,
-    'segundo_apellido'  => $request->segundo_apellido,
-    'fecha_nacimiento'  => $request->fecha_nacimiento,
-    'sexo'              => $request->sexo,
-    'estado'            => Entidad::where('cve_ent', $request->cve_ent)->first()
-]);
+    $curl = curl_init();
 
-$victima = Victima::where('curp', $fakeCurp)->first();
-if($victima){
-    throw ValidationException::withMessages([
-        'curp' => ['La CURP ya existe en el sistema, folio_euv: ' . $victima->folio_euv]
-    ]);
-}
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/registrar-victima-sin-curp',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+    "nombre"                   : "nombre",
+    "primer_apellido"          : "primer_apellido",
+    "segundo_apellido"         : "segundo_apellido",
+    "fecha_nacimiento"         : "1965-11-20",
+    "sexo"                     : "H",
+    "cve_ent"                  : 24,
+    "extranjera"               : false,
+    "nacionalidad_id"          : 1,
+    "dependencia_corresponde"  : 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
 ```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
 
+    const raw = JSON.stringify({
+    "nombre"                  : "nombre",
+    "primer_apellido"         : "primer_apellido",
+    "segundo_apellido"        : "segundo_apellido",
+    "fecha_nacimiento"        : "1965-11-20",
+    "sexo"                    : "H",
+    "cve_ent"                 : 24,
+    "extranjera"              : false,
+    "nacionalidad_id"         : 1,
+    "dependencia_corresponde" : 103
+    });
 
---------------------------------------------------------------------------------
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
 
-### Registro/edición de datos de la víctima por hecho de violencia
-
-#### url
-/api/registrar-datos-victima-por-hecho
-
-#### props
-
+    fetch("API_URL/api/registrar-victima-sin-curp", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
 ```json
 {
-  "hechos_id"   : 1,
-  "edad"        : 33,
-  "cve_ent"     : 21,
-  "cve_mun"     : 132,
-  "cve_loc"     : 1
+    "curp": "PISN651120XSPRGMXX",
+    "nombre": "nombre",
+    "primer_apellido": "primer_apellido",
+    "segundo_apellido": "segundo_apellido",
+    "fecha_nacimiento": "1965-11-20",
+    "sexo_id": 1,
+    "cve_ent": 24,
+    "nacionalidad_id": null,
+    "dependencia_corresponde": 103,
+    "extranjera": false,
+    "users_id": 1,
+    "instancias_id": null,
+    "areas_id": null,
+    "sedes_id": null,
+    "updated_at": "2024-07-26T04:46:12.000000Z",
+    "created_at": "2024-07-26T04:46:12.000000Z",
+    "id": 5242,
+    "folio_euv": "EUV000000000005243072024"
 }
 ```
-
-### PHP Rules
-
-```php
-$request->validate([
-    "hechos_id"                     =>  'required|integer|exists:hechos,id',
-    "edad"                          =>  'sometimes|integer',
-    "telefono"                      =>  'sometimes|string',
-    "correo_electronico"            =>  'sometimes|email',
-    "calle"                         =>  'sometimes|string',
-    "num_exterior"                  =>  'sometimes|string',
-    "num_interior"                  =>  'sometimes|string',
-    "cve_ent"                       =>  'sometimes|integer|between:1,32',
-    'cve_mun'                       => ['sometimes','integer', function($attribute, $value, $fail) use($request){
-        $municipio = Municipio::where('cve_ent', '=', $request->cve_ent)->where('cve_mun', '=', $value)->first();
-        if (!$municipio) {
-            $fail('El municipio no existe');
-        }
-    }],
-    'cve_loc'                       => ['sometimes','integer', function($attribute, $value, $fail) use($request){
-        // if cve_mun is not set, fail
-        if (!$request->has('cve_mun'))  {
-            $fail('El campo cve_mun es requerido para identificar la localidad');
-        }
-
-        $localidad = Localidad::where('cve_ent', '=', $request->cve_ent)->where('cve_mun', '=', $request->cve_mun)->where('cve_loc', '=', $value)->first();
-        if (!$localidad) {
-            $fail('La localidad no existe');
-        }
-    }],
-    'colonias_id'                   => ['sometimes', 'integer', 'exists:colonias,id'],
-    'entre_calle_uno'               => 'sometimes|string',
-    'entre_calle_dos'               => 'sometimes|string',
-    'referencia'                    => 'sometimes|string',
-    'estado_conyugal'               => 'sometimes|exists:catalogo_estado_conyugal,id',
-    'pais'                          => 'sometimes|exists:catalogo_pais,id',
-    'codigo_postal'                 => 'sometimes|integer|exists:colonias,cp',
-    'escolaridad_id'                => 'sometimes|exists:catalogo_escolaridad,id',
-    'ingreso_economico_id'          => 'sometimes|exists:catalogo_ingreso_economico,id',
-    'ocupacion_id'                  => 'sometimes|exists:catalogo_ocupacion,id',
-    'presenta_discapacidad'         => 'sometimes|boolean',
-    'discapacidad'                  => 'sometimes|array',
-    'discapacidad.*'                => 'sometimes|exists:catalogo_discapacidad,id',
-    'otra_discapacidad'             => 'sometimes|string',
-    'enfermedad'                    => 'sometimes|boolean',
-    'cual_enfermedad'               => 'sometimes|string',
-    'enfermedad_psiquiatrica'       => 'sometimes|boolean',
-    'cual_enfermedad_psiquiatrica'  => 'sometimes|string',
-    'tratamiento'                   => 'sometimes|boolean',
-    'cual_tratamiento'              => 'sometimes|string',
-    'situacion_calle'               => 'sometimes|boolean',
-    'migrante'                      => 'sometimes|boolean',
-    'pueblo_indigena'               => 'sometimes|boolean',
-    'pueblo_indigena_id'            => 'sometimes|exists:catalogo_pueblo_indigena,id',
-    'lgbtti'                        => 'sometimes|boolean',
-    'identidad_genero_id'           => 'sometimes|exists:catalogo_identidad_genero,id',
-    'orientacion_sexual_id'         => 'sometimes|exists:catalogo_orientacion_sexual,id',
-    'embarazada'                    => 'sometimes|boolean',
-    'numero_semanas_emb'            => 'sometimes|integer',
-    'dependientes'                  => 'sometimes|boolean',
-    'red_apoyo'                     => 'sometimes|boolean',
-    'adiccion'                      => 'sometimes|boolean',
-    'cual_adiccion'                 => 'sometimes|array',
-    'cual_adiccion.*'               => 'sometimes|exists:catalogo_adiccion,id',
-    'persona_afrodescendiente'      => 'sometimes|string',
-    'caso_name'                     => 'sometimes|string',
-    'realiza_mas_actividades'       => 'sometimes|boolean',
-    'discapacidad_por_violencia'    => 'sometimes|boolean',
-    'gestacion_id'                  => 'sometimes|exists:catalogo_semanas_gestacion,id',
-    'clave_centro_escolar'          => 'sometimes|string',
-    'numero_seguro_social'          => 'sometimes|string',
-    'servicio_medico_id'            => 'sometimes|exists:catalogo_servicios_medicos,id',
-    'otro_servicio_medico'          => 'sometimes|string',
-    'tipos_adicciones'              => 'sometimes|array',
-    'tipos_adicciones.*'            => 'sometimes|exists:catalogo_adiccion,id'
-
-]);
-```
-
---------------------------------------------------------------------------------
-
-### Registro de dependiente por hecho de violencia
-
-#### url
-/api/registrar-dependiente-victima-por-hecho
-
-#### props
-
+con estatus 422. La CURP ya existe en el sistema.
 ```json
 {
-    "hechos_id"         : 1,
-    "nombre"            : "Juanita",
-    "vinculo_victima_id": 4
+    "message": "La CURP ya existe en el sistema, folio_euv: EUV000000000005243072024",
+    "errors": {
+        "curp": [
+            "La CURP ya existe en el sistema, folio_euv: EUV000000000005243072024"
+        ]
+    }
 }
 ```
-
-### PHP Rules
-
-```php
-$request->validate([
-    "hechos_id"                     =>  'required|integer|exists:hechos,id',
-    "nombre"                        =>  'required|string',
-    "primer_apellido"               =>  'sometimes|string',
-    "segundo_apellido"              =>  'sometimes|string',
-    "edad"                          =>  'sometimes|integer',
-    "vinculo_victima_id"            =>  'required|integer|exists:catalogo_vinculo_victima,id',
-    "esta_en_riesgo"                =>  'sometimes|boolean',
-    "presenta_discapacidad"         =>  'sometimes|boolean',
-    "extranjera"                    =>  'sometimes|boolean',
-    "enfermedad"                    =>  'sometimes|boolean',
-    "cual_enfermedad"               =>  'sometimes|string',
-    "observaciones"                 =>  'sometimes|string'
-]);
-```
-
---------------------------------------------------------------------------------
-
-### Registro de red de apoyo por hecho de violencia
-
-#### url
-/api/registrar-red-apoyo-victima-por-hecho
-
-#### props
-
+con estatus 422. Faltan parámetros.
 ```json
 {
-    "hechos_id"             : 1,
-    "nombre"                : "Juanita",
-    "vinculo_victima_id"    : 4,
-    "telefono"              : "2258877731"
+    "message": "El campo nombre es requerido. (and 5 more errors)",
+    "errors": {
+        "nombre": [
+            "El campo nombre es requerido."
+        ],
+        "primer_apellido": [
+            "El campo primer apellido es requerido."
+        ],
+        "segundo_apellido": [
+            "El campo segundo apellido es requerido."
+        ],
+        "fecha_nacimiento": [
+            "El campo fecha nacimiento es requerido."
+        ],
+        "sexo": [
+            "El campo sexo es requerido."
+        ],
+        "cve_ent": [
+            "El campo cve ent es requerido."
+        ]
+    }
 }
 ```
-
-### PHP Rules
-
-```php
-$request->validate([
-    "hechos_id"                     =>  'required|integer|exists:hechos,id',
-    "nombre"                        =>  'required|string',
-    "primer_apellido"               =>  'sometimes|string',
-    "segundo_apellido"              =>  'sometimes|string',
-    "vinculo_victima_id"            =>  'required|integer|exists:catalogo_vinculo_victima,id',
-    "telefono"                      =>  'required|string',
-    "observaciones"                 =>  'sometimes|string'
-]);
+--------------------------------------------------------------
+### Registro de un hecho de violencia.
+--------------------------------------------------------------
+El hecho de violencia tiene una dependencia funcional, que requiere que la víctima esté registrada.
+#### POST
 ```
-
---------------------------------------------------------------------------------
-
-### Registro de hecho de violencia
-
-#### url
-/api/hecho-de-violencia
-
-#### props
-
+    API_URL/api/hecho-de-violencia
+```
+catálogos: [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing), [lugar_id](https://drive.google.com/file/d/1_rs52tWT5M-6U0AVn3texkHHpeSwtmRZ/view), [lugar_detalle_id](https://drive.google.com/file/d/1HvwJJpAHiQ7h5XnzVLAMT6tDnUCZZnZk/view), [pais_id](https://drive.google.com/file/d/1-5gPflCkSALusWLp_pUN20NJbqEWE6ir/view), [cve_mun](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view), [cve_loc](https://drive.google.com/file/d/1VDHjmDqURqkLc5MQb84MKhI9NlVrg3m3/view), [tipo_violencia](https://drive.google.com/file/d/1Vf4-VABIMH5LIK308ubKLfjfFKwfnhOk/view), [modalidad_violencia](https://drive.google.com/file/d/1_Oq77ueBKXeV6e9848S7Y4i-Xa2WGUG-/view), [efectos_fisicos](https://drive.google.com/file/d/1TFijVmvWgGEAzjrAE1WVW-WQveIg-UXy/view), [consecuencias_sexuales](https://drive.google.com/file/d/1qG8ny2idjFkaGjYP_piFKFb30Dgg4jhR/view), [efectos_psicologicos](https://drive.google.com/file/d/1F-R-n6QdIxWPczrw_ZFcSvzQzu_FPXY0/view), [efectos_economicos_y_patrimoniales](https://drive.google.com/file/d/1o9U4ySp0xzFkItncnuLDeqliUOhHIB1L/view), [agente_de_lesion](https://drive.google.com/file/d/1RjXu3Ea0osZeesVqZPWAQXP3iVVIY2Kh/view), [area_anatomica_lesionada](https://drive.google.com/file/d/1R0fblWPIU9-bc74GapgzEnBwFjP4T11p/view) y [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view).
+#### Body raw (json)
 ```json
 {
-  "folio_euv"                                     : "{{folio_euv}}",
-  "fecha_hechos"                                  : "2024-01-30",
-  "hora_hechos"                                   : "22:12",
-  "descripcion_hechos"                            : "Hecho de violencia registrado en ....",
-  "lugar_id"                                      : 1,
-  "lugar_detalle_id"                              : 22,
-  "en_domicilio_victima"                          : false,
-  "pais_id"                                       : 238,
-  "cve_ent"                                       : 11,
-  "cve_mun"                                       : 1,
-  "calle"                                         : "siempre viva 23",
-  "num_exterior_km"                               : "45",
-  "cve_loc"                                       : 1,
-  "lat"                                           : 19.2843100,
-  "lng"                                           : -98.4388500,
-  "es_festivo"                                    : false,
-  "conoce_la_autoridad"                           : false,
-  "tipo_violencia"                                : [1,3,5,8],
-  "modalidad_violencia"                           : 6,
-  "es_victima_de_delincuencia_organizada"         : false,
-  "hay_denuncia"                                  : false,
-  "efectos_fisicos"                               : [1,2],
-  "consecuencias_sexuales"                        : [],
-  "efectos_psicologicos"                          : [],
-  "efectos_economicos_y_patrimoniales"            : [],
-  "agente_de_lesion"                              : [],
-  "area_anatomica_lesionada"                      : [],
-  "es_relacionada_con_orientacion_o_identidad"    : false
+    "folio_euv"                                     : "EUV000000000005248072024",
+    "fecha_hechos"                                  : "2022-10-26",
+    "hora_hechos"                                   : "08:12",
+    "descripcion_hechos"                            : "Este es un hecho",
+    "lugar_id"                                      : 3,
+    "lugar_detalle_id"                              : 36,
+    "en_domicilio_victima"                          : true,
+    "pais_id"                                       : 238,
+    "cve_ent"                                       : 21,
+    "cve_mun"                                       : 133,
+    "calle"                                         : "siempre viva 23",
+    "num_exterior_km"                               : "45",
+    "cve_loc"                                       : 1,
+    "cp"                                            : "74069",
+    "lat"                                           : 19.2843100,
+    "lng"                                           : -98.4388500,
+    "es_festivo"                                    : false,
+    "conoce_la_autoridad"                           : false,
+    "tipo_violencia"                                : [1,3,5,8],
+    "modalidad_violencia"                           : 6,
+    "es_victima_de_delincuencia_organizada"         : false,
+    "hay_denuncia"                                  : false,
+    "efectos_fisicos"                               : [1,2],
+    "consecuencias_sexuales"                        : [],
+    "efectos_psicologicos"                          : [],
+    "efectos_economicos_y_patrimoniales"            : [],
+    "agente_de_lesion"                              : [],
+    "area_anatomica_lesionada"                      : [],
+    "es_relacionada_con_orientacion_o_identidad"    : false,
+    "dependencia_corresponde": 103
 }
 ```
+#### Campos Obligatorios
 
-### PHP Rules
+|                     Campo                     | Obligatorio | Tipo de dato |
+|:---------------------------------------------:|:-----------:|:------------:|
+| folio_euv                                     |     SI      |    string    |
+| fecha_hechos                                  |     SI      |     date     |
+| hora_hechos                                   |     SI      |     time     | 
+| descripcion_hechos                            |     SI      |    string    |
+| lugar_id                                      |     NO      |    integer   |
+| lugar_detalle_id                              |     NO      |    integer   |
+| en_domicilio_victima                          |     NO      |    boolean   |
+| pais_id                                       |     NO      |    integer   |
+| cve_ent                                       |     SI      |    integer   |
+| cve_mun                                       |     SI      |    integer   |
+| calle                                         |     NO      |    string    |   
+| num_exterior_km                               |     NO      |    string    |
+| cve_loc                                       |     NO      |    integer   |
+| cp                                            |     SI      |    string    |
+| lat                                           |     NO      |    double    |
+| lng                                           |     NO      |    double    |
+| es_festivo                                    |     NO      |    bolean    |
+| conoce_la_autoridad                           |     NO      |    bolean    |
+| tipo_violencia                                |     NO      |   integer[]  |
+| modalidad_violencia                           |     NO      |    integer   |
+| es_victima_de_delincuencia_organizada         |     NO      |    bolean    |
+| hay_denuncia                                  |     NO      |    bolean    |
+| efectos_fisicos                               |     NO      |   integer[]  |
+| consecuencias_sexuales                        |     NO      |   integer[]  |
+| efectos_psicologicos                          |     NO      |   integer[]  |
+| efectos_economicos_y_patrimoniales            |     NO      |   integer[]  |
+| agente_de_lesion                              |     NO      |   integer[]  |
+| area_anatomica_lesionada                      |     NO      |   integer[]  |
+| es_relacionada_con_orientacion_o_identidad    |     NO      |    bolean    |
+| dependencia_Corresponde                       |     SI      |    integer   |
+|||
 
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/hecho-de-violencia' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+    "folio_euv"                                     : "EUV000000000005248072024",
+    "fecha_hechos"                                  : "2022-10-26",
+    "hora_hechos"                                   : "08:12",
+    "descripcion_hechos"                            : "Este es un hecho",
+    "lugar_id"                                      : 3,
+    "lugar_detalle_id"                              : 36,
+    "en_domicilio_victima"                          : true,
+    "pais_id"                                       : 238,
+    "cve_ent"                                       : 21,
+    "cve_mun"                                       : 133,
+    "calle"                                         : "siempre viva 23",
+    "num_exterior_km"                               : "45",
+    "cve_loc"                                       : 1,
+    "cp"                                            : "74069",
+    "lat"                                           : 19.2843100,
+    "lng"                                           : -98.4388500,
+    "es_festivo"                                    : false,
+    "conoce_la_autoridad"                           : false,
+    "tipo_violencia"                                : [1,3,5,8],
+    "modalidad_violencia"                           : 6,
+    "es_victima_de_delincuencia_organizada"         : false,
+    "hay_denuncia"                                  : false,
+    "efectos_fisicos"                               : [1,2],
+    "consecuencias_sexuales"                        : [],
+    "efectos_psicologicos"                          : [],
+    "efectos_economicos_y_patrimoniales"            : [],
+    "agente_de_lesion"                              : [],
+    "area_anatomica_lesionada"                      : [],
+    "es_relacionada_con_orientacion_o_identidad"    : false,
+    "dependencia_corresponde"                       : 103
+    }'
+```
+con PHP - cURL.
 ```php
-$request->validate([
-    'folio_euv'                                     => 'required|string|exists:victimas,folio_euv',
-    'fecha_hechos'                                  => 'required|date_format:Y-m-d|before:tomorrow',
-    'hora_hechos'                                   => 'required|date_format:H:i',
-    'descripcion_hechos'                            => 'required|string|max:1000',
-    'lugar_id'                                      => 'integer|exists:catalogo_localidad,id',
-    'lugar_detalle_id'                              => 'integer|exists:catalogo_detalle_localidad,id',
-    'en_domicilio_victima'                          => 'boolean',
-    'pais_id'                                       => 'integer|exists:catalogo_pais,id',
-    'cve_ent'                                       => 'required|integer|between:1,32',
-    'cve_mun'                                       => ['integer', function($attribute, $value, $fail) use($request){
-        $municipio = Municipio::where('cve_ent', '=', $request->cve_ent)->where('cve_mun', '=', $value)->first();
-        if (!$municipio) {
-            $fail('El municipio no existe');
-        }
-    }],
-    'calle'                                         => 'string|max:150',
-    'num_exterior_km'                               => 'string|max:45',
-    'num_interior'                                  => 'string|max:45',
-    'cve_loc'                                       => ['integer', function($attribute, $value, $fail) use($request){
-        if (!$request->has('cve_mun'))  {
-            $fail('El campo cve_mun es requerido para identificar la localidad');
-        }
+    <?php
 
-        $localidad = Localidad::where('cve_ent', '=', $request->cve_ent)->where('cve_mun', '=', $request->cve_mun)->where('cve_loc', '=', $value)->first();
-        if (!$localidad) {
-            $fail('La localidad no existe');
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/hecho-de-violencia',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+    "folio_euv"                                     : "EUV000000000005248072024",
+    "fecha_hechos"                                  : "2022-10-26",
+    "hora_hechos"                                   : "08:12",
+    "descripcion_hechos"                            : "Este es un hecho",
+    "lugar_id"                                      : 3,
+    "lugar_detalle_id"                              : 36,
+    "en_domicilio_victima"                          : true,
+    "pais_id"                                       : 238,
+    "cve_ent"                                       : 21,
+    "cve_mun"                                       : 133,
+    "calle"                                         : "siempre viva 23",
+    "num_exterior_km"                               : "45",
+    "cve_loc"                                       : 1,
+    "cp"                                            : "74069",
+    "lat"                                           : 19.2843100,
+    "lng"                                           : -98.4388500,
+    "es_festivo"                                    : false,
+    "conoce_la_autoridad"                           : false,
+    "tipo_violencia"                                : [1,3,5,8],
+    "modalidad_violencia"                           : 6,
+    "es_victima_de_delincuencia_organizada"         : false,
+    "hay_denuncia"                                  : false,
+    "efectos_fisicos"                               : [1,2],
+    "consecuencias_sexuales"                        : [],
+    "efectos_psicologicos"                          : [],
+    "efectos_economicos_y_patrimoniales"            : [],
+    "agente_de_lesion"                              : [],
+    "area_anatomica_lesionada"                      : [],
+    "es_relacionada_con_orientacion_o_identidad"    : false,
+    "dependencia_corresponde": 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "folio_euv"                                  : "EUV000000000005248072024",
+    "fecha_hechos"                               : "2022-10-26",
+    "hora_hechos"                                : "08:12",
+    "descripcion_hechos"                         : "Este es un hecho",
+    "lugar_id"                                   : 3,
+    "lugar_detalle_id"                           : 36,
+    "en_domicilio_victima"                       : true,
+    "pais_id"                                    : 238,
+    "cve_ent"                                    : 21,
+    "cve_mun"                                    : 133,
+    "calle"                                      : "siempre viva 23",
+    "num_exterior_km"                            : "45",
+    "cve_loc"                                    : 1,
+    "cp"                                         : "74069",
+    "lat"                                        : 19.28431,
+    "lng"                                        : -98.43885,
+    "es_festivo"                                 : false,
+    "conoce_la_autoridad"                        : false,
+    "tipo_violencia"                             : [1,3,5,8],
+    "modalidad_violencia"                        : 6,
+    "es_victima_de_delincuencia_organizada"      : false,
+    "hay_denuncia"                               : false,
+    "efectos_fisicos"                            : [1,2],
+    "consecuencias_sexuales"                     : [],
+    "efectos_psicologicos"                       : [],
+    "efectos_economicos_y_patrimoniales"         : [],
+    "agente_de_lesion"                           : [],
+    "area_anatomica_lesionada"                   : [],
+    "es_relacionada_con_orientacion_o_identidad" : false,
+    "dependencia_corresponde"                    : 103
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/hecho-de-violencia", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+{
+    "hecho": {
+        "users_id": 1,
+        "victimas_id": 5247,
+        "folio": "EUV000000000005248072024-1",
+        "fecha_hechos": "2022-10-26",
+        "hora_hechos": "08:12",
+        "descripcion_hechos": "Este es un hecho",
+        "lugar_id": 3,
+        "lugar_detalle_id": 36,
+        "en_domicilio_victima": true,
+        "pais_id": 238,
+        "cve_ent": 21,
+        "cve_mun": 133,
+        "calle": "siempre viva 23",
+        "num_exterior_km": "45",
+        "num_interior": null,
+        "cve_loc": 1,
+        "cp": "74069",
+        "lat": 19.28431,
+        "lng": -98.43885,
+        "es_festivo": false,
+        "conoce_la_autoridad": false,
+        "conoce_la_autoridad_detalle": "",
+        "tipo_violencia": "[1,3,5,8]",
+        "modalidad_violencia": 6,
+        "es_victima_de_delincuencia_organizada": false,
+        "hay_denuncia": false,
+        "efectos_fisicos": "[1,2]",
+        "consecuencias_sexuales": "[]",
+        "efectos_psicologicos": "[]",
+        "efectos_economicos_y_patrimoniales": "[]",
+        "agente_de_lesion": "[]",
+        "area_anatomica_lesionada": "[]",
+        "es_relacionada_con_orientacion_o_identidad": false,
+        "dependencia_corresponde": 103,
+        "updated_at": "2024-07-26T19:11:04.000000Z",
+        "created_at": "2024-07-26T19:11:04.000000Z",
+        "id": 5300
+    }
+}
+```
+con estatus 422. El folio_euv no existe en el sistema.
+```json
+{
+    "message": "El folio EUV no está registrado en el sistema",
+    "errors": {
+        "folio_euv": [
+            "El folio EUV no está registrado en el sistema"
+        ]
+    }
+}
+```
+con estatus 422. Faltan parámetros.
+```json
+{
+    "message": "El campo fecha hechos es requerido. (and 3 more errors)",
+    "errors": {
+        "fecha_hechos": [
+            "El campo fecha hechos es requerido."
+        ],
+        "hora_hechos": [
+            "El campo hora hechos es requerido."
+        ],
+        "descripcion_hechos": [
+            "El campo descripcion hechos es requerido."
+        ],
+        "cve_ent": [
+            "El campo cve ent es requerido."
+        ]
+    }
+}
+```
+--------------------------------------------------------------
+### Registro o edición de los datos de una víctima
+--------------------------------------------------------------
+Este endpoint puede ser utilizado tanto para crear un nuevo registro como para editar uno existente y tiene una dependencia funcional que requiere que la víctima tenga un hecho de víolencia registrado.
+
+1.- **Para un nuevo registro**: Si el identificador hechos_id de la solicitud, no existe registrado en los datos de la víctima del sistema, se interpreta que debe crear un nuevo registro con los datos proporcionados.
+
+2.- **Para editar un registro existente**: Si el identificador hechos_id de la solicitud, tiene registro en los datos de la víctima del sistema, se interpreta que debe editar el registro con los datos proporcionados.
+
+Esto permite aprovechar el mismo endpoint para múltiples acciones, facilitando tanto la creación como la modificación de los registros.
+
+
+#### POST
+```json
+    API_URL/api/registrar-datos-victima-por-hecho
+```
+catálogos: [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing), [cve_mun](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view), [cve_loc](https://drive.google.com/file/d/1VDHjmDqURqkLc5MQb84MKhI9NlVrg3m3/view), [colonias_id](https://drive.google.com/file/d/1wWVhPLa0zFgdoeQYEtCRNfODEcpQx6BH/view), [estado_conyugal](https://drive.google.com/file/d/1ealfYFyyPpz_C2VfJ3tTrpXzGMVAzfwi/view?usp=sharing), [pais_id](https://drive.google.com/file/d/1-5gPflCkSALusWLp_pUN20NJbqEWE6ir/view), [escolaridad_id](https://drive.google.com/file/d/1Pf_eJpt_S34Ipo908Ih7RS-kQHfwJQGr/view), [ingreso_economico_id](https://docs.google.com/spreadsheets/d/15yA5gPDJXZFZkW1fiFKhrCXeQT1uVGJB/edit?gid=717444154#gid=717444154), [ocupacion_id](https://drive.google.com/file/d/1tY37QRvcZa0c-vzlSsgEpIRJnN2BqCw_/view), [discapacidad](https://drive.google.com/file/d/1mNHUBUsaUKiOPfnoRkGyJjG9fWvcKZFU/view?usp=sharing), [pueblo_indigena_id](https://drive.google.com/file/d/1HUX7WHG1yI-QA-Jo7DG483HCf2kJBBDA/view?usp=drive_link), [identidad_genero_id](https://drive.google.com/file/d/1K7jBCF4E6aiBfnrg4ioD5cqh6gbFOXcL/view), [orientacion_sexual_id](https://drive.google.com/file/d/1hc5Yhl2gr6_pWBFED7G0QMGyooVzIS5x/view), [cual_adiccion](https://drive.google.com/file/d/165EOC-eMmor3JFDXKJT4-Scb8zgjZEAF/view?usp=sharing), [gestacion_id](https://drive.google.com/file/d/1pJCpimw2w7NzZwj0_0zRW3dalcDBgzdu/view?usp=sharing), [servicio_medico_id](https://drive.google.com/file/d/148DpyySvBaHaBcimb0VhGkyusW3lqrc9/view?usp=sharing), [tipos_adicciones](https://drive.google.com/file/d/1Rj1oaktbwIiDQ04Jq6-n8bSXv09FCTaa/view?usp=sharing), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view).
+
+#### Body raw (json)
+```
+{
+    "hechos_id"                    : 2,         
+    "edad"                         : 33,                      
+    "telefono"                     : "26460978",                  
+    "correo_electronico"           : "prueba@fake.com",
+    "calle"                        : "calle",          
+    "num_exterior"                 : "e1",        
+    "num_interior"                 : "i1",         
+    "cve_ent"                      : 21,                       
+    "cve_mun"                      : 132,                      
+    "cve_loc"                      : 1,                    
+    "colonias_id"                  : 1,        
+    "entre_calle_uno"              : "uno",
+    "entre_calle_dos"              : "dos",
+    "referencia"                   : "referencia", 
+    "estado_conyugal"              : 1, 
+    "pais"                         : 153,
+    "codigo_postal"                : 6400,
+    "escolaridad_id"               : 1, 
+    "ingreso_economico_id"         : 1, 
+    "ocupacion_id"                 : 1,
+    "presenta_discapacidad"        : true, 
+    "discapacidad"                 : [1],           
+    "otra_discapacidad"            : "sin definir", 
+    "enfermedad"                   : true, 
+    "cual_enfermedad"              : "descripción de la enfermedad",
+    "enfermedad_psiquiatrica"      : true,
+    "cual_enfermedad_psiquiatrica" : "psiquiatrica",
+    "tratamiento"                  : true,
+    "cual_tratamiento"             : "tratamiento",
+    "situacion_calle"              : true, 
+    "migrante"                     : true,
+    "pueblo_indigena"              : true,
+    "pueblo_indigena_id"           : 1, 
+    "lgbtti"                       : true, 
+    "identidad_genero_id"          : 1, 
+    "orientacion_sexual_id"        : 1, 
+    "embarazada"                   : true, 
+    "numero_semanas_emb"           : 20, 
+    "dependientes"                 : true, 
+    "red_apoyo"                    : true,
+    "adiccion"                     : true, 
+    "cual_adiccion"                : [1], 
+    "persona_afrodescendiente"     : "afro",  
+    "caso_name"                    : "no name", 
+    "realiza_mas_actividades"      : true, 
+    "discapacidad_por_violencia"   : true,
+    "gestacion_id"                 : 1, 
+    "clave_centro_escolar"         : "Clave centro", 
+    "numero_seguro_social"         : "AV0569806410",
+    "servicio_medico_id"           : 1,
+    "otro_servicio_medico"         : "otro servicio medico", 
+    "tipos_adicciones"             : [1],
+    "dependencia_corresponde"      : 103
+}
+```
+#### Campos Obligatorios
+
+|   Campo                      | Obligatorio |Tipo de dato |
+|:----------------------------:|:-----------:|:-----------:|
+| hechos_id                    |     SI      |   integer   | 
+| edad                         |     NO      |   integer   | 
+| telefono                     |     NO      |   string    | 
+| correo_electronico           |     NO      |   string    | 
+| calle                        |     NO      |   string    | 
+| num_exterior                 |     NO      |   string    | 
+| num_interior                 |     NO      |   string    | 
+| cve_ent                      |     NO      |   integer   | 
+| cve_mun                      |     NO      |   integer   | 
+| cve_loc                      |     NO      |   integer   | 
+| colonias_id                  |     NO      |   integer   | 
+| entre_calle_uno              |     NO      |   string    | 
+| entre_calle_dos              |     NO      |   string    | 
+| referencia                   |     NO      |   string    | 
+| estado_conyugal              |     NO      |   integer   | 
+| pais                         |     NO      |   integer   | 
+| codigo_postal                |     NO      |   integer   | 
+| escolaridad_id               |     NO      |   integer   | 
+| ingreso_economico_id         |     NO      |   integer   | 
+| ocupacion_id                 |     NO      |   integer   | 
+| presenta_discapacidad        |     NO      |   boolean   | 
+| discapacidad                 |     NO      |   integer[] | 
+| otra_discapacidad            |     NO      |   string    | 
+| enfermedad                   |     NO      |   boolean   | 
+| cual_enfermedad              |     NO      |   string    | 
+| enfermedad_psiquiatrica      |     NO      |   boolean   | 
+| cual_enfermedad_psiquiatrica |     NO      |   string    | 
+| tratamiento                  |     NO      |   boolean   | 
+| cual_tratamiento             |     NO      |   string    | 
+| situacion_calle              |     NO      |   boolean   | 
+| migrante                     |     NO      |   boolean   | 
+| pueblo_indigena              |     NO      |   boolean   | 
+| pueblo_indigena_id           |     NO      |   integer   | 
+| lgbtti                       |     NO      |   boolean   | 
+| identidad_genero_id          |     NO      |   integer   | 
+| orientacion_sexual_id        |     NO      |   integer   | 
+| embarazada                   |     NO      |   boolean   | 
+| numero_semanas_emb           |     NO      |   integer   | 
+| dependientes                 |     NO      |   boolean   | 
+| red_apoyo                    |     NO      |   boolean   | 
+| adiccion                     |     NO      |   boolean   | 
+| cual_adiccion                |     NO      |   integer[] | 
+| persona_afrodescendiente     |     NO      |   string    | 
+| caso_name                    |     NO      |   string    | 
+| realiza_mas_actividades      |     NO      |   boolean   | 
+| discapacidad_por_violencia   |     NO      |   boolean   | 
+| gestacion_id                 |     NO      |   integer   | 
+| clave_centro_escolar         |     NO      |   string    | 
+| numero_seguro_social         |     NO      |   string    | 
+| servicio_medico_id           |     NO      |   integer   | 
+| otro_servicio_medico         |     NO      |   string    | 
+| tipos_adicciones             |     NO      |   integer[] | 
+| dependencia_corresponde      |     SI      |   integer   | 
+
+#### Ejemplo de solicitud.
+con curl.
+```bash
+curl --location 'API_URL/api/registrar-datos-victima-por-hecho' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer TOKEN' \
+--data-raw '{
+    "hechos_id"                    : 2,         
+    "edad"                         : 33,                      
+    "telefono"                     : "26460978",                  
+    "correo_electronico"           : "prueba@fake.com",
+    "calle"                        : "calle",          
+    "num_exterior"                 : "e1",        
+    "num_interior"                 : "i1",         
+    "cve_ent"                      : 21,                       
+    "cve_mun"                      : 132,                      
+    "cve_loc"                      : 1,                    
+    "colonias_id"                  : 1,        
+    "entre_calle_uno"              : "uno",
+    "entre_calle_dos"              : "dos",
+    "referencia"                   : "referencia", 
+    "estado_conyugal"              : 1, 
+    "pais"                         : 153,
+    "codigo_postal"                : 6400,
+    "escolaridad_id"               : 1, 
+    "ingreso_economico_id"         : 1, 
+    "ocupacion_id"                 : 1,
+    "presenta_discapacidad"        : true, 
+    "discapacidad"                 : [1],           
+    "otra_discapacidad"            : "sin definir", 
+    "enfermedad"                   : true, 
+    "cual_enfermedad"              : "descripción de la enfermedad",
+    "enfermedad_psiquiatrica"      : true,
+    "cual_enfermedad_psiquiatrica" : "psiquiatrica",
+    "tratamiento"                  : true,
+    "cual_tratamiento"             : "tratamiento",
+    "situacion_calle"              : true, 
+    "migrante"                     : true,
+    "pueblo_indigena"              : true,
+    "pueblo_indigena_id"           : 1, 
+    "lgbtti"                       : true, 
+    "identidad_genero_id"          : 1, 
+    "orientacion_sexual_id"        : 1, 
+    "embarazada"                   : true, 
+    "numero_semanas_emb"           : 20, 
+    "dependientes"                 : true, 
+    "red_apoyo"                    : true,
+    "adiccion"                     : true, 
+    "cual_adiccion"                : [1], 
+    "persona_afrodescendiente"     : "afro",  
+    "caso_name"                    : "no name", 
+    "realiza_mas_actividades"      : true, 
+    "discapacidad_por_violencia"   : true,
+    "gestacion_id"                 : 1, 
+    "clave_centro_escolar"         : "Clave centro", 
+    "numero_seguro_social"         : "AV0569806410",
+    "servicio_medico_id"           : 1,
+    "otro_servicio_medico"         : "otro servicio medico", 
+    "tipos_adicciones"             : [1],
+    "dependencia_corresponde"      : 103
+}'
+```
+con PHP - cURL.
+```php
+<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'API_URL/api/registrar-datos-victima-por-hecho',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+    "hechos_id"                    : 2,         
+    "edad"                         : 33,                      
+    "telefono"                     : "26460978",                  
+    "correo_electronico"           : "prueba@fake.com",
+    "calle"                        : "calle",          
+    "num_exterior"                 : "e1",        
+    "num_interior"                 : "i1",         
+    "cve_ent"                      : 21,                       
+    "cve_mun"                      : 132,                      
+    "cve_loc"                      : 1,                    
+    "colonias_id"                  : 1,        
+    "entre_calle_uno"              : "uno",
+    "entre_calle_dos"              : "dos",
+    "referencia"                   : "referencia", 
+    "estado_conyugal"              : 1, 
+    "pais"                         : 153,
+    "codigo_postal"                : 6400,
+    "escolaridad_id"               : 1, 
+    "ingreso_economico_id"         : 1, 
+    "ocupacion_id"                 : 1,
+    "presenta_discapacidad"        : true, 
+    "discapacidad"                 : [1],           
+    "otra_discapacidad"            : "sin definir", 
+    "enfermedad"                   : true, 
+    "cual_enfermedad"              : "descripción de la enfermedad",
+    "enfermedad_psiquiatrica"      : true,
+    "cual_enfermedad_psiquiatrica" : "psiquiatrica",
+    "tratamiento"                  : true,
+    "cual_tratamiento"             : "tratamiento",
+    "situacion_calle"              : true, 
+    "migrante"                     : true,
+    "pueblo_indigena"              : true,
+    "pueblo_indigena_id"           : 1, 
+    "lgbtti"                       : true, 
+    "identidad_genero_id"          : 1, 
+    "orientacion_sexual_id"        : 1, 
+    "embarazada"                   : true, 
+    "numero_semanas_emb"           : 20, 
+    "dependientes"                 : true, 
+    "red_apoyo"                    : true,
+    "adiccion"                     : true, 
+    "cual_adiccion"                : [1], 
+    "persona_afrodescendiente"     : "afro",  
+    "caso_name"                    : "no name", 
+    "realiza_mas_actividades"      : true, 
+    "discapacidad_por_violencia"   : true,
+    "gestacion_id"                 : 1, 
+    "clave_centro_escolar"         : "Clave centro", 
+    "numero_seguro_social"         : "AV0569806410",
+    "servicio_medico_id"           : 1,
+    "otro_servicio_medico"         : "otro servicio medico", 
+    "tipos_adicciones"             : [1],
+    "dependencia_corresponde"      : 103
+}',
+  CURLOPT_HTTPHEADER => array(
+    'Accept: application/json',
+    'Content-Type: application/json',
+    'Authorization: Bearer TOKEN',
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+const myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", "Bearer TOKEN");
+
+const raw = JSON.stringify({
+  "hechos_id" : 2,
+  "edad": 33,
+  "telefono": "26460978",
+  "correo_electronico": "prueba@fake.com",
+  "calle": "calle",
+  "num_exterior": "e1",
+  "num_interior": "i1",
+  "cve_ent": 21,
+  "cve_mun": 132,
+  "cve_loc": 1,
+  "colonias_id": 1,
+  "entre_calle_uno": "uno",
+  "entre_calle_dos": "dos",
+  "referencia": "referencia",
+  "estado_conyugal": 1,
+  "pais": 153,
+  "codigo_postal": 6400,
+  "escolaridad_id": 1,
+  "ingreso_economico_id": 1,
+  "ocupacion_id": 1,
+  "presenta_discapacidad": true,
+  "discapacidad": [
+    1
+  ],
+  "otra_discapacidad": "sin definir",
+  "enfermedad": true,
+  "cual_enfermedad": "descripción de la enfermedad",
+  "enfermedad_psiquiatrica": true,
+  "cual_enfermedad_psiquiatrica" : "psiquiatrica",
+  "tratamiento"                  : true,
+  "cual_tratamiento"             : "tratamiento",
+  "situacion_calle"              : true,
+  "migrante"                     : true,
+  "pueblo_indigena"              : true,
+  "pueblo_indigena_id"           : 1,
+  "lgbtti"                       : true,
+  "identidad_genero_id"          : 1,
+  "orientacion_sexual_id"        : 1,
+  "embarazada"                   : true,
+  "numero_semanas_emb"           : 20,
+  "dependientes"                 : true,
+  "red_apoyo"                    : true,
+  "adiccion"                     : true,
+  "cual_adiccion"                : [
+                                    1
+                                   ],
+  "persona_afrodescendiente"     : "afro",
+  "caso_name"                    : "no name",
+  "realiza_mas_actividades"      : true,
+  "discapacidad_por_violencia"   : true,
+  "gestacion_id"                 : 1,
+  "clave_centro_escolar"         : "Clave centro",
+  "numero_seguro_social"         : "AV0569806410",
+  "servicio_medico_id"           : 1,
+  "otro_servicio_medico"         : "otro servicio medico",
+  "tipos_adicciones"             : [
+                                    1
+                                   ],
+  "dependencia_corresponde"      : 103
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
+
+fetch("API_URL/api/registrar-datos-victima-por-hecho", requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+{
+    "id": 1,
+    "hechos_id": 2,
+    "users_id": 1,
+    "edad": 33,
+    "telefono": "26460978",
+    "correo_electronico": "prueba@fake.com",
+    "calle": "calle",
+    "num_exterior": "e1",
+    "num_interior": "i1",
+    "cve_ent": 21,
+    "cve_mun": 132,
+    "cve_loc": 1,
+    "colonias_id": 1,
+    "entre_calle_uno": "uno",
+    "entre_calle_dos": "dos",
+    "referencia": "referencia",
+    "estado_conyugal": null,
+    "pais": 153,
+    "codigo_postal": 6400,
+    "escolaridad_id": 1,
+    "ingreso_economico_id": 1,
+    "ocupacion_id": 1,
+    "presenta_discapacidad": true,
+    "discapacidad": [
+        1
+    ],
+    "otra_discapacidad": "sin definir",
+    "enfermedad": true,
+    "cual_enfermedad": "descripción de la enfermedad",
+    "enfermedad_psiquiatrica": true,
+    "cual_enfermedad_psiquiatrica": "psiquiatrica",
+    "tratamiento": true,
+    "cual_tratamiento": "tratamiento",
+    "situacion_calle": true,
+    "migrante": true,
+    "pueblo_indigena": true,
+    "pueblo_indigena_id": 1,
+    "lgbtti": true,
+    "identidad_genero_id": 1,
+    "orientacion_sexual_id": 1,
+    "embarazada": true,
+    "numero_semanas_emb": 20,
+    "dependientes": true,
+    "red_apoyo": true,
+    "adiccion": true,
+    "created_at": "2024-08-12T17:33:20.000000Z",
+    "updated_at": "2024-11-13T01:49:51.000000Z",
+    "cual_adiccion": [
+        1
+    ],
+    "dependencia_corresponde": 103,
+    "deleted_at": null,
+    "persona_afrodescendiente": "afro",
+    "caso_name": "no name",
+    "realiza_mas_actividades": true,
+    "discapacidad_por_violencia": true,
+    "gestacion_id": 1,
+    "clave_centro_escolar": "Clave centro",
+    "numero_seguro_social": "AV0569806410",
+    "servicio_medico_id": 1,
+    "otro_servicio_medico": "otro servicio medico",
+    "tipos_adicciones": [
+        1
+    ],
+    "ocupacion": null,
+    "escolaridad": null,
+    "ingreso_economico": null,
+    "colonia": null,
+    "identidad_genero": null,
+    "orientacion_sexual": null,
+    "semanas_gestacion": {
+        "id": null
+    }
+}
+```
+con estatus 422. Error de tipo de dato.
+```json
+{
+    "message": "El campo NOMBRE_CAMPO debe ser una TIPO_DATO.",
+    "errors": {
+        "otra_discapacidad": [
+            "El campo NOMBRE_CAMPO debe ser una TIPO_DATO."
+        ]
+    }
+}
+```
+--------------------------------------------------------------
+### Registro de un dependiente de una víctima por hecho de violencia
+--------------------------------------------------------------
+El registro de un dependiente de la víctima, tiene una dependencia funcional que requiere que la víctima tenga un hecho de víolencia registrado.
+#### POST
+```json
+    API_URL/api/registrar-dependiente-victima-por-hecho
+```
+catálogo: [vinculo_victima_id](https://drive.google.com/file/d/1_F5CDwHh3Tq7JtOho6v1upeZYnIZf8C6/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
+```json
+{
+    "hechos_id"                    : 2,         
+    "nombre"                       : "dependiente",
+    "primer_apellido"              : "papellido",
+    "segundo_apellido"             : "sapellido",
+    "edad"                         : 3,
+    "vinculo_victima_id"           : 1,
+    "esta_en_riesgo"               : true,
+    "presenta_discapacidad"        : true,
+    "extranjera"                   : true,
+    "enfermedad"                   : true,
+    "cual_enfermedad"              : "enfermedad",
+    "observaciones"                : "observación",
+    "dependencia_corresponde"      : 103
+}
+```
+#### Campos Obligatorios
+
+|             Campo       | Obligatorio |Tipo de dato |
+|:-----------------------:|:-----------:|:-----------:|
+| hechos_id               |     SI      |   integer   | 
+| nombre                  |     NO      |   string    | 
+| primer_apellido         |     NO      |   string    | 
+| segundo_apellido        |     NO      |   string    | 
+| edad                    |     NO      |   integer   | 
+| vinculo_victima_id      |     NO      |   integer   | 
+| esta_en_riesgo          |     NO      |   boolean   | 
+| presenta_discapacidad   |     NO      |   boolean   | 
+| extranjera              |     NO      |   boolean   | 
+| enfermedad              |     NO      |   boolean   | 
+| cual_enfermedad         |     NO      |   string    | 
+| observaciones           |     NO      |   string    | 
+| dependencia_corresponde |     SI      |   integer   | 
+| | |
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/registrar-dependiente-victima-por-hecho' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "hechos_id"                    : 2,         
+        "nombre"                       : "dependiente",
+        "primer_apellido"              : "papellido",
+        "segundo_apellido"             : "sapellido",
+        "edad"                         : 3,
+        "vinculo_victima_id"           : 1,
+        "esta_en_riesgo"               : true,
+        "presenta_discapacidad"        : true,
+        "extranjera"                   : true,
+        "enfermedad"                   : true,
+        "cual_enfermedad"              : "enfermedad",
+        "observaciones"                : "observación",
+        "dependencia_corresponde"      : 103
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/registrar-dependiente-victima-por-hecho',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "hechos_id"                    : 2,         
+        "nombre"                       : "dependiente",
+        "primer_apellido"              : "papellido",
+        "segundo_apellido"             : "sapellido",
+        "edad"                         : 3,
+        "vinculo_victima_id"           : 1,
+        "esta_en_riesgo"               : true,
+        "presenta_discapacidad"        : true,
+        "extranjera"                   : true,
+        "enfermedad"                   : true,
+        "cual_enfermedad"              : "enfermedad",
+        "observaciones"                : "observación",
+        "dependencia_corresponde"      : 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "hechos_id"               : 2,
+    "nombre"                  : "dependiente",
+    "primer_apellido"         : "papellido",
+    "segundo_apellido"        : "sapellido",
+    "edad"                    : 3,
+    "vinculo_victima_id"      : 1,
+    "esta_en_riesgo"          : true,
+    "presenta_discapacidad"   : true,
+    "extranjera"              : true,
+    "enfermedad"              : true,
+    "cual_enfermedad"         : "enfermedad",
+    "observaciones"           : "observación",
+    "dependencia_corresponde" : 103
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/registrar-dependiente-victima-por-hecho", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+{
+    "nombre": "dependiente",
+    "primer_apellido": "papellido",
+    "segundo_apellido": "sapellido",
+    "edad": 3,
+    "vinculo_victima_id": 1,
+    "esta_en_riesgo": true,
+    "presenta_discapacidad": true,
+    "extranjera": true,
+    "enfermedad": true,
+    "cual_enfermedad": "enfermedad",
+    "observaciones": "observación",
+    "users_id": 1,
+    "hechos_id": 2,
+    "dependencia_corresponde": 103,
+    "updated_at": "2024-11-14T00:18:38.000000Z",
+    "created_at": "2024-11-14T00:18:38.000000Z",
+    "id": 73
+}
+```
+con estatus 422. El campo hechos id es requerido por la dependencia funcional.
+```json
+{
+    "message": "El campo hechos id es requerido.",
+    "errors": {
+        "hechos_id": [
+            "El campo hechos id es requerido."
+        ]
+    }
+}
+```
+con estatus 422. Error de tipo de dato.
+```json
+{
+    "message": "El campo NOMBRE_CAMPO debe ser una TIPO_DATO.",
+    "errors": {
+        "otra_discapacidad": [
+            "El campo NOMBRE_CAMPO debe ser una TIPO_DATO."
+        ]
+    }
+}
+```
+--------------------------------------------------------------
+### Registro de la red de apoyo de una víctima por hecho de violencia
+--------------------------------------------------------------
+El registro de la red de apoyo requiere que la víctima tenga un hecho de víolencia registrado.
+#### POST
+```json
+    API_URL/api/registrar-red-apoyo-victima-por-hecho
+```
+catálogo: [vinculo_victima_id](https://drive.google.com/file/d/1_F5CDwHh3Tq7JtOho6v1upeZYnIZf8C6/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
+```json
+{
+    "hechos_id"               : 1,
+    "nombre"                  : "Juanita",
+    "primer_apellido"         : "papellido",
+    "segundo_apellido"        : "sapellido",
+    "vinculo_victima_id"      : 4,
+    "telefono"                : "2258877731",
+    "observaciones"           : "observaciones",
+    "dependencia_corresponde" : 103
+}
+```
+#### Campos Obligatorios
+
+|        Campo             | Obligatorio | Tipo de dato |
+|:------------------------:|:-----------:|:------------:|
+| hechos_id                |      SI     |    integer   | 
+| nombre                   |      NO     |    string    | 
+| primer_apellido          |      NO     |    string    | 
+| segundo_apellido         |      NO     |    string    | 
+| vinculo_victima_id       |      NO     |    integer   | 
+| telefono                 |      NO     |    string    | 
+| observaciones            |      NO     |    string    | 
+| dependencia_corresponde  |      SI     |    integer   | 
+|||
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/registrar-red-apoyo-victima-por-hecho' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "hechos_id"               : 1,
+        "nombre"                  : "Juanita",
+        "primer_apellido"         : "papellido",
+        "segundo_apellido"        : "sapellido",
+        "vinculo_victima_id"      : 4,
+        "telefono"                : "2258877731",
+        "observaciones"           : "observaciones",
+        "dependencia_corresponde" : 103
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/registrar-red-apoyo-victima-por-hecho',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "hechos_id"               : 1,
+        "nombre"                  : "Juanita",
+        "primer_apellido"         : "papellido",
+        "segundo_apellido"        : "sapellido",
+        "vinculo_victima_id"      : 4,
+        "telefono"                : "2258877731",
+        "observaciones"           : "observaciones",
+        "dependencia_corresponde" : 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "hechos_id": 1,
+    "nombre": "Juanita",
+    "primer_apellido"         : "papellido",
+    "segundo_apellido"        : "sapellido",
+    "vinculo_victima_id"      : 4,
+    "telefono"                : "2258877731",
+    "observaciones"           : "observaciones",
+    "dependencia_corresponde" : 103
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/registrar-red-apoyo-victima-por-hecho", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+{
+    "nombre": "Juanita",
+    "primer_apellido": "papellido",
+    "segundo_apellido": "sapellido",
+    "vinculo_victima_id": 4,
+    "telefono": "2258877731",
+    "observaciones": "observaciones",
+    "users_id": 1,
+    "hechos_id": 1,
+    "dependencia_corresponde": 103,
+    "updated_at": "2024-11-14T00:48:45.000000Z",
+    "created_at": "2024-11-14T00:48:45.000000Z",
+    "id": 51
+}
+```
+con estatus 422. Error de tipo de dato.
+```json
+{
+    "message": "El campo NOMBRE_CAMPO debe ser una TIPO_DATO.",
+    "errors": {
+        "otra_discapacidad": [
+            "El campo NOMBRE_CAMPO debe ser una TIPO_DATO."
+        ]
+    }
+}
+con estatus 422. El hecho es un campo que debe envíar.
+```json
+{
+    "message": "El campo hechos id es requerido.",
+    "errors": {
+        "hechos_id": [
+            "El campo hechos id es requerido."
+        ]
+    }
+}
+```
+--------------------------------------------------------------
+Registro del seguimiento de un hecho de violencia.
+--------------------------------------------------------------
+El seguimiento requiere que exista un hecho de violencia para ser registrado, teniendo una dependencia funcional directa.
+#### POST
+```
+    API_URL/api/seguimiento
+```
+catálogos: [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view), [tipo_id](https://drive.google.com/file/d/1Z6scmhtreut1JJtDr11WSGcuKlibs_cI/view) y [servicios_id](https://drive.google.com/file/d/1JDVkLKaKQIshGa4Xhmx5B343_SDc1ce0/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
+```json
+    {
+        "hechos_id"               : 1,
+        "fecha_seguimiento"       : "2023-10-27",
+        "hora_seguimiento"        : "08:12",
+        "tipo_id"                 : 1,
+        "servicios_id"            : 1,
+        "acciones"                : "Se realizo la accion de prueba",
+        "observaciones"           : "Se realizo la observacion de prueba",
+        "dependencia_corresponde" : 103
+    }
+```
+#### Campos Obligatorios
+
+|   Campo                     | Obligatorio |Tipo de dato |
+|:---------------------------:|:-----------:|:-----------:|
+| hechos_id                   |     SI      |   integer   |
+| fecha_seguimiento           |     SI      |    date     | 
+| hora_seguimiento            |     SI      |    time     | 
+| tipo_id                     |     SI      |   integer   | 
+| servicios_id                |     SI      |   integer   | 
+| acciones                    |     SI      |   string    | 
+| observaciones               |     SI      |   string    | 
+| dependencia_corresponde     |     SI      |   integer   | 
+|||| 
+
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/seguimiento' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "hechos_id"               : 1,
+        "fecha_seguimiento"       : "2023-10-27",
+        "hora_seguimiento"        : "08:12",
+        "tipo_id"                 : 1,
+        "servicios_id"            : 1,
+        "acciones"                : "Se realizo la accion de prueba",
+        "observaciones"           : "Se realizo la observacion de prueba",
+        "dependencia_corresponde" : 103
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/seguimiento',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "hechos_id"               : 1,
+        "fecha_seguimiento"       : "2023-10-27",
+        "hora_seguimiento"        : "08:12",
+        "tipo_id"                 : 1,
+        "servicios_id"            : 1,
+        "acciones"                : "Se realizo la accion de prueba",
+        "observaciones"           : "Se realizo la observacion de prueba",
+        "dependencia_corresponde" : 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+        "hechos_id"               : 1,
+        "fecha_seguimiento"       : "2023-10-27",
+        "hora_seguimiento"        : "08:12",
+        "tipo_id"                 : 1,
+        "servicios_id"            : 1,
+        "acciones"                : "Se realizo la accion de prueba",
+        "observaciones"           : "Se realizo la observacion de prueba",
+        "dependencia_corresponde" : 103
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/seguimiento", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+{
+    "seguimiento": {
+        "users_id": 1,
+        "hechos_id": 1,
+        "fecha_seguimiento": "2023-10-27",
+        "hora_seguimiento": "08:12",
+        "tipo_id": 1,
+        "servicios_id": 1,
+        "acciones": "Se realizo la accion de prueba",
+        "observaciones": "Se realizo la observacion de prueba",
+        "dependencia_corresponde" : 103,
+        "updated_at": "2024-07-26T22:08:18.000000Z",
+        "created_at": "2024-07-26T22:08:18.000000Z",
+        "id": 9031
+    }
+}
+```
+con estatus 422. El hechos_id no existe en el sistema.
+```json
+    {
+        "message": "El hecho de violencia no está registrado en el sistema",
+        "errors": {
+            "hechos_id": [
+                "El hecho de violencia no está registrado en el sistema"
+            ]
         }
-    }],
-    'cp'                                            => ['string', 'max:6', 'exists:colonias,cp'],
-    'lat'                                           => 'min:-90|max:90',
-    'lng'                                           => 'min:-180|max:180',
-    'es_festivo'                                    => 'boolean',
-    'conoce_la_autoridad'                           => 'boolean',
-    'conoce_la_autoridad_detalle'                   => 'string|max:150',
-    'tipo_violencia'                                => 'array',
-    'modalidad_violencia'                           => 'integer|exists:catalogo_modalidad_violencia,id',
-    'es_victima_de_delincuencia_organizada'         => 'boolean',
-    'hay_denuncia'                                  => 'boolean',
-    'efectos_fisicos'                               => ['array'],
-    'efectos_fisicos.*'                             => 'exists:catalogo_efecto_fisico,id',
-    'consecuencias_sexuales'                        => ['array'],
-    'consecuencias_sexuales.*'                      => 'exists:catalogo_efecto_consecuencia_sexual,id',
-    'efectos_psicologicos'                          => ['array'],
-    'efectos_psicologicos.*'                        => 'exists:catalogo_efecto_psicologico,id',
-    'efectos_economicos_y_patrimoniales'            => ['array'],
-    'efectos_economicos_y_patrimoniales.*'          => 'exists:catalogo_efecto_economico,id',
-    'agente_de_lesion'                              => ['array'],
-    'agenete_de_lesion.*'                           => 'exists:catalogo_efecto_agente_lesion,id',
-    'area_anatomica_lesionada'                      => ['array'],
-    'area_anatomica_lesionada.*'                    => 'exists:catalogo_efecto_area_anatomica_lesionada,id',
-    'es_relacionada_con_orientacion_o_identidad'    => 'boolean',
-    'lugar_detalle_otro'                            => 'sometimes|string|max:255',
-    'tipo_violencia_otro'                           => 'sometimes|string|max:255',
-    'efecto_fisico_otro'                            => 'sometimes|string|max:255',
-    'consecuencia_sexual_otro'                      => 'sometimes|string|max:255',
-    'efecto_psicologico_otro'                       => 'sometimes|string|max:255',
-    'efecto_economico_patrimonial_otro'             => 'sometimes|string|max:255',
-    'agente_lesion_otro'                            => 'sometimes|string|max:255',
-    'area_anatomica_lesionada_otro'                 => 'sometimes|string|max:255'  
-]);
+    }
+```
+con estatus 422. .
+```json
+    {
+        "message": "El campo fecha seguimiento es requerido. (and 5 more errors)",
+        "errors": {
+            "fecha_seguimiento": [
+                "El campo fecha seguimiento es requerido."
+            ],
+            "hora_seguimiento": [
+                "El campo hora seguimiento es requerido."
+            ],
+            "tipo_id": [
+                "El campo tipo id es requerido."
+            ],
+            "servicios_id": [
+                "El campo servicios id es requerido."
+            ],
+            "acciones": [
+                "El campo acciones es requerido."
+            ],
+            "observaciones": [
+                "El campo observaciones es requerido."
+            ]
+        }
+    }
 ```
 
---------------------------------------------------------------------------------
-
+--------------------------------------------------------------
 ### Registro de mujeres en prisión para un hecho de violencia
-
-#### url
-/api/registrar-mujer-en-prision
-
-#### props
-
+--------------------------------------------------------------
+El registro requiere que exista un hecho de violencia, teniendo una dependencia funcional directa.
+#### POST
+```
+    API_URL/api/registrar-mujer-en-prision
+```
+catálogos: [calidad_legal_id](https://drive.google.com/file/d/1MpQvCjgHaLPso9DCxl6ugngvlyUwamRF/view), [tortura_tipo_id](https://drive.google.com/file/d/1ycr5AJKeDrzD8q3HfJAyCNuK_uZ26n_Z/view), [tortura_momento_id](https://drive.google.com/file/d/1taXbMYYtM7tfd4X4GaX1rZrRImRmIzYZ/view) y [autoridad_id](https://drive.google.com/file/d/1V5roC6VJQBAm_2D0Mw6VrapUoZSPlBP7/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
 ```json
 {
-    "hechos_id"             : 5,
-    "privada_de_libertad"   : true,
-    "calidad_legal_id"      : 1,
-    "delitos"               : "robo",
-    "victima_de_tortura"    : true,
-    "protocolo_de_estambul" : true,
+    "hechos_id"                                            : 1,
+    "privada_de_libertad"                                  : true,
+    "calidad_legal_id"                                     : 1,
+    "delitos"                                              : "robo",
+    "victima_de_tortura"                                   : true,
+    "protocolo_de_estambul"                                : true,
     "victima_de_tortura_despues_del_protocolo_de_estambul" : true,
-    "tortura_tipo_id"       : 1,
-    "tortura_momento_id"    : 5,
-    "autoridad_id"          : 1,
+    "tortura_tipo_id"                                      : 1,
+    "tortura_momento_id"                                   : 5,
+    "autoridad_id"                                         : 1,
+    "dependencia_corresponde"                              : 103
 }
 ```
+#### Campos Obligatorios
 
-### PHP rules
-
-```php
-$request->validate([
-    'hechos_id'             => 'required|exists:hechos,id',
-    'privada_de_libertad'   => 'nullable|boolean',
-    'calidad_legal_id'      => 'nullable|exists:catalogo_calidad_legals,id',
-    'delitos'               => 'nullable|string',
-    'victima_de_tortura'    => 'nullable|boolean',
-    'protocolo_de_estambul' => 'nullable|boolean',
-    'victima_de_tortura_despues_del_protocolo_de_estambul' => 'nullable|boolean',
-    'tortura_tipo_id'       => 'nullable|exists:catalogo_tortura_en_prision_tipos,id',
-    'tortura_momento_id'    => 'nullable|exists:catalogo_tortura_en_prision_momentos,id',
-    'autoridad_id'          => 'nullable|exists:catalogo_autoridades,id',
-]);
+|                            Campo                       | Obligatorio | Tipo de dato |
+|:------------------------------------------------------:|:-----------:|:------------:|
+| hechos_id                                              |     SI      |    integer   |
+| privada_de_libertad                                    |     NO      |    boolean   |
+| calidad_legal_id                                       |     NO      |    integer   |
+| delitos                                                |     NO      |    string    |
+| victima_de_tortura                                     |     NO      |    boolean   |
+| protocolo_de_estambul                                  |     NO      |    boolean   |
+| victima_de_tortura_despues_del_protocolo_de_estambul   |     NO      |    boolean   |
+| tortura_tipo_id                                        |     NO      |    integer   |
+| tortura_momento_id                                     |     NO      |    integer   |
+| autoridad_id                                           |     NO      |    integer   |
+| dependencia_corresponde                                |     SI      |    integer   |
+|||
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/registrar-mujer-en-prision' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "hechos_id"                                            : 1,
+        "privada_de_libertad"                                  : true,
+        "calidad_legal_id"                                     : 1,
+        "delitos"                                              : "robo",
+        "victima_de_tortura"                                   : true,
+        "protocolo_de_estambul"                                : true,
+        "victima_de_tortura_despues_del_protocolo_de_estambul" : true,
+        "tortura_tipo_id"                                      : 1,
+        "tortura_momento_id"                                   : 5,
+        "autoridad_id"                                         : 1,
+        "dependencia_corresponde"                              : 103
+    }'
 ```
+con PHP - cURL.
+```php
+    <?php
 
+    $curl = curl_init();
 
---------------------------------------------------------------------------------
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/registrar-mujer-en-prision',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "hechos_id"                                            : 1,
+        "privada_de_libertad"                                  : true,
+        "calidad_legal_id"                                     : 1,
+        "delitos"                                              : "robo",
+        "victima_de_tortura"                                   : true,
+        "protocolo_de_estambul"                                : true,
+        "victima_de_tortura_despues_del_protocolo_de_estambul" : true,
+        "tortura_tipo_id"                                      : 1,
+        "tortura_momento_id"                                   : 5,
+        "autoridad_id"                                         : 1,
+        "dependencia_corresponde"                              : 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
 
-### Registro de mujeres víctimas de trata para un hecho de violencia
+    $response = curl_exec($curl);
 
-#### url
-/api/registrar-mujer-victima-de-trata
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
 
-#### props
+    const raw = JSON.stringify({
+        "hechos_id"                                            : 1,
+        "privada_de_libertad"                                  : true,
+        "calidad_legal_id"                                     : 1,
+        "delitos"                                              : "robo",
+        "victima_de_tortura"                                   : true,
+        "protocolo_de_estambul"                                : true,
+        "victima_de_tortura_despues_del_protocolo_de_estambul" : true,
+        "tortura_tipo_id"                                      : 1,
+        "tortura_momento_id"                                   : 5,
+        "autoridad_id"                                         : 1,
+        "dependencia_corresponde"                              : 103
+    });
 
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/registrar-mujer-en-prision", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
 ```json
 {
-    "hechos_id"                     : 5,
-    "victima_de_trata_de_personas"  : true,
-    "accion_omision_dolosa_id"      : 8,
-    "fines_reclutamiento_id"        : 4,
-    "accion_omision_dolosa_array"   : [1,2,3],
-    "fines_reclutamiento_array"     : [1,2, 3]
+    "hechos_id": 1,
+    "users_id": 1,
+    "privada_de_libertad": true,
+    "calidad_legal_id": 1,
+    "delitos": "robo",
+    "victima_de_tortura": true,
+    "protocolo_de_estambul": true,
+    "victima_de_tortura_despues_del_protocolo_de_estambul": true,
+    "tortura_tipo_id": 1,
+    "tortura_momento_id": 5,
+    "autoridad_id": 1,
+    "dependencia_corresponde": 103,
+    "updated_at": "2024-08-05T21:25:09.000000Z",
+    "created_at": "2024-08-05T21:25:09.000000Z",
+    "id": 25
+}
+```
+con estatus 422. Faltan parámetros.
+```json
+{
+    "message": "El campo hechos id seleccionado no es válido.",
+    "errors": {
+        "hechos_id": [
+            "El campo hechos id seleccionado no es válido."
+        ]
+    }
+}
+```
+--------------------------------------------------------------
+### Registro de mujeres víctimas de trata para un hecho de violencia
+--------------------------------------------------------------
+El registro requiere que exista un hecho de violencia, teniendo una dependencia funcional directa.
+#### POST
+```
+    API_URL/api/registrar-mujer-victima-de-trata
+```
+catálogos: [accion_omision_dolosa_id](https://drive.google.com/file/d/13CdVeVrsyRmC9PmOj5kPkgw52Xrv2b2M/view), [fines_reclutamiento_id](https://drive.google.com/file/d/1jC7ZmP3p_CiuNqCcflfkDsilpbrLfx02/view), [accion_omision_dolosa_array](https://drive.google.com/file/d/13CdVeVrsyRmC9PmOj5kPkgw52Xrv2b2M/view) y [fines_reclutamiento_array](https://drive.google.com/file/d/1jC7ZmP3p_CiuNqCcflfkDsilpbrLfx02/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
+```json
+    {
+        "hechos_id"                     : 5,
+        "victima_de_trata_de_personas"  : true,
+        "accion_omision_dolosa_id"      : 8,
+        "fines_reclutamiento_id"        : 4,
+        "accion_omision_dolosa_array"   : [1,2,3],
+        "fines_reclutamiento_array"     : [1,2,3],
+    "dependencia_corresponde"           : 103
+    }
+```
+#### Campos Obligatorios
+
+|              Campo            | Obligatorio  | Tipo de dato |
+|:-----------------------------:|:------------:|:------------:|
+| hechos_id                     |      SI      |    integer   |
+| victima_de_trata_de_personas  |      NO      |    boolean   |
+| accion_omision_dolosa_id      |      NO      |    integer   |
+| fines_reclutamiento_id        |      NO      |    integer   |
+| accion_omision_dolosa_array   |      NO      |   integer[]  |
+| fines_reclutamiento_array     |      NO      |   integer[]  |
+| dependencia_corresponde       |      SI      |    integer   |
+|||
+
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/registrar-mujer-victima-de-trata' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "hechos_id"                     : 5,
+        "victima_de_trata_de_personas"  : true,
+        "accion_omision_dolosa_id"      : 8,
+        "fines_reclutamiento_id"        : 4,
+        "accion_omision_dolosa_array"   : [1,2,3],
+        "fines_reclutamiento_array"     : [1,2, 3],
+        "dependencia_corresponde"       : 103
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/registrar-mujer-victima-de-trata',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "hechos_id"                     : 5,
+        "victima_de_trata_de_personas"  : true,
+        "accion_omision_dolosa_id"      : 8,
+        "fines_reclutamiento_id"        : 4,
+        "accion_omision_dolosa_array"   : [1,2,3],
+        "fines_reclutamiento_array"     : [1,2, 3],
+        "dependencia_corresponde"       : 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "hechos_id"                    : 5,
+    "victima_de_trata_de_personas" : true,
+    "accion_omision_dolosa_id"     : 8,
+    "fines_reclutamiento_id"       : 4,
+    "accion_omision_dolosa_array"  : [1,2,3],
+    "fines_reclutamiento_array"    : [1,2,3],
+    "dependencia_corresponde"      : 103
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/registrar-mujer-victima-de-trata", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+{
+    "hechos_id": 5,
+    "users_id": 1,
+    "victima_de_trata_de_personas": true,
+    "accion_omision_dolosa_id": 8,
+    "fines_reclutamiento_id": 4,
+    "accion_omision_dolosa_array": "[1,2,3]",
+    "fines_reclutamiento_array": "[1,2,3]",
+    "dependencia_corresponde": 103,
+    "updated_at": "2024-08-05T22:13:39.000000Z",
+    "created_at": "2024-08-05T22:13:39.000000Z",
+    "id": 27
+}
+```
+con estatus 422. Faltan parámetros.
+```json
+{
+    "message": "El campo hechos id es requerido.",
+    "errors": {
+        "hechos_id": [
+            "El campo hechos id es requerido."
+        ]
+    }
 }
 ```
 
-### PHP Rules
-
-```php
-$request->validate([
-    'hechos_id'                     => 'required|exists:hechos,id',
-    'victima_de_trata_de_personas'  => 'nullable|boolean',
-    'accion_omision_dolosa_id'      => 'nullable|exists:catalogo_accion_omision_dolosa_con_fines_de_explotacions,id',
-    'fines_reclutamiento_id'        => 'nullable|exists:catalogo_fines_reclutamientos,id',
-    'accion_omision_dolosa_array'   => 'nullable|array',
-    'accion_omision_dolosa_array.*' => 'exists:catalogo_accion_omision_dolosa_con_fines_de_explotacions,id',
-    'fines_reclutamiento_array'     => 'nullable|array',
-    'fines_reclutamiento_array.*'   => 'exists:catalogo_fines_reclutamientos,id'
-]);
-```
-
-
---------------------------------------------------------------------------------
-
+--------------------------------------------------------------
 ### Registro de mujeres desaparecidas para un hecho de violencia
-
-#### url
-/api/registrar-mujer-desaparecida
-
-#### props
-
+--------------------------------------------------------------
+El registro requiere que exista un hecho de violencia, teniendo una dependencia funcional directa.
+#### POST
+```
+    API_URL/api/registrar-mujer-desaparecida
+```
+catálogos: [tipo_de_desaparicion_id](https://drive.google.com/file/d/1iILF7y_7DU-U5l_AKquuuqarLu1AA-6y/view), [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view), [cve_mun](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view), [vinculo_victima_id](https://drive.google.com/file/d/1_F5CDwHh3Tq7JtOho6v1upeZYnIZf8C6/view) y [estatus_desaparicion_id](https://drive.google.com/file/d/16k8t3y2nOkq1xhZ-7aGx77V333Yq__eg/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
 ```json
 {
     "hechos_id"                 : 5,
@@ -1183,46 +4237,188 @@ $request->validate([
     "edad"                      : 23,
     "vinculo_victima_id"        : 4,
     "estatus_desaparicion_id"   : 1,
-    "con_vida"                  : true
+    "con_vida"                  : true,
+    "dependencia_corresponde"   : 103
 }
 ```
+#### Campos Obligatorios
 
-### PHP Rules
+|          Campo           |  Obligatorio | Tipo de dato |
+|:------------------------:|:------------:|:------------:|
+| hechos_id                |      SI      |    integer   |
+| persona_desaparecida     |      NO      |    boolean   |
+| tipo_de_desaparicion_id  |      NO      |    integer   | 
+| fecha_de_desaparicion    |      NO      |     date     |
+| cve_ent                  |      NO      |    integer   |
+| cve_mun                  |      NO      |    integar   |
+| es_institucion           |      NO      |    boolean   |
+| nombre_institucion       |      NO      |    string    |
+| nombre                   |      NO      |    string    |
+| apellido_paterno         |      NO      |    string    |
+| apellido_materno         |      NO      |    string    |
+| edad                     |      NO      |    integer   |
+| vinculo_victima_id       |      NO      |    integer   |
+| estatus_desaparicion_id  |      NO      |    integer   |
+| con_vida                 |      NO      |    boolean   |
+| dependencia_corresponde  |      SI      |    integer   |
+|||
 
-```php
-$request->validate([
-    'hechos_id'                 => 'required|exists:hechos,id',
-    'persona_desaparecida'      => 'nullable|boolean',
-    'tipo_de_desaparicion_id'   => 'nullable|exists:catalogo_tipo_de_desaparicions,id',
-    'fecha_de_desaparicion'     => 'nullable|date',
-    'cve_ent'                   => 'nullable|integer|between:1,32',
-    'cve_mun'                   => ['nullable', function($attribute, $value, $fail) {
-        $municipio = Municipio::where('cve_ent', '=', $this->cve_ent)->where('cve_mun', '=', $value)->first();
-        if (!$municipio) {
-            $fail('El municipio no existe');
-        }
-    }],
-    'es_institucion'            => 'nullable|boolean',
-    'nombre_institucion'        => 'nullable|string',
-    'nombre'                    => 'nullable|string',
-    'apellido_paterno'          => 'nullable|string',
-    'apellido_materno'          => 'nullable|string',
-    'edad'                      => 'nullable|integer',
-    'vinculo_victima_id'        => 'nullable|exists:catalogo_vinculo_victima,id',
-    'estatus_desaparicion_id'   => 'nullable|exists:catalogo_estatus_victima_desaparecidas,id',
-    'con_vida'                  => 'nullable|boolean'
-]);
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/registrar-mujer-victima-de-trata' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "hechos_id"                 : 5,
+        "persona_desaparecida"      : true,
+        "tipo_de_desaparicion_id"   : 2,
+        "fecha_de_desaparicion"     : "2022-11-1",
+        "cve_ent"                   : 21,
+        "cve_mun"                   : 132,
+        "es_institucion"            : true,
+        "nombre_institucion"        : "CCI",
+        "nombre"                    : "JP",
+        "apellido_paterno"          : "MRT",
+        "apellido_materno"          : "MKT",
+        "edad"                      : 23,
+        "vinculo_victima_id"        : 4,
+        "estatus_desaparicion_id"   : 1,
+        "con_vida"                  : true,
+        "dependencia_corresponde"   : 103
+    }'
 ```
+con PHP - cURL.
+```php
+    <?php
 
---------------------------------------------------------------------------------
+    $curl = curl_init();
 
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/registrar-mujer-victima-de-trata',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "hechos_id"                 : 5,
+        "persona_desaparecida"      : true,
+        "tipo_de_desaparicion_id"   : 2,
+        "fecha_de_desaparicion"     : "2022-11-1",
+        "cve_ent"                   : 21,
+        "cve_mun"                   : 132,
+        "es_institucion"            : true,
+        "nombre_institucion"        : "CCI",
+        "nombre"                    : "JP",
+        "apellido_paterno"          : "MRT",
+        "apellido_materno"          : "MKT",
+        "edad"                      : 23,
+        "vinculo_victima_id"        : 4,
+        "estatus_desaparicion_id"   : 1,
+        "con_vida"                  : true,
+        "dependencia_corresponde"   : 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "hechos_id"               : 5,
+    "persona_desaparecida"    : true,
+    "tipo_de_desaparicion_id" : 2,
+    "fecha_de_desaparicion"   : "2022-11-1",
+    "cve_ent"                 : 21,
+    "cve_mun"                 : 132,
+    "es_institucion"          : true,
+    "nombre_institucion"      : "CCI",
+    "nombre"                  : "JP",
+    "apellido_paterno"        : "MRT",
+    "apellido_materno"        : "MKT",
+    "edad"                    : 23,
+    "vinculo_victima_id"      : 4,
+    "estatus_desaparicion_id" : 1,
+    "con_vida"                : true,
+    "dependencia_corresponde" : 103
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/registrar-mujer-victima-de-trata", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+{
+    "hechos_id": 5,
+    "users_id": 1,
+    "persona_desaparecida": true,
+    "tipo_de_desaparicion_id": 2,
+    "fecha_de_desaparicion": "2022-11-1",
+    "cve_ent": 21,
+    "cve_mun": 132,
+    "es_institucion": true,
+    "nombre_institucion": "CCI",
+    "nombre": "JP",
+    "apellido_paterno": "MRT",
+    "apellido_materno": "MKT",
+    "edad": 23,
+    "vinculo_victima_id": 4,
+    "estatus_desaparicion_id": 1,
+    "con_vida": true,
+    "dependencia_corresponde": 103,
+    "updated_at": "2024-08-05T23:09:57.000000Z",
+    "created_at": "2024-08-05T23:09:57.000000Z",
+    "id": 24
+}
+```
+con estatus 422. Faltan parámetros.
+```json
+{
+    "message": "El campo hechos id es requerido.",
+    "errors": {
+        "hechos_id": [
+            "El campo hechos id es requerido."
+        ]
+    }
+}
+```
+--------------------------------------------------------------
 ### Registro una canalización para un hecho de violencia
-
-#### url
-/api/registrar-canalizacion
-
-#### props
-
+--------------------------------------------------------------
+El registro requiere que exista un hecho de violencia, teniendo una dependencia funcional directa.
+#### POST
+```
+    API_URL/api/registrar-canalizacion
+```
+catálogos: [instancias_id](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view), [instancias_envia_id](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view), [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view), [cve_mun](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view), [tipo_id](https://drive.google.com/file/d/1Z6scmhtreut1JJtDr11WSGcuKlibs_cI/view) y [servicios_id](https://drive.google.com/file/d/1JDVkLKaKQIshGa4Xhmx5B343_SDc1ce0/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
 ```json
 {
     "hechos_id"                 : 5,
@@ -1239,156 +4435,516 @@ $request->validate([
     "primer_apellido"           : "PPPP",
     "segundo_apellido"          : "ZZZZZ",
     "tipo_id"                   : 1,
-    "servicios_id"              : 1
+    "servicios_id"              : 1,
+    "dependencia_corresponde"   : 103
 }
 ```
+#### Campos Obligatorios
 
-### PHP Rules
+|             Campo             | Obligatorio | Tipo de dato |
+|:-----------------------------:|:-----------:|:------------:|
+| hechos_id                     |      SI     |    integer   | 
+| instancias_id                 |      SI     |    integer   |
+| instancias_envia_id           |      SI     |    integer   |
+| cve_ent                       |      NO     |    integer   |
+| cve_mun                       |      NO     |    integer   |
+| fecha_canalizacion            |      SI     |     date     |
+| observaciones_incompetencia   |      NO     |    string    |
+| observaciones                 |      SI     |    string    |
+| acompanamiento                |      SI     |    boolean   |
+| estatus                       |      NO     |    string    |
+| nombre                        |      NO     |    string    |
+| primer_apellido               |      NO     |    string    |
+| segundo_apellido              |      NO     |    string    |
+| tipo_id                       |      SI     |    integer   |
+| servicios_id                  |      SI     |    integer   |
+| dependencia_corresponde       |      SI     |    integer   |
+|||
 
-```php
-$request->validate([
-    'hechos_id'                 => 'required|exists:hechos,id',
-    'instancias_id'             => 'required|exists:catalogo_dependencias,pk_dependencia',
-    'instancias_envia_id'       => 'required|exists:catalogo_dependencias,pk_dependencia',
-    'cve_ent'                   => 'exists:entidades,cve_ent',
-    'cve_mun'                   => ['nullable', function($attribute, $value, $fail) {
-        $municipio = Municipio::where('cve_ent', '=', $this->cve_ent)->where('cve_mun', '=', $value)->first();
-        if (!$municipio) {
-            $fail('El municipio no existe');
-        }
-    }],
-    'fecha_canalizacion'        => 'required|date',
-    'observaciones_incompetencia' => 'string',
-    'observaciones'             => 'required|string',
-    'acompanamiento'            => 'required|boolean',
-    'estatus'                   => 'string|max:16',
-    'nombre'                    => 'nullable|string|max:128',
-    'primer_apellido'           => 'nullable|string|max:128',
-    'segundo_apellido'          => 'nullable|string|max:128',
-    'tipo_id'                   => 'required|exists:catalogo_tipo_servicio,id',
-    'servicios_id'              => 'required|exists:catalogo_servicios,id'
-]);
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/registrar-canalizacion' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "hechos_id"                 : 5,
+        "instancias_id"             : 251,
+        "instancias_envia_id"       : 405,
+        "cve_ent"                   : 21,
+        "cve_mun"                   : 132,
+        "fecha_canalizacion"        : "2022-03-2",
+        "observaciones_incompetencia" : "nope",
+        "observaciones"             : "nein",
+        "acompanamiento"            : false,
+        "estatus"                   : "ahí va",
+        "nombre"                    : "JJJJ",
+        "primer_apellido"           : "PPPP",
+        "segundo_apellido"          : "ZZZZZ",
+        "tipo_id"                   : 1,
+        "servicios_id"              : 1,
+        "dependencia_corresponde"   : 103
+    }'
 ```
+con PHP - cURL.
+```php
+    <?php
 
---------------------------------------------------------------------------------
+    $curl = curl_init();
 
-### Registro de un agresor para un hecho de violencia
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/registrar-canalizacion',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "hechos_id"                 : 5,
+        "instancias_id"             : 251,
+        "instancias_envia_id"       : 405,
+        "cve_ent"                   : 21,
+        "cve_mun"                   : 132,
+        "fecha_canalizacion"        : "2022-03-2",
+        "observaciones_incompetencia" : "nope",
+        "observaciones"             : "nein",
+        "acompanamiento"            : false,
+        "estatus"                   : "ahí va",
+        "nombre"                    : "JJJJ",
+        "primer_apellido"           : "PPPP",
+        "segundo_apellido"          : "ZZZZZ",
+        "tipo_id"                   : 1,
+        "servicios_id"              : 1,
+        "dependencia_corresponde"   : 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
 
-#### url
-/api/registrar-agresor
+    $response = curl_exec($curl);
 
-#### props
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
 
+    const raw = JSON.stringify({
+    "hechos_id"                   : 5,
+    "instancias_id"               : 251,
+    "instancias_envia_id"         : 405,
+    "cve_ent"                     : 21,
+    "cve_mun"                     : 132,
+    "fecha_canalizacion"          : "2022-03-2",
+    "observaciones_incompetencia" : "nope",
+    "observaciones"               : "nein",
+    "acompanamiento"              : false,
+    "estatus"                     : "ahí va",
+    "nombre"                      : "JJJJ",
+    "primer_apellido"             : "PPPP",
+    "segundo_apellido"            : "ZZZZZ",
+    "tipo_id"                     : 1,
+    "servicios_id"                : 1,
+    "dependencia_corresponde"     : 103
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/registrar-canalizacion", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+    {
+        "hechos_id": 5,
+        "users_id": 1,
+        "instancias_id": 251,
+        "instancias_envia_id": 405,
+        "cve_ent": 21,
+        "cve_mun": 132,
+        "fecha_canalizacion": "2022-03-2",
+        "observaciones_incompetencia": "nope",
+        "observaciones": "nein",
+        "acompanamiento": false,
+        "estatus": "ahí va",
+        "nombre": "JJJJ",
+        "primer_apellido": "PPPP",
+        "segundo_apellido": "ZZZZZ",
+        "tipo_id": 1,
+        "servicios_id": 1,
+        "dependencia_corresponde": 103,
+        "updated_at": "2024-08-05T23:29:44.000000Z",
+        "created_at": "2024-08-05T23:29:44.000000Z",
+        "id": 56
+    }
+```
+con estatus 422. Faltan parámetros..
 ```json
 {
-    "hechos_id"                 : 5,
-    "nombre"                    : "FFFF",
-    "primer_apellido"           : "AAAA",
-    "segundo_apellido"          : "AAAA",
-    "curp"                      : "XXXXXXXXXXXXXXXXXX",
-    "sexo_id"                   : 1,
-    "edad"                      : 50,
-    "mismo_domicilio_victima"   : true,
-    "acceso_a_armas"            : true,
-    "tipos_armas"               : [1],
-    "vinculo_victima_id"        : 5,
-    "identidad_genero_id"       : null,
-    "orientacion_sexual_id"     : 1,
-    "calle"                     : "FFFFFFFF",
-    "num_exterior"              : "23 A",
-    "num_interior"              : "5B, piso 3",
-    "cve_ent"                   : 21,
-    "cve_mun"                   : 132,
-    "cve_loc"                   : 1,
-    "codigo_postal"             : 74000,
-    "colonias_id"               : 16813,
-    "entre_calle_uno"           : null,
-    "entre_calle_dos"           : null,
-    "referencia"                :null,
-    "escolaridad_id"            : null,
-    "ingreso_economico_id"      : null,
-    "ocupacion_id"              : 3,
-    "conoce_persona"            : true,
-    "consume_drogas"            : true,
-    "tipos_drogas"              : [1],
+    "message": "El campo hechos id es requerido. (and 7 more errors)",
+    "errors": {
+        "hechos_id": [
+            "El campo hechos id es requerido."
+        ],
+        "instancias_id": [
+            "El campo instancias id es requerido."
+        ],
+        "instancias_envia_id": [
+            "El campo instancias envia id es requerido."
+        ],
+        "fecha_canalizacion": [
+            "El campo fecha canalizacion es requerido."
+        ],
+        "observaciones": [
+            "El campo observaciones es requerido."
+        ],
+        "acompanamiento": [
+            "El campo acompanamiento es requerido."
+        ],
+        "tipo_id": [
+            "El campo tipo id es requerido."
+        ],
+        "servicios_id": [
+            "El campo servicios id es requerido."
+        ]
+    }
 }
 ```
-
-### PHP Rules
-
-```php
-$request->validate([
-    'hechos_id'                 => 'required|exists:hechos,id',
-    'nombre'                    => 'required|string|max:64',
-    'primer_apellido'           => 'required|string|max:64',
-    'segundo_apellido'          => 'required|string|max:64',
-    'curp'                      => ['required', function($attribute, $value, $fail) {
-
-        // search for the curp in the agresor table, with the same curp and hechos_id
-        $agresor = Agresor::where('curp', '=', $value)->where('hechos_id', '=', $this->hechos_id)->first();
-
-        // if the curp exists, fail with a message
-        if ($agresor) {
-            $fail('La CURP ya existe');
-        }
-
-        $curpFromRenapo = buscar_curp($value);
-
-        /// id $curpFromRenapo['status'] == 'error', fail with $curpFromRenapo['message']
-        if ($curpFromRenapo['status'] == 'error') {
-            $fail($curpFromRenapo['message']);
-        }
-    }],
-    'sexo_id'                   => 'required|exists:catalogo_sexos,id',
-    'edad'                      => 'nullable|integer',
-    'mismo_domicilio_victima'   => 'nullable|boolean',
-    'acceso_a_armas'            => 'nullable|boolean',
-    'tipos_armas'               => 'nullable|array',
-    'tipos_armas.*'             => 'exists:catalogo_tipos_armas,id',
-    'vinculo_victima_id'        => 'nullable|exists:catalogo_vinculo_victima,id',
-    'identidad_genero_id'       => 'nullable|exists:catalogo_identidad_genero,id',
-    'orientacion_sexual_id'     => 'nullable|exists:catalogo_orientacion_sexual,id',
-    'calle'                     => 'nullable|string|max:150',
-    'num_exterior'              => 'nullable|string|max:45',
-    'num_interior'              => 'nullable|string|max:45',
-    'cve_ent'                   => 'nullable|exists:entidades,cve_ent',
-    'cve_mun'                   => ['nullable', function($attribute, $value, $fail) {
-        $municipio = Municipio::where('cve_ent', '=', $this->cve_ent)->where('cve_mun', '=', $value)->first();
-        if (!$municipio) {
-            $fail('El municipio no existe');
-        }
-    }],
-    'cve_loc'                   => ['nullable', function($attribute, $value, $fail) {
-        $localidad = Localidad::where('cve_ent', '=', $this->cve_ent)->where('cve_mun', '=', $this->cve_mun)->where('cve_loc', '=', $value)->first();
-        if (!$localidad) {
-            $fail('La localidad no existe');
-        }
-    }],
-    'codigo_postal'             => 'nullable|integer|exists:colonias,cp',
-    'colonias_id'               => 'nullable|exists:colonias,id',
-    'entre_calle_uno'           => 'nullable|string|max:150',
-    'entre_calle_dos'           => 'nullable|string|max:150',
-    'referencia'                => 'nullable|string|max:256',
-    'escolaridad_id'            => 'nullable|exists:catalogo_escolaridad,id',
-    'ingreso_economico_id'      => 'nullable|exists:catalogo_ingreso_economico,id',
-    'ocupacion_id'              => 'nullable|exists:catalogo_ocupacion,id',
-    'conoce_persona'            => 'required|boolean',
-    'consume_drogas'            => 'nullable|boolean',
-    'tipos_drogas'              => 'nullable|array',
-    'tipos_drogas.*'            => 'exists:catalogo_tipos_drogas,id'
-]);
+--------------------------------------------------------------
+### Registro de un agresor para un hecho de violencia
+--------------------------------------------------------------
+El registro requiere que exista un hecho de violencia, teniendo una dependencia funcional directa.
+#### POST
 ```
+    API_URL/api/registrar-agresor
+```
+catálogos: [sexo_id](https://docs.google.com/spreadsheets/d/1KhLoeg4tQSjiADualz6AvGSHHuA4hlr7FANCYOx2HyI/edit?gid=0#gid=0), [tipos_armas](https://drive.google.com/file/d/1yFUao4LN0Qcs0rP2OP_YeykQoDHZXP12/view), [vinculo_victima_id](https://drive.google.com/file/d/1_F5CDwHh3Tq7JtOho6v1upeZYnIZf8C6/view), [identidad_genero_id](https://drive.google.com/file/d/1K7jBCF4E6aiBfnrg4ioD5cqh6gbFOXcL/view), [orientacion_sexual_id](https://drive.google.com/file/d/1hc5Yhl2gr6_pWBFED7G0QMGyooVzIS5x/view), [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view), [cve_mun](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view), [cve_loc](https://drive.google.com/file/d/1VDHjmDqURqkLc5MQb84MKhI9NlVrg3m3/view), [colonias_id](https://drive.google.com/file/d/1wWVhPLa0zFgdoeQYEtCRNfODEcpQx6BH/view), [escolaridad_id](https://drive.google.com/file/d/1Pf_eJpt_S34Ipo908Ih7RS-kQHfwJQGr/view), [ingreso_economico_id](https://docs.google.com/spreadsheets/d/15yA5gPDJXZFZkW1fiFKhrCXeQT1uVGJB/edit?gid=717444154#gid=717444154), [ocupacion_id](https://drive.google.com/file/d/1tY37QRvcZa0c-vzlSsgEpIRJnN2BqCw_/view), [tipos_drogas](https://drive.google.com/file/d/1YDUsKIZLzOA32YrEa4LekGQ0DY2wqFl_/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
+```json
+    {
+        "hechos_id"                 : 5,
+        "nombre"                    : "FFFF",
+        "primer_apellido"           : "AAAA",
+        "segundo_apellido"          : "AAAA",
+        "curp"                      : "CURP000000XXXXXXX0",
+        "sexo_id"                   : 1,
+        "edad"                      : 50,
+        "mismo_domicilio_victima"   : true,
+        "acceso_a_armas"            : true,
+        "tipos_armas"               : [1],
+        "vinculo_victima_id"        : 5,
+        "identidad_genero_id"       : null,
+        "orientacion_sexual_id"     : 1,
+        "calle"                     : "FFFFFFFF",
+        "num_exterior"              : "23 A",
+        "num_interior"              : "5B, piso 3",
+        "cve_ent"                   : 21,
+        "cve_mun"                   : 132,
+        "cve_loc"                   : 1,
+        "codigo_postal"             : "74000",
+        "colonias_id"               : 16813,
+        "entre_calle_uno"           : "entre_calle_uno",
+        "entre_calle_dos"           : "entre_calle_dos",
+        "referencia"                : null,
+        "escolaridad_id"            : null,
+        "ingreso_economico_id"      : null,
+        "ocupacion_id"              : 3,
+        "conoce_persona"            : true,
+        "consume_drogas"            : true,
+        "tipos_drogas"              : [1],
+        "dependencia_corresponde"   : 103
+    }
+```
+#### Campos Obligatorios
 
+|             Campo         | Obligatorio | Tipo de dato |
+|:-------------------------:|:-----------:|:------------:|
+| hechos_id                 |      SI     |    integer   |
+| nombre                    |      SI     |    string    |
+| primer_apellido           |      SI     |    string    |
+| segundo_apellido          |      SI     |    string    |
+| curp                      |      SI     |    string    |
+| sexo_id                   |      SI     |    integer   |
+| edad                      |      NO     |    integer   |
+| mismo_domicilio_victima   |      NO     |    bolean    |
+| acceso_a_armas            |      NO     |    boolean   |
+| tipos_armas               |      NO     |   integer[]  | 
+| vinculo_victima_id        |      NO     |    integer   | 
+| identidad_genero_id       |      NO     |    integer   |
+| orientacion_sexual_id     |      NO     |    integer   |
+| calle                     |      NO     |    string    |
+| num_exterior              |      NO     |    string    |
+| num_interior              |      NO     |    string    |
+| cve_ent                   |      NO     |    integer   |
+| cve_mun                   |      NO     |    integer   |
+| cve_loc                   |      NO     |    integer   |
+| codigo_postal             |      NO     |    string    |
+| colonias_id               |      NO     |    integer   |
+| entre_calle_uno           |      NO     |    string    |
+| entre_calle_dos           |      NO     |    string    |
+| referencia                |      NO     |    string    |
+| escolaridad_id            |      NO     |    integer   |
+| ingreso_economico_id      |      NO     |    integer   |
+| ocupacion_id              |      NO     |    integer   |
+| conoce_persona            |      SI     |    boolean   |
+| consume_drogas            |      NO     |    boolean   |
+| tipos_drogas              |      NO     |   integer[]  |
+| dependencia_corresponde   |      SI     |    integer   |
+|||
 
---------------------------------------------------------------------------------
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/registrar-agresor' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "hechos_id"                 : 5,
+        "nombre"                    : "FFFF",
+        "primer_apellido"           : "AAAA",
+        "segundo_apellido"          : "AAAA",
+        "curp"                      : "CURP000000XXXXXXX0",
+        "sexo_id"                   : 1,
+        "edad"                      : 50,
+        "mismo_domicilio_victima"   : true,
+        "acceso_a_armas"            : true,
+        "tipos_armas"               : [1],
+        "vinculo_victima_id"        : 5,
+        "identidad_genero_id"       : null,
+        "orientacion_sexual_id"     : 1,
+        "calle"                     : "FFFFFFFF",
+        "num_exterior"              : "23 A",
+        "num_interior"              : "5B, piso 3",
+        "cve_ent"                   : 21,
+        "cve_mun"                   : 132,
+        "cve_loc"                   : 1,
+        "codigo_postal"             : 74000,
+        "colonias_id"               : 16813,
+        "entre_calle_uno"           : null,
+        "entre_calle_dos"           : null,
+        "referencia"                :null,
+        "escolaridad_id"            : null,
+        "ingreso_economico_id"      : null,
+        "ocupacion_id"              : 3,
+        "conoce_persona"            : true,
+        "consume_drogas"            : true,
+        "tipos_drogas"              : [1],
+        "dependencia_corresponde"   : 103
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
 
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/registrar-agresor',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "hechos_id"                 : 5,
+        "nombre"                    : "FFFF",
+        "primer_apellido"           : "AAAA",
+        "segundo_apellido"          : "AAAA",
+        "curp"                      : "CURP000000XXXXXXX0",
+        "sexo_id"                   : 1,
+        "edad"                      : 50,
+        "mismo_domicilio_victima"   : true,
+        "acceso_a_armas"            : true,
+        "tipos_armas"               : [1],
+        "vinculo_victima_id"        : 5,
+        "identidad_genero_id"       : null,
+        "orientacion_sexual_id"     : 1,
+        "calle"                     : "FFFFFFFF",
+        "num_exterior"              : "23 A",
+        "num_interior"              : "5B, piso 3",
+        "cve_ent"                   : 21,
+        "cve_mun"                   : 132,
+        "cve_loc"                   : 1,
+        "codigo_postal"             : 74000,
+        "colonias_id"               : 16813,
+        "entre_calle_uno"           : null,
+        "entre_calle_dos"           : null,
+        "referencia"                :null,
+        "escolaridad_id"            : null,
+        "ingreso_economico_id"      : null,
+        "ocupacion_id"              : 3,
+        "conoce_persona"            : true,
+        "consume_drogas"            : true,
+        "tipos_drogas"              : [1],
+        "dependencia_corresponde"   : 103
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "hechos_id"              : 5,
+    "nombre"                 : "FFFF",
+    "primer_apellido"        : "AAAA",
+    "segundo_apellido"       : "AAAA",
+    "curp"                   : "CURP000000XXXXXXX0",
+    "sexo_id"                : 1,
+    "edad"                   : 50,
+    "mismo_domicilio_victima": true,
+    "acceso_a_armas"         : true,
+    "tipos_armas"            : [1],
+    "vinculo_victima_id"     : 5,
+    "identidad_genero_id"    : null,
+    "orientacion_sexual_id"  : 1,
+    "calle"                  : "FFFFFFFF",
+    "num_exterior"           : "23 A",
+    "num_interior"           : "5B, piso 3",
+    "cve_ent"                : 21,
+    "cve_mun"                : 132,
+    "cve_loc"                : 1,
+    "codigo_postal"          : 74000,
+    "colonias_id"            : 16813,
+    "entre_calle_uno"        : null,
+    "entre_calle_dos"        : null,
+    "referencia"             : null,
+    "escolaridad_id"         : null,
+    "ingreso_economico_id"   : null,
+    "ocupacion_id"           : 3,
+    "conoce_persona"         : true,
+    "consume_drogas"         : true,
+    "tipos_drogas"           : [
+                                  1
+                               ],
+    "dependencia_corresponde": 103
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/registrar-agresor", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+{
+    "hechos_id": 5,
+    "users_id": 1,
+    "nombre": "FFFF",
+    "primer_apellido": "AAAA",
+    "segundo_apellido": "AAAA",
+    "curp": "CURP000000XXXXXXX0",
+    "sexo_id": 1,
+    "edad": 50,
+    "mismo_domicilio_victima": true,
+    "acceso_a_armas": true,
+    "tipos_armas": "[1]",
+    "vinculo_victima_id": 5,
+    "identidad_genero_id": null,
+    "orientacion_sexual_id": 1,
+    "calle": "FFFFFFFF",
+    "num_exterior": "23 A",
+    "num_interior": "5B, piso 3",
+    "cve_ent": 21,
+    "cve_mun": 132,
+    "cve_loc": 1,
+    "codigo_postal": 74000,
+    "colonias_id": 16813,
+    "entre_calle_uno": null,
+    "entre_calle_dos": null,
+    "referencia": null,
+    "escolaridad_id": null,
+    "ingreso_economico_id": null,
+    "ocupacion_id": 3,
+    "conoce_persona": true,
+    "consume_drogas": true,
+    "tipos_drogas": "[1]",
+    "dependencia_corresponde": 103,
+    "updated_at": "2024-08-05T23:40:17.000000Z",
+    "created_at": "2024-08-05T23:40:17.000000Z",
+    "id": 54
+}
+```
+con estatus 422. Faltan parámetros.
+```json
+{
+    "message": "El campo hechos id es requerido. (and 6 more errors)",
+    "errors": {
+        "hechos_id": [
+            "El campo hechos id es requerido."
+        ],
+        "nombre": [
+            "El campo nombre es requerido."
+        ],
+        "primer_apellido": [
+            "El campo primer apellido es requerido."
+        ],
+        "segundo_apellido": [
+            "El campo segundo apellido es requerido."
+        ],
+        "curp": [
+            "El campo curp es requerido."
+        ],
+        "sexo_id": [
+            "El campo sexo id es requerido."
+        ],
+        "conoce_persona": [
+            "El campo conoce persona es requerido."
+        ]
+    }
+}
+```
+--------------------------------------------------------------
 ### Registro de una orden de protección
-
-#### url
-/api/registrar-orden-de-proteccion
-
-#### props
-
+--------------------------------------------------------------
+#### POST
+```json
+    API_URL/api/registrar-orden-de-proteccion
+```
+catálogos: [tipo_id](https://drive.google.com/file/d/19l9hKuNa_vwlFP75k3GLNT2b3WXIU6Wa/view?usp=sharing), [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing), [cve_mun](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view), [autoridad_id](https://drive.google.com/file/d/1V5roC6VJQBAm_2D0Mw6VrapUoZSPlBP7/view?usp=drive_link), [dia_id](https://drive.google.com/file/d/1p54Md635_hT6MnwS9VJvTpiVmOML_GjH/view?usp=sharing), [tipo_orden_id](https://drive.google.com/file/d/1VouluPnN8QjhNhU643mMzdrOJaYfpQ4p/view?usp=sharing), [tipo_medida_id](https://drive.google.com/file/d/1_NuvQWNCvpLrMa12XB17-5F96FQkoI6U/view?usp=drive_link), [fracciones_tipo_orden](https://drive.google.com/file/d/1o7P1e43843s33VA3wtqj45_Nwk6NsYh0/view?usp=sharing), [fracciones_tipo_medida](https://drive.google.com/file/d/1P6754jUcYzBOpVrAcsJfFMI6K1vQtYUG/view?usp=sharing), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
+#### Body raw (json)
 ```json
 {
     "tipo_id": 1,
@@ -1408,314 +4964,1300 @@ $request->validate([
     "tipo_orden_id": 1,
     "tipo_medida_id": 1,
     "fracciones_tipo_orden": [1, 2],
-    "fracciones_tipo_medida": [1, 2]
+    "fracciones_tipo_medida": [1, 2],
+    "dependencia_corresponde": 103
 }
 ```
+#### Campos Obligatorios
 
-### PHP Rules
+|          Campo             | Obligatorio |Tipo de dato |
+|:--------------------------:|:-----------:|:-----------:|
+| tipo_id                    |     SI      |   integer   |
+| en_que_consiste            |     No      |   string    | 
+| autoridad_emisora_otro     |     No      |   string    | 
+| cve_ent                    |     SI      |   integer   | 
+| cve_mun                    |     NO      |   integer   | 
+| fecha_de_emision           |     NO      |    date     | 
+| tiempo_indefinido          |     NO      |   boolean   | 
+| fecha_aproximada_de_termino|     NO      |    date     | 
+| otro_tipo_de_orden         |     NO      |   string    | 
+| fecha_de_inicio            |     NO      |    date     | 
+| hechos_id                  |     SI      |   integer   | 
+| autoridad_id               |     NO      |   integer   | 
+| folio                      |     NO      |   string    | 
+| dia_id                     |     NO      |   integer   | 
+| tipo_orden_id              |     NO      |   integer   | 
+| tipo_medida_id             |     NO      |   integer   | 
+| fracciones_tipo_orden      |     NO      |  integer[]  | 
+| fracciones_tipo_medida     |     NO      |  integer[]  | 
+| dependencia_corresponde    |     SI      |  integer[]  | 
+|||
 
-```php
-$request->validate([
-    "tipo_id"                       => "required|integer|exists:catalogo_orden_de_proteccion_tipos,id",
-    "en_que_consiste"               => "sometimes|string",
-    "autoridad_emisora_otro"        => "sometimes|string",
-    "cve_ent"                       => "required|integer|between:1,32",
-    'cve_mun'                       => ['sometimes','integer', function($attribute, $value, $fail) use($request){
-        $municipio = Municipio::where('cve_ent', '=', $request->cve_ent)->where('cve_mun', '=', $value)->first();
-        if (!$municipio) {
-            $fail('El municipio no existe');
-        }
-    }],
-    "fecha_de_emision"              => "sometimes|date",
-    "tiempo_indefinido"             => "sometimes|boolean",
-    "fecha_aproximada_de_termino"   => "sometimes|date",
-    "otro_tipo_de_orden"            => "sometimes|string",
-    "fecha_de_inicio"               => "sometimes|date",
-    "hechos_id"                     => "required|integer|exists:hechos,id",
-    "autoridad_id"                  => "sometimes|integer|exists:catalogo_autoridades,id",
-    "folio"                         => "sometimes|string|max:255",
-    "dia_id"                        => "sometimes|integer|exists:catalogo_dias,id",
-    "tipo_orden_id"                 => "sometimes|integer|exists:catalogo_tipos_ordenes_proteccion,id",
-    "tipo_medida_id"                => "sometimes|integer|exists:catalogo_tipos_medidas_proteccion,id",
-    "fracciones_tipo_orden"         => "sometimes|array",
-    "fracciones_tipo_orden.*"       => "integer|exists:catalogo_fracciones_tipos_ordenes_proteccion,id",
-    "fracciones_tipo_medida"        => "sometimes|array",
-    "fracciones_tipo_medida.*"      => "integer|exists:catalogo_fracciones_tipos_medidas_proteccion,id",
-]);
+#### Ejemplo de solicitud.
+con curl.
+```bash
+curl --location 'API_URL/api/registrar-orden-de-proteccion' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer TOKEN' \
+--data '{
+    "tipo_id": 1,
+    "en_que_consiste": "Descripción de la orden",
+    "autoridad_emisora_otro": "Otra autoridad",
+    "cve_ent": 15,
+    "cve_mun": 1,
+    "fecha_de_emision": "2023-10-01",
+    "tiempo_indefinido": true,
+    "fecha_aproximada_de_termino": "2023-12-31",
+    "otro_tipo_de_orden": "Otro tipo de orden",
+    "fecha_de_inicio": "2023-10-01",
+    "hechos_id": 1,
+    "autoridad_id": 1,
+    "folio": "ABC123",
+    "dia_id": 1,
+    "tipo_orden_id": 1,
+    "tipo_medida_id": 1,
+    "fracciones_tipo_orden": [1, 2],
+    "fracciones_tipo_medida": [1, 2],
+    "dependencia_corresponde": 103
+}'
 ```
+con PHP - cURL.
+```php
+<?php
 
+$curl = curl_init();
 
---------------------------------------------------------------------------------
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'API_URL/api/registrar-orden-de-proteccion',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+    "tipo_id": 1,
+    "en_que_consiste": "Descripción de la orden",
+    "autoridad_emisora_otro": "Otra autoridad",
+    "cve_ent": 15,
+    "cve_mun": 1,
+    "fecha_de_emision": "2023-10-01",
+    "tiempo_indefinido": true,
+    "fecha_aproximada_de_termino": "2023-12-31",
+    "otro_tipo_de_orden": "Otro tipo de orden",
+    "fecha_de_inicio": "2023-10-01",
+    "hechos_id": 1,
+    "autoridad_id": 1,
+    "folio": "ABC123",
+    "dia_id": 1,
+    "tipo_orden_id": 1,
+    "tipo_medida_id": 1,
+    "fracciones_tipo_orden": [1, 2],
+    "fracciones_tipo_medida": [1, 2],
+    "dependencia_corresponde": 103
+}',
+  CURLOPT_HTTPHEADER => array(
+    'Accept: application/json',
+    'Content-Type: application/json',
+    'Authorization: Bearer TOKEN'
+  ),
+));
 
-## Métodos de edición disponibles
+$response = curl_exec($curl);
 
+curl_close($curl);
+echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+const myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", "Bearer TOKEN");
+
+const raw = JSON.stringify({
+  "tipo_id": 1,
+  "en_que_consiste": "Descripción de la orden",
+  "autoridad_emisora_otro": "Otra autoridad",
+  "cve_ent": 15,
+  "cve_mun": 1,
+  "fecha_de_emision": "2023-10-01",
+  "tiempo_indefinido": true,
+  "fecha_aproximada_de_termino": "2023-12-31",
+  "otro_tipo_de_orden": "Otro tipo de orden",
+  "fecha_de_inicio": "2023-10-01",
+  "hechos_id": 1,
+  "autoridad_id": 1,
+  "folio": "ABC123",
+  "dia_id": 1,
+  "tipo_orden_id": 1,
+  "tipo_medida_id": 1,
+  "fracciones_tipo_orden": [
+    1,
+    2
+  ],
+  "fracciones_tipo_medida": [
+    1,
+    2
+  ],
+    "dependencia_corresponde": 103
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
+
+fetch("API_URL/api/registrar-orden-de-proteccion", requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+{
+    "tipo_id": 1,
+    "en_que_consiste": "Descripción de la orden",
+    "autoridad_emisora_otro": "Otra autoridad",
+    "cve_ent": 15,
+    "cve_mun": 1,
+    "fecha_de_emision": "2023-10-01",
+    "tiempo_indefinido": true,
+    "fecha_aproximada_de_termino": "2023-12-31",
+    "otro_tipo_de_orden": "Otro tipo de orden",
+    "fecha_de_inicio": "2023-10-01",
+    "hechos_id": 1,
+    "autoridad_id": 1,
+    "folio": "ABC123",
+    "dia_id": 1,
+    "tipo_orden_id": 1,
+    "tipo_medida_id": 1,
+    "fracciones_tipo_orden": [
+        1,
+        2
+    ],
+    "fracciones_tipo_medida": [
+        1,
+        2
+    ],
+    "dependencia_corresponde": 103,
+    "users_id": 1,
+    "updated_at": "2024-11-21T00:24:33.000000Z",
+    "created_at": "2024-11-21T00:24:33.000000Z",
+    "id": 17
+}
+```
+con estatus 422. el tipo_id es requerido.
+```json
+{
+    "message": "El campo tipo id es requerido.",
+    "errors": {
+        "tipo_id": [
+            "El campo tipo id es requerido."
+        ]
+    }
+}
+```
+con estatus 422. el cve_ent es requerido.
+```json
+{
+    "message": "El campo cve ent es requerido. (and 1 more error)",
+    "errors": {
+        "cve_ent": [
+            "El campo cve ent es requerido."
+        ],
+        "cve_mun": [
+            "El municipio no existe"
+        ]
+    }
+}
+```
+con estatus 422. el hechos_id es requerido.
+```json
+{
+    "message": "El campo hechos id es requerido.",
+    "errors": {
+        "hechos_id": [
+            "El campo hechos id es requerido."
+        ]
+    }
+}
+```
+-----------------------------------------------------------------
 ### Editar hecho de violencia
-
-#### url
-__post__: /api/edita-hecho-de-violencia
-
-
-#### props
-
+-----------------------------------------------------------------
+El hecho de violencia tiene una dependencia funcional, que requiere que la víctima esté registrada. Además de tener un registro previo del hecho.
+#### POST
+```json
+    http://API_URL/api/edita-hecho-de-violencia
+```
+catálogos: [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing), [lugar_id](https://drive.google.com/file/d/1_rs52tWT5M-6U0AVn3texkHHpeSwtmRZ/view), [lugar_detalle_id](https://drive.google.com/file/d/1HvwJJpAHiQ7h5XnzVLAMT6tDnUCZZnZk/view), [pais_id](https://drive.google.com/file/d/1-5gPflCkSALusWLp_pUN20NJbqEWE6ir/view), [cve_mun](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view), [cve_loc](https://drive.google.com/file/d/1VDHjmDqURqkLc5MQb84MKhI9NlVrg3m3/view), [tipo_violencia](https://drive.google.com/file/d/1Vf4-VABIMH5LIK308ubKLfjfFKwfnhOk/view), [modalidad_violencia](https://drive.google.com/file/d/1_Oq77ueBKXeV6e9848S7Y4i-Xa2WGUG-/view), [efectos_fisicos](https://drive.google.com/file/d/1TFijVmvWgGEAzjrAE1WVW-WQveIg-UXy/view), [consecuencias_sexuales](https://drive.google.com/file/d/1qG8ny2idjFkaGjYP_piFKFb30Dgg4jhR/view), [efectos_psicologicos](https://drive.google.com/file/d/1F-R-n6QdIxWPczrw_ZFcSvzQzu_FPXY0/view), [efectos_economicos_y_patrimoniales](https://drive.google.com/file/d/1o9U4ySp0xzFkItncnuLDeqliUOhHIB1L/view), [agente_de_lesion](https://drive.google.com/file/d/1RjXu3Ea0osZeesVqZPWAQXP3iVVIY2Kh/view) y [area_anatomica_lesionada](https://drive.google.com/file/d/1R0fblWPIU9-bc74GapgzEnBwFjP4T11p/view).
+#### Body raw (json)
 ```json
 {
     "id" : 1,
     "fecha_hechos" : "2022-10-24",
+    "hora_hechos"  : "10:20",
+    "descripcion_hechos" : "hechos",
+    "lugar_id" : 2,
+    "lugar_detalle_id" : "19",
+    "en_domicilio_victima" : true,
+    "pais_id" : 153,
+    "cve_ent" : 30,
+    "cve_mun" : 2,
+    "calle" : "sdsd",
+    "num_exterior_km" : "0",
+    "num_interior" : "interior",
+    "cve_loc" : 2,
+    "cp" : "55120",
+    "lat" : 0.253,
+    "lng" : 0.9326,
+    "es_festivo" : true,
     "conoce_la_autoridad" : true,
-    "conoce_la_autoridad_detalle" : "al juez"
+    "conoce_la_autoridad_detalle" : "al juez",
+    "tipo_violencia" : [1],
+    "modalidad_violencia" : 2,
+    "es_victima_de_delincuencia_organizada" : true,
+    "hay_denuncia" : true,
+    "efectos_fisicos" : [1,3],
+    "consecuencias_sexuales" : [1],
+    "efectos_psicologicos" : [1],
+    "efectos_economicos_y_patrimoniales" : [2,1],
+    "agente_de_lesion" : [2,3],
+    "area_anatomica_lesionada": [2,1],
+    "es_relacionada_con_orientacion_o_identidad" : true,
+    "colonias_id" : 19727,
+    "culmino_en_muerte" : true,
+    "tipo_muerte_id" : 1,
+    "tipo_muerte_otro" : "otra muerte",
+    "tipo_violencia_sexual" : "Acoso",
+    "tipo_agresor_sexual_id" : 2,
+    "tipo_agresor_sexual_otro"            : "Otro agresor",
+    "lugar_detalle_otro"                  : "lugar_detalle_otro",
+    "tipo_violencia_otro"                 : "tipo_violencia_otro",
+    "efecto_fisico_otro"                  : "efecto_fisico_otro",
+    "consecuencia_sexual_otro"            : "consecuencia_sexual_otro" ,          
+    "efecto_psicologico_otro"             : "efecto_psicologico_otro",           
+    "efecto_economico_patrimonial_otro"   : "efecto_economico_patrimonial_otro",           
+    "agente_lesion_otro"                  : "agente_lesion_otro",
+    "area_anatomica_lesionada_otro"       : "area_anatomica_lesionada_otro" 
 }
 ```
+#### Campos Obligatorios
 
-### PHP Rules
+|                    Campo                   | Obligatorio |Tipo de dato |
+|:------------------------------------------:|:-----------:|:-----------:|
+| id                                         |     SI      |   integer   | 
+| fecha_hechos                               |     NO      |    date     | 
+| hora_hechos                                |     NO      |    time     |
+| descripcion_hechos                         |     NO      |   string    | 
+| lugar_id                                   |     NO      |   integer   | 
+| lugar_detalle_id                           |     NO      |   integer   | 
+| en_domicilio_victima                       |     NO      |   boolean   | 
+| pais_id                                    |     NO      |   integer   | 
+| cve_ent                                    |     NO      |   integer   | 
+| cve_mun                                    |     NO      |   integer   | 
+| calle                                      |     NO      |   string    | 
+| num_exterior_km                            |     NO      |   string    | 
+| num_interior                               |     NO      |   string    | 
+| cve_loc                                    |     NO      |   integer   | 
+| cp                                         |     NO      |   string    | 
+| lat                                        |     NO      |   number    | 
+| lng                                        |     NO      |   number    | 
+| es_festivo                                 |     NO      |   boolean   | 
+| conoce_la_autoridad                        |     NO      |   boolean   |
+| conoce_la_autoridad_detalle                |     NO      |   string    |
+| tipo_violencia                             |     NO      |  integer[]  | 
+| modalidad_violencia                        |     NO      |   integer   | 
+| es_victima_de_delincuencia_organizada      |     NO      |   boolean   | 
+| hay_denuncia                               |     NO      |   boolean   | 
+| efectos_fisicos                            |     NO      |  integer[]  | 
+| consecuencias_sexuales                     |     NO      |  integer[]  | 
+| efectos_psicologicos                       |     NO      |  integer[]  | 
+| efectos_economicos_y_patrimoniales         |     NO      |  integer[]  | 
+| agente_de_lesion                           |     NO      |  integer[]  | 
+| area_anatomica_lesionada                   |     NO      |  integer[]  | 
+| es_relacionada_con_orientacion_o_identidad |     NO      |   boolean   | 
+| colonias_id                                |     NO      |   integer   | 
+| culmino_en_muerte                          |     NO      |   boolean   | 
+| tipo_muerte_id                             |     NO      |   integer   | 
+| tipo_muerte_otro                           |     NO      |   string    | 
+| tipo_violencia_sexual                      |     NO      |   string    | 
+| tipo_agresor_sexual_id                     |     NO      |   integer   | 
+| tipo_agresor_sexual_otro                   |     NO      |   string    |
+| lugar_detalle_otro                         |     NO      |   string    |  
+| tipo_violencia_otro                        |     NO      |   string    | 
+| efecto_fisico_otro                         |     NO      |   string    | 
+| consecuencia_sexual_otro                   |     NO      |   string    | 
+| efecto_psicologico_otro                    |     NO      |   string    | 
+| efecto_economico_patrimonial_otro          |     NO      |   string    | 
+| agente_lesion_otro                         |     NO      |   string    | 
+| area_anatomica_lesionada_otro              |     NO      |   string    | 
+| | |
+Las opciones del campo tipo_violencia_sexual de tipo string son: Acoso/Hostigamiento  
 
-```php
-$request->validate([
-    'id'                                           => 'required|exists:hechos,id',
-    'fecha_hechos'                                 => 'sometimes|required|date_format:Y-m-d|before:tomorrow',
-    'hora_hechos'                                  => 'sometimes|required|date_format:H:i',
-    'descripcion_hechos'                           => 'sometimes|required|string|max:1000',
-    'lugar_id'                                     => 'sometimes|integer|exists:catalogo_localidad,id',
-    'lugar_detalle_id'  => ['sometimes', 'integer', function($attribute, $value, $fail) use($request){
-        // si no valida lugar_id, no se valida lugar_detalle_id, regresa el error de el lugar_id es requerido
-        if (!$request->has('lugar_id')) {
-            $fail('El campo lugar_id es requerido para identificar el detalle del lugar');
-            return;
-        }
-
-        $detalle = CatalogoDetalleLocalidad::where('fk_lugar_ocurrencia', '=', $request->lugar_id)->where('id', '=', $value)->first();
-
-        if (!$detalle) {
-            $fail('El detalle del lugar no existe');
-        }
-    }],
-    'en_domicilio_victima'                         => 'sometimes|boolean',
-    'pais_id'                                      => 'sometimes|integer|exists:catalogo_pais,id',
-    'cve_ent'                                      => 'sometimes|required|integer|between:1,32',
-    'cve_mun'                                      => ['sometimes', 'integer', function($attribute, $value, $fail) use($request){
-        $municipio = Municipio::where('cve_ent', '=', $request->cve_ent)->where('cve_mun', '=', $value)->first();
-        if (!$municipio) {
-            $fail('El municipio no existe');
-        }
-    }],
-    'calle'                                        => 'sometimes|string|max:150',
-    'num_exterior_km'                              => 'sometimes|string|max:45',
-    'num_interior'                                 => 'sometimes|string|max:45',
-    'cve_loc'                                      => ['sometimes', 'integer', function($attribute, $value, $fail) use($request){
-        // if cve_mun is not set, fail
-        if (!$request->has('cve_mun'))  {
-            $fail('El campo cve_mun es requerido para identificar la localidad');
-        }
-
-        $localidad = Localidad::where('cve_ent', '=', $request->cve_ent)->where('cve_mun', '=', $request->cve_mun)->where('cve_loc', '=', $value)->first();
-        if (!$localidad) {
-            $fail('La localidad no existe');
-        }
-    }],
-    'cp'                                           => ['sometimes', 'string', 'max:6', 'exists:colonias,cp'],
-    'lat'                                          => 'sometimes|min:-90|max:90',
-    'lng'                                          => 'sometimes|min:-180|max:180',
-    'es_festivo'                                   => 'sometimes|boolean',
-    'conoce_la_autoridad'                          => 'sometimes|boolean',   
-    'conoce_la_autoridad_detalle'                  => ['sometimes', 'string', 'max:150', function($attribute, $value, $fail) use($request){
-        // fail if conoce_la_autoridad is not set or false, and conoce_la_autoridad_detalle is set
-        if (!$request->has('conoce_la_autoridad') || !$request->conoce_la_autoridad) {
-            $fail('El campo conoce_la_autoridad debe ser verdadero para poder registrar un detalle');
-        }
-    }], 
-    'tipo_violencia'                               => 'sometimes|requied|array',
-    'tipo_violencia.*'                             => 'sometimes|exists:catalogo_tipo_violencia,id',
-    'modalidad_violencia'                          => 'sometimes|integer|exists:catalogo_modalidad_violencia,id',
-    'es_victima_de_delincuencia_organizada'        => 'sometimes|boolean',
-    'hay_denuncia'                                 => 'sometimes|boolean',
-    'efectos_fisicos'                              => 'sometimes|array',
-    'efectos_fisicos.*'                            => 'sometimes|exists:catalogo_efecto_fisico,id',
-    'consecuencias_sexuales'                       => 'sometimes|array',
-    'consecuencias_sexuales.*'                     => 'sometimes|exists:catalogo_efecto_consecuencia_sexual,id',
-    'efectos_psicologicos'                         => 'sometimes|array',
-    'efectos_psicologicos.*'                       => 'sometimes|exists:catalogo_efecto_psicologico,id',
-    'efectos_economicos_y_patrimoniales'           => 'sometimes|array',
-    'efectos_economicos_y_patrimoniales.*'         => 'sometimes|exists:catalogo_efecto_economico,id',
-    'agente_de_lesion'                             => 'sometimes|array',
-    'agenete_de_lesion.*'                          => 'sometimes|exists:catalogo_efecto_agente_lesion,id',
-    'area_anatomica_lesionada'                     => 'sometimes|array',
-    'area_anatomica_lesionada.*'                   => 'sometimes|exists:catalogo_efecto_area_anatomica_lesionada,id',
-    'es_relacionada_con_orientacion_o_identidad'    => 'sometimes|boolean',
-    // if colonias_id is set, cp is required; 
-    // then search in Colonia model for id = colonias_id and cp = cp
-    // if not found, fail
-
-    'colonias_id'                                  => ['sometimes', 'integer', function($attribute, $value, $fail) use($request){
-        if (!$request->has('cp')) {
-            $fail('El campo cp es requerido para identificar la colonia');
-        }
-
-        $colonia = Colonia::where('id', '=', $value)->where('cp', '=', $request->cp)->first();
-        if (!$colonia) {
-            $fail('La colonia no existe');
-        }
-    }],
-    // 'culmino_en_muerte': required if tipo_violencia array contains env:CATALOGO_TIPO_VIOLENCIA_VAL_FEMINICIDA or 9. The value is boolean
-    'culmino_en_muerte'                           => ['sometimes', 'boolean', function($attribute, $value, $fail) use($request){
-        $violenciaFeminicidaId = env('CATALOGO_TIPO_VIOLENCIA_VAL_FEMINICIDA', 9);
-        $violenciaFeminicida = in_array($violenciaFeminicidaId, $request->tipo_violencia);
-        if ($violenciaFeminicida && !$value) {
-            $fail('El campo culmino_en_muerte es requerido si el tipo de violencia es feminicida');
-        }
-    }], 
-    // tipo_muerte_id is required if culmino_en_muerte is true
-    'tipo_muerte_id'                              => ['sometimes', 'integer', 'exists:catalogo_tipos_muerte,id', function($attribute, $value, $fail) use($request){
-        if ($request->culmino_en_muerte && !$value) {
-            $fail('El campo tipo_muerte_id es requerido si el hecho culminó en muerte');
-        }
-    }],
-
-    // tipo_muerte_otro is required if tipo_muerte_id is equal to env(CATALOGO_TIPOS_MUERTE_VAL_OTRO, 4)
-    'tipo_muerte_otro'                            => ['sometimes', 'string', 'max:150', function($attribute, $value, $fail) use($request){
-        $tipoMuerteOtroId = env('CATALOGO_TIPOS_MUERTE_VAL_OTRO', 4);
-        if ($request->tipo_muerte_id == $tipoMuerteOtroId && !$value) {
-            $fail('El campo tipo_muerte_otro es requerido si el tipo de muerte es otro');
-        }
-    }],
-
-    // tipo_violencia_sexual is required if env(CATALOGO_TIPO_VIOLENCIA_VAL_SEXUAL, 3) is in tipo_violencia &&
-    // env(CATALOGO_MODALIDAD_VIOLENCIA_VAL_ESCOLAR, 4) || env(CATALOGO_MODALIDAD_VIOLENCIA_VAL_LABORAL, 8) is in modalidad_violencia
-    'tipo_violencia_sexual'                      => ['sometimes', 'string', 'in:Acoso,Hostigamiento', function($attribute, $value, $fail) use($request){
-        $violenciaSexualId  = env('CATALOGO_TIPO_VIOLENCIA_VAL_SEXUAL', 3);
-        $modalidadEscolarId = env('CATALOGO_MODALIDAD_VIOLENCIA_VAL_ESCOLAR', 4);
-        $modalidadLaboralId = env('CATALOGO_MODALIDAD_VIOLENCIA_VAL_LABORAL', 8);
-        $violenciaSexual    = in_array($violenciaSexualId, $request->tipo_violencia);
-        $modalidadEscolar   = $request->modalidad_violencia == $modalidadEscolarId;
-        $modalidadLaboral   = $request->modalidad_violencia == $modalidadLaboralId;
-        if ($violenciaSexual && ($modalidadEscolar || $modalidadLaboral) && count($value) == 0) {
-            $fail('El campo tipo de violencia sexual es requerido si el tipo de violencia es sexual y la modalidad es escolar o laboral');
-        }
-    }],
-
-    // tipo_agresor_sexual_id required if env(CATALOGO_MODALIDAD_VIOLENCIA_VAL_ESCOLAR, 4) || env(CATALOGO_MODALIDAD_VIOLENCIA_VAL_LABORAL, 8) is in modalidad_violencia && 
-    // tipo_violencia_sexual is not empty
-    'tipo_agresor_sexual_id' => ['sometimes', 'integer', 'exists:catalogo_tipos_agresores_sexuales,id', function($attribute, $value, $fail) use($request){
-        $modalidadEscolarId = env('CATALOGO_MODALIDAD_VIOLENCIA_VAL_ESCOLAR', 4);
-        $modalidadLaboralId = env('CATALOGO_MODALIDAD_VIOLENCIA_VAL_LABORAL', 8);
-        $modalidadEscolar   = $request->modalidad_violencia == $modalidadEscolarId;
-        $modalidadLaboral   = $request->modalidad_violencia == $modalidadLaboralId;
-        // $violenciaIsValid is true if its equal to Acoso u Hostigamiento
-        $violenciaIsValid = in_array($request->tipo_violencia_sexual, ['Acoso', 'Hostigamiento']);
-        
-        // if$ modalidadEscolar || $modalidadLaboral and tipo_violencia_sexual isvalid, then tipo_agresor_sexual_id is required
-        if (($modalidadEscolar || $modalidadLaboral) && $violenciaIsValid && !$value) {
-            $fail('El campo tipo de agresor sexual es requerido si la modalidad es escolar o laboral y el tipo de violencia sexual es acoso u hostigamiento');
-        }
-    }],
-
-    // tipo_agresor_sexual_otro is required if :
-    // tipo_agresor_sexual_id = env CATALOGO_TIPOS_AGRESORES_SEXUALES_VAL_RELACIONADAS_ESCUELA_SIN_JERARQUIA,4 or
-    // tipo_agresor_sexual_id = env CATALOGO_TIPOS_AGRESORES_SEXUALES_VAL_RELACIONADAS_ESCUELA_CON_JERARQUIA,8 or
-    // tipo_agresor_sexual_id = env CATALOGO_TIPOS_AGRESORES_SEXUALES_VAL_RELACIONADAS_TRABAJO_SIN_JERARQUIA, 12 or
-    // tipo_agresor_sexual_id = env CATALOGO_TIPOS_AGRESORES_SEXUALES_VAL_RELACIONADAS_TRABAJO_CON_JERARQUIA, 16
-
-    'tipo_agresor_sexual_otro' => ['sometimes', 'string', 'max:150', function($attribute, $value, $fail) use($request){
-        $tipoAgresorSexualRelacionadasEscuelaSinJerarquia = env('CATALOGO_TIPOS_AGRESORES_SEXUALES_VAL_RELACIONADAS_ESCUELA_SIN_JERARQUIA', 4);
-        $tipoAgresorSexualRelacionadasEscuelaConJerarquia = env('CATALOGO_TIPOS_AGRESORES_SEXUALES_VAL_RELACIONADAS_ESCUELA_CON_JERARQUIA', 8);
-        $tipoAgresorSexualRelacionadasTrabajoSinJerarquia = env('CATALOGO_TIPOS_AGRESORES_SEXUALES_VAL_RELACIONADAS_TRABAJO_SIN_JERARQUIA', 12);
-        $tipoAgresorSexualRelacionadasTrabajoConJerarquia = env('CATALOGO_TIPOS_AGRESORES_SEXUALES_VAL_RELACIONADAS_TRABAJO_CON_JERARQUIA', 16);
-        $tipoAgresorSexualId = $request->tipo_agresor_sexual_id;
-        $tipoAgresorSexualOtro = in_array($tipoAgresorSexualId, [
-            $tipoAgresorSexualRelacionadasEscuelaSinJerarquia,
-            $tipoAgresorSexualRelacionadasEscuelaConJerarquia,
-            $tipoAgresorSexualRelacionadasTrabajoSinJerarquia,
-            $tipoAgresorSexualRelacionadasTrabajoConJerarquia
-        ]);
-        if ($tipoAgresorSexualOtro && !$value) {
-            $fail('El campo tipo de agresor sexual otro es requerido si el tipo de agresor sexual es relacionado a la escuela sin jerarquía, relacionado a la escuela con jerarquía, relacionado al trabajo sin jerarquía o relacionado al trabajo con jerarquía');
-        }
-    }],
-    'lugar_detalle_otro'                            => 'sometimes|string|max:255',
-    'tipo_violencia_otro'                           => 'sometimes|string|max:255',
-    'efecto_fisico_otro'                            => 'sometimes|string|max:255',
-    'consecuencia_sexual_otro'                      => 'sometimes|string|max:255',
-    'efecto_psicologico_otro'                       => 'sometimes|string|max:255',
-    'efecto_economico_patrimonial_otro'             => 'sometimes|string|max:255',
-    'agente_lesion_otro'                            => 'sometimes|string|max:255',
-    'area_anatomica_lesionada_otro'                 => 'sometimes|string|max:255'  
-]);
+#### Ejemplo de solicitud.
+con curl.
+```bash
+curl --location 'API_URL/api/edita-hecho-de-violencia' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer TOKEN' \
+--data '{
+    "id" : 1,
+    "fecha_hechos" : "2022-10-24",
+    "hora_hechos"  : "10:20",
+    "descripcion_hechos" : "hechos",
+    "lugar_id" : 2,
+    "lugar_detalle_id" : "19",
+    "en_domicilio_victima" : true,
+    "pais_id" : 153,
+    "cve_ent" : 30,
+    "cve_mun" : 2,
+    "calle" : "sdsd",
+    "num_exterior_km" : "0",
+    "num_interior" : "interior",
+    "cve_loc" : 2,
+    "cp" : "55120",
+    "lat" : 0.253,
+    "lng" : 0.9326,
+    "es_festivo" : true,
+    "conoce_la_autoridad" : true,
+    "conoce_la_autoridad_detalle" : "al juez",
+    "tipo_violencia" : [1],
+    "modalidad_violencia" : 2,
+    "es_victima_de_delincuencia_organizada" : true,
+    "hay_denuncia" : true,
+    "efectos_fisicos" : [1,3],
+    "consecuencias_sexuales" : [1],
+    "efectos_psicologicos" : [1],
+    "efectos_economicos_y_patrimoniales" : [2,1],
+    "agente_de_lesion" : [2,3],
+    "area_anatomica_lesionada": [2,1],
+    "es_relacionada_con_orientacion_o_identidad" : true,
+    "colonias_id" : 19727,
+    "culmino_en_muerte" : true,
+    "tipo_muerte_id" : 1,
+    "tipo_muerte_otro" : "otra muerte",
+    "tipo_violencia_sexual" : "Hostigamiento",
+    "tipo_agresor_sexual_id" : 2,
+    "tipo_agresor_sexual_otro"            : "Otro agresor"
+}
+'
 ```
+con PHP - cURL.
+```php
+<?php
 
---------------------------------------------------------------------------------
+$curl = curl_init();
 
-### Editar registro de mujeres en prisión para un hecho de violencia
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'API_URL/api/edita-hecho-de-violencia',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+    "id" : 1,
+    "fecha_hechos" : "2022-10-24",
+    "hora_hechos"  : "10:20",
+    "descripcion_hechos" : "hechos",
+    "lugar_id" : 2,
+    "lugar_detalle_id" : "19",
+    "en_domicilio_victima" : true,
+    "pais_id" : 153,
+    "cve_ent" : 30,
+    "cve_mun" : 2,
+    "calle" : "sdsd",
+    "num_exterior_km" : "0",
+    "num_interior" : "interior",
+    "cve_loc" : 2,
+    "cp" : "55120",
+    "lat" : 0.253,
+    "lng" : 0.9326,
+    "es_festivo" : true,
+    "conoce_la_autoridad" : true,
+    "conoce_la_autoridad_detalle" : "al juez",
+    "tipo_violencia" : [1],
+    "modalidad_violencia" : 2,
+    "es_victima_de_delincuencia_organizada" : true,
+    "hay_denuncia" : true,
+    "efectos_fisicos" : [1,3],
+    "consecuencias_sexuales" : [1],
+    "efectos_psicologicos" : [1],
+    "efectos_economicos_y_patrimoniales" : [2,1],
+    "agente_de_lesion" : [2,3],
+    "area_anatomica_lesionada": [2,1],
+    "es_relacionada_con_orientacion_o_identidad" : true,
+    "colonias_id" : 19727,
+    "culmino_en_muerte" : true,
+    "tipo_muerte_id" : 1,
+    "tipo_muerte_otro" : "otra muerte",
+    "tipo_violencia_sexual" : "Hostigamiento",
+    "tipo_agresor_sexual_id" : 2,
+    "tipo_agresor_sexual_otro"            : "Otro agresor"
+}
+',
+  CURLOPT_HTTPHEADER => array(
+    'Accept: application/json',
+    'Content-Type: application/json',
+    'Authorization: Bearer TOKEN'
+  ),
+));
 
-#### url
-/api/edita-mujer-en-prision
+$response = curl_exec($curl);
 
-#### props
+curl_close($curl);
+echo $response;
 
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "id": 1,
+    "fecha_hechos": "2022-10-24",
+    "hora_hechos": "10:20",
+    "descripcion_hechos": "hechos",
+    "lugar_id": 2,
+    "lugar_detalle_id": "19",
+    "en_domicilio_victima": true,
+    "pais_id": 153,
+    "cve_ent": 30,
+    "cve_mun": 2,
+    "calle": "sdsd",
+    "num_exterior_km": "0",
+    "num_interior": "interior",
+    "cve_loc": 2,
+    "cp": "55120",
+    "lat": 0.253,
+    "lng": 0.9326,
+    "es_festivo": true,
+    "conoce_la_autoridad": true,
+    "conoce_la_autoridad_detalle": "al juez",
+    "tipo_violencia": [
+        1
+    ],
+    "modalidad_violencia": 2,
+    "es_victima_de_delincuencia_organizada": true,
+    "hay_denuncia": true,
+    "efectos_fisicos": [
+        1,
+        3
+    ],
+    "consecuencias_sexuales": [
+        1
+    ],
+    "efectos_psicologicos": [
+        1
+    ],
+    "efectos_economicos_y_patrimoniales": [
+        2,
+        1
+    ],
+    "agente_de_lesion": [
+        2,
+        3
+    ],
+    "area_anatomica_lesionada": [
+        2,
+        1
+    ],
+    "es_relacionada_con_orientacion_o_identidad": true,
+    "colonias_id": 19727,
+    "culmino_en_muerte": true,
+    "tipo_muerte_id": 1,
+    "tipo_muerte_otro": "otra muerte",
+    "tipo_violencia_sexual": "Hostigamiento",
+    "tipo_agresor_sexual_id": 2,
+    "tipo_agresor_sexual_otro": "Otro agresor"
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/edita-hecho-de-violencia", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
 ```json
 {
-    "id" : 1,
-    "delitos" : "robo a mano armada editada",
-    "calidad_legal_id" : 2
+    "id": 1,
+    "victimas_id": 22,
+    "users_id": 1,
+    "fecha_hechos": "2022-10-24",
+    "hora_hechos": "10:20",
+    "descripcion_hechos": "hechos",
+    "lugar_id": 2,
+    "lugar_detalle_id": "19",
+    "en_domicilio_victima": true,
+    "pais_id": 153,
+    "cve_ent": 30,
+    "cve_mun": 2,
+    "calle": "sdsd",
+    "num_exterior_km": "0",
+    "num_interior": "interior",
+    "cve_loc": 2,
+    "cp": "55120",
+    "lat": 0.253,
+    "lng": 0.9326,
+    "es_festivo": true,
+    "conoce_la_autoridad": true,
+    "conoce_la_autoridad_detalle": "al juez",
+    "tipo_violencia": [
+        1
+    ],
+    "modalidad_violencia": 2,
+    "es_victima_de_delincuencia_organizada": true,
+    "hay_denuncia": true,
+    "efectos_fisicos": [
+        1,
+        3
+    ],
+    "consecuencias_sexuales": [
+        1
+    ],
+    "efectos_psicologicos": [
+        1
+    ],
+    "efectos_economicos_y_patrimoniales": [
+        2,
+        1
+    ],
+    "agente_de_lesion": [
+        2,
+        3
+    ],
+    "area_anatomica_lesionada": [
+        2,
+        1
+    ],
+    "es_relacionada_con_orientacion_o_identidad": true,
+    "created_at": "2024-08-08T22:55:02.000000Z",
+    "updated_at": "2024-11-15T01:06:27.000000Z",
+    "deleted_at": null,
+    "folio": "e293236c-6755-3987-8573-d8f70b1095d0-1",
+    "colonias_id": 19727,
+    "culmino_en_muerte": true,
+    "tipo_muerte_id": 1,
+    "tipo_muerte_otro": "otra muerte",
+    "tipo_violencia_sexual": "Hostigamiento",
+    "tipo_agresor_sexual_id": 2,
+    "tipo_agresor_sexual_otro": "Otro agresor",
+    "tipos_conductas_violencia_sexual": null,
+    "lugar_detalle_otro": "lugar_detalle_otro",
+    "tipo_violencia_otro": "tipo_violencia_otro",
+    "efecto_fisico_otro": "efecto_fisico_otro",
+    "consecuencia_sexual_otro": "consecuencia_sexual_otro",
+    "efecto_psicologico_otro": "efecto_psicologico_otro",
+    "efecto_economico_patrimonial_otro": "efecto_economico_patrimonial_otro",
+    "agente_lesion_otro": "agente_lesion_otro",
+    "area_anatomica_lesionada_otro": "area_anatomica_lesionada_otro",
+    "victima": {
+        "id": 22,
+        "nombre": "Garland Walsh",
+        "primer_apellido": "Schimmel",
+        "segundo_apellido": "x",
+        "fecha_nacimiento": "2005-03-01",
+        "cve_ent": 21,
+        "created_at": "2023-10-31T19:50:17.000000Z",
+        "updated_at": "2023-10-31T19:50:17.000000Z",
+        "curp": "false",
+        "folio_euv": "e293236c-6755-3987-8573-d8f70b1095d0",
+        "sexo": "M",
+        "extranjera": true,
+        "users_id": 931,
+        "instancias_id": null,
+        "areas_id": null,
+        "sedes_id": null,
+        "nacionalidad_id": 88,
+        "deleted_at": null,
+        "sexo_id": null,
+        "from_api": false,
+        "identifica_mujer": null
+    },
+    "lugar": {
+        "id": 2,
+        "pk_catalogo": 4,
+        "descripcion": "Transporte privado",
+        "orden": 4,
+        "es_activo": true,
+        "created_at": "2023-12-01T17:04:30.000000Z",
+        "updated_at": "2023-12-01T17:04:30.000000Z",
+        "detalles_localidad": [
+            {
+                "id": 11,
+                "pk_catalogo": 26,
+                "descripcion": "Empresa",
+                "fk_lugar_ocurrencia": 4,
+                "orden": 1,
+                "es_activo": true,
+                "created_at": "2023-12-01T17:04:30.000000Z",
+                "updated_at": "2023-12-01T17:04:30.000000Z"
+            },
+            {
+                "id": 10,
+                "pk_catalogo": 27,
+                "descripcion": "Particular",
+                "fk_lugar_ocurrencia": 4,
+                "orden": 2,
+                "es_activo": true,
+                "created_at": "2023-12-01T17:04:30.000000Z",
+                "updated_at": "2023-12-01T17:04:30.000000Z"
+            },
+            {
+                "id": 9,
+                "pk_catalogo": 28,
+                "descripcion": "Otro",
+                "fk_lugar_ocurrencia": 4,
+                "orden": 3,
+                "es_activo": true,
+                "created_at": "2023-12-01T17:04:30.000000Z",
+                "updated_at": "2023-12-01T17:04:30.000000Z"
+            }
+        ]
+    },
+    "lugar_detalle": {
+        "id": 19,
+        "pk_catalogo": 18,
+        "descripcion": "Otro",
+        "fk_lugar_ocurrencia": 2,
+        "orden": 15,
+        "es_activo": true,
+        "created_at": "2023-12-01T17:04:30.000000Z",
+        "updated_at": "2023-12-01T17:04:30.000000Z"
+    },
+    "seguimientos": [
+        {
+            "id": 20,
+            "users_id": 1,
+            "hechos_id": 1,
+            "fecha_seguimiento": "2023-10-27",
+            "hora_seguimiento": "08:12:00",
+            "tipo_id": 1,
+            "servicios_id": 1,
+            "acciones": "Se realizo la accion de prueba",
+            "observaciones": "Se realizo la observacion de prueba",
+            "created_at": "2024-09-06T02:42:51.000000Z",
+            "updated_at": "2024-09-06T02:42:51.000000Z",
+            "deleted_at": null,
+            "servicio": {
+                "id": 1,
+                "tipo_servicio_id": 1,
+                "descripcion": "INTERVENCIÓN EN CRISIS",
+                "esactivo": true,
+                "created_at": "2023-12-01T17:04:35.000000Z",
+                "updated_at": "2023-12-01T17:04:35.000000Z"
+            },
+            "tipo_servicio": {
+                "id": 1,
+                "descripcion": "Servicios de Psicología",
+                "esactivo": true,
+                "created_at": "2023-12-01T17:04:35.000000Z",
+                "updated_at": "2023-12-01T17:04:35.000000Z"
+            }
+        },
+        {
+            "id": 341,
+            "users_id": 1,
+            "hechos_id": 1,
+            "fecha_seguimiento": "2023-10-27",
+            "hora_seguimiento": "08:12:00",
+            "tipo_id": 1,
+            "servicios_id": 1,
+            "acciones": "Se realizo la accion de prueba",
+            "observaciones": "Se realizo la observacion de prueba",
+            "created_at": "2024-11-14T22:39:36.000000Z",
+            "updated_at": "2024-11-14T22:39:36.000000Z",
+            "deleted_at": null,
+            "servicio": {
+                "id": 1,
+                "tipo_servicio_id": 1,
+                "descripcion": "INTERVENCIÓN EN CRISIS",
+                "esactivo": true,
+                "created_at": "2023-12-01T17:04:35.000000Z",
+                "updated_at": "2023-12-01T17:04:35.000000Z"
+            },
+            "tipo_servicio": {
+                "id": 1,
+                "descripcion": "Servicios de Psicología",
+                "esactivo": true,
+                "created_at": "2023-12-01T17:04:35.000000Z",
+                "updated_at": "2023-12-01T17:04:35.000000Z"
+            }
+        }
+    ],
+    "canalizaciones": [],
+    "ordenes": [],
+    "victimas_trata": [],
+    "mujeres_prision": [
+        {
+            "id": 13,
+            "privada_de_libertad": true,
+            "calidad_legal_id": 1,
+            "delitos": "robo",
+            "victima_de_tortura": true,
+            "protocolo_de_estambul": true,
+            "victima_de_tortura_despues_del_protocolo_de_estambul": true,
+            "tortura_tipo_id": 1,
+            "tortura_momento_id": 5,
+            "autoridad_id": 1,
+            "created_at": "2024-10-25T20:28:54.000000Z",
+            "updated_at": "2024-10-25T20:28:54.000000Z",
+            "users_id": 1,
+            "hechos_id": 1,
+            "deleted_at": null,
+            "calidad_legal": {
+                "id": 1,
+                "descripcion": "Procesada",
+                "es_activo": true,
+                "created_at": "2023-12-01T17:04:37.000000Z",
+                "updated_at": "2023-12-01T17:04:37.000000Z"
+            }
+        },
+        {
+            "id": 14,
+            "privada_de_libertad": true,
+            "calidad_legal_id": 1,
+            "delitos": "robo",
+            "victima_de_tortura": true,
+            "protocolo_de_estambul": true,
+            "victima_de_tortura_despues_del_protocolo_de_estambul": true,
+            "tortura_tipo_id": 1,
+            "tortura_momento_id": 5,
+            "autoridad_id": 1,
+            "created_at": "2024-10-25T20:43:25.000000Z",
+            "updated_at": "2024-10-25T20:43:25.000000Z",
+            "users_id": 1,
+            "hechos_id": 1,
+            "deleted_at": null,
+            "calidad_legal": {
+                "id": 1,
+                "descripcion": "Procesada",
+                "es_activo": true,
+                "created_at": "2023-12-01T17:04:37.000000Z",
+                "updated_at": "2023-12-01T17:04:37.000000Z"
+            }
+        },
+        {
+            "id": 16,
+            "privada_de_libertad": true,
+            "calidad_legal_id": 1,
+            "delitos": "robo",
+            "victima_de_tortura": true,
+            "protocolo_de_estambul": true,
+            "victima_de_tortura_despues_del_protocolo_de_estambul": true,
+            "tortura_tipo_id": 1,
+            "tortura_momento_id": 5,
+            "autoridad_id": 1,
+            "created_at": "2024-10-28T21:59:09.000000Z",
+            "updated_at": "2024-10-28T21:59:09.000000Z",
+            "users_id": 1,
+            "hechos_id": 1,
+            "deleted_at": null,
+            "calidad_legal": {
+                "id": 1,
+                "descripcion": "Procesada",
+                "es_activo": true,
+                "created_at": "2023-12-01T17:04:37.000000Z",
+                "updated_at": "2023-12-01T17:04:37.000000Z"
+            }
+        }
+    ],
+    "colonia": {
+        "id": 19727,
+        "cve_ent": 15,
+        "cve_mun": 33,
+        "cp": 55120,
+        "descripcion": "CIUDAD AZTECA SECCIÓN ORIENTE",
+        "created_at": "2024-08-08T22:49:37.000000Z",
+        "updated_at": "2024-08-08T22:49:37.000000Z"
+    }
 }
 ```
-
-### PHP rules
-
-```php
-$request->validate([
-    'id'                    => 'required|exists:mujeres_en_prisions,id',
-    'privativa_de_libertad' => 'sometimes|required|boolean',
-    'calidad_legal_id'      => 'sometimes|required|exists:catalogo_calidad_legals,id',
-    'delitos'               => 'sometimes|nullable|string',
-    'victima_de_tortura'    => 'sometimes|nullable|boolean',
-    'protocolo_de_estambul' => 'sometimes|nullable|boolean',
-    'victima_de_tortura_despues_del_protocolo_de_estambul' => 'sometimes|nullable|boolean',
-    'tortura_tipo_id'       => 'sometimes|nullable|exists:catalogo_tortura_en_prision_tipos,id',
-    'tortura_momento_id'    => 'sometimes|nullable|exists:catalogo_tortura_en_prision_momentos,id',
-    'autoridad_id'          => 'sometimes|nullable|exists:catalogo_autoridades,id',
-]);
+con estatus 422. Error de tipo de dato.
+```json
+{
+    "message": "El campo NOMBRE_CAMPO debe ser una TIPO_DATO.",
+    "errors": {
+        "otra_discapacidad": [
+            "El campo NOMBRE_CAMPO debe ser una TIPO_DATO."
+        ]
+    }
+}
 ```
+-----------------------------------------------------------------
+### Editar nacionalidad de víctima
+-----------------------------------------------------------------
+El uso de este método requiere que exista una víctima y el id de la nacionalidad correspondiente en el catálogo. 
+El parámetro de búsqueda de la víctima es su id.
+#### POST
+```
+    API_URL/api/edita-nacionalidad-victima
+```
+catálogos: [nacionalidad_id](https://drive.google.com/file/d/1Q0gUDPgv9_3xfmPYPJ6WLfrUrFdqvEGB/view)
+#### Body raw (json)
+```json
+    {
+        "id"                  : 9,
+        "nacionalidad_id"     : 164
+    }
+```
+#### Campos Obligatorios
 
---------------------------------------------------------------------------------
+|                           Campo                       | Obligatorio | Tipo de dato |
+|:-----------------------------------------------------:|:-----------:|:------------:|
+| id                                                    |     SI      |    integer   |
+| nacionalidad_id                                       |     SI      |    integer   |
+|||| 
 
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/edita-nacionalidad-victima' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "id"                  : 9,
+        "nacionalidad_id"     : 164
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/edita-nacionalidad-victima',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "id"                  : 9,
+        "nacionalidad_id"     : 164
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "id"                  : 9,
+    "nacionalidad_id"     : 164
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/edita-nacionalidad-victima", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+    {
+        "id": 9,
+        "nombre": "nombre",
+        "primer_apellido": "primer_apellido",
+        "segundo_apellido": "segundo_apellido",
+        "fecha_nacimiento": "1965-11-20",
+        "cve_ent": 24,
+        "created_at": "2025-06-17T21:02:59.000000Z",
+        "updated_at": "2025-06-26T22:19:23.000000Z",
+        "curp": "PISN651120XSPRGMXX",
+        "folio_euv": "EUV31001769062025",
+        "sexo": null,
+        "extranjera": false,
+        "users_id": 1,
+        "instancias_id": null,
+        "areas_id": null,
+        "sedes_id": null,
+        "nacionalidad_id": 164,
+        "deleted_at": null,
+        "sexo_id": 1,
+        "from_api": true,
+        "identifica_mujer": null,
+        "cve_ent_captura": 31,
+        "cve_mun_captura": null,
+        "dependencia_captura": 176,
+        "dependencia_corresponde": 1
+    }
+```
+con estatus 422. El id es necesario y debe ser enviado
+```json
+    {
+        "message": "El campo id es requerido. (and 1 more error)",
+        "errors": {
+            "id": [
+                "El campo id es requerido."
+            ],
+            "nacionalidad_id": [
+                "El campo nacionalidad id es requerido."
+            ]
+        }
+    }
+```
+-----------------------------------------------------------------
+### Editar registro de mujeres en prisión para un hecho de violencia
+-----------------------------------------------------------------
+El registro requiere que exista un hecho de violencia, teniendo una dependencia funcional directa.
+#### POST
+```
+    API_URL/api/edita-mujer-en-prision
+```
+catálogos: calidad_legal_id, tortura_tipo_id, tortura_momento_id, autoridad_id
+#### Body raw (json)
+```json
+    {
+        "id"                                                  : 1,
+        "privada_de_libertad"                                 : true,
+        "calidad_legal_id"                                    : 2,
+        "delitos"                                             : "listo",
+        "victima_de_tortura"                                  : true,
+        "protocolo_de_estambul"                               : true,
+        "victima_de_tortura_despues_del_protocolo_de_estambul": true,
+        "tortura_tipo_id"                                     : 2,
+        "tortura_momento_id"                                  : 1,
+        "autoridad_id"                                        : 7
+    }
+```
+#### Campos Obligatorios
+
+|                           Campo                       | Obligatorio | Tipo de dato |
+|:-----------------------------------------------------:|:-----------:|:------------:|
+| id                                                    |     SI      |    integer   |
+| privada_de_libertad                                   |     NO      |    boolean   | 
+| calidad_legal_id                                      |     NO      |    integer   | 
+| delitos                                               |     NO      |    string    | 
+| victima_de_tortura                                    |     NO      |    boolean   | 
+| protocolo_de_estambul                                 |     NO      |    boolean   | 
+| victima_de_tortura_despues_del_protocolo_de_estambul  |     NO      |    boolean   | 
+| tortura_tipo_id                                       |     NO      |    integer   | 
+| tortura_momento_id                                    |     NO      |    integer   | 
+| autoridad_id                                          |     NO      |    integer   | 
+|||| 
+
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/edita-mujer-en-prision' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "id" : 1,
+        "privada_de_libertad": true,
+        "calidad_legal_id" : 2,
+        "delitos" : "listo",
+        "victima_de_tortura": true,
+        "protocolo_de_estambul": true,
+        "victima_de_tortura_despues_del_protocolo_de_estambul": true,
+        "tortura_tipo_id": 2,
+        "tortura_momento_id": 1,
+        "autoridad_id": 7
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/edita-mujer-en-prision',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "id" : 1,
+        "privada_de_libertad": true,
+        "calidad_legal_id" : 2,
+        "delitos" : "listo",
+        "victima_de_tortura": true,
+        "protocolo_de_estambul": true,
+        "victima_de_tortura_despues_del_protocolo_de_estambul": true,
+        "tortura_tipo_id": 2,
+        "tortura_momento_id": 1,
+        "autoridad_id": 7
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "id": 1,
+    "privada_de_libertad": true,
+    "calidad_legal_id": 2,
+    "delitos": "listo",
+    "victima_de_tortura": true,
+    "protocolo_de_estambul": true,
+    "victima_de_tortura_despues_del_protocolo_de_estambul": true,
+    "tortura_tipo_id": 2,
+    "tortura_momento_id": 1,
+    "autoridad_id": 7
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/edita-mujer-en-prision", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+    {
+        "id": 1,
+        "privada_de_libertad": true,
+        "calidad_legal_id": 2,
+        "delitos": "listo",
+        "victima_de_tortura": true,
+        "protocolo_de_estambul": true,
+        "victima_de_tortura_despues_del_protocolo_de_estambul": true,
+        "tortura_tipo_id": 2,
+        "tortura_momento_id": 1,
+        "autoridad_id": 7,
+        "created_at": "2024-09-04T23:58:16.000000Z",
+        "updated_at": "2024-10-25T20:20:33.000000Z",
+        "users_id": 1098,
+        "hechos_id": 49,
+        "deleted_at": null,
+        "calidad_legal": {
+            "id": 2,
+            "descripcion": "Sentenciada",
+            "es_activo": true,
+            "created_at": "2023-12-01T17:04:37.000000Z",
+            "updated_at": "2023-12-01T17:04:37.000000Z"
+        }
+    }
+```
+con estatus 422. El id es necesario y debe ser enviado
+```json
+    {
+        "message": "El campo id es requerido.",
+        "errors": {
+            "id": [
+                "El campo id es requerido."
+            ]
+        }
+    }
+```
+-----------------------------------------------------------------
 ### Editar registro de mujeres víctimas de trata
-
-#### url
-/api/edita-mujer-victima-de-trata
-
-#### props
-
+-----------------------------------------------------------------
+#### POST
+```json
+    API_URL/api/edita-mujer-victima-de-trata
+```
+catálogos: [accion_omision_dolosa_id](https://drive.google.com/file/d/13CdVeVrsyRmC9PmOj5kPkgw52Xrv2b2M/view?usp=drive_link), [fines_reclutamiento_id](https://drive.google.com/file/d/1jC7ZmP3p_CiuNqCcflfkDsilpbrLfx02/view?usp=drive_link), [fines_reclutamiento_array](https://drive.google.com/file/d/1jC7ZmP3p_CiuNqCcflfkDsilpbrLfx02/view?usp=drive_link)
+#### Body raw (json)
 ```json
 {
    "id" : 1,
+   "victima_de_trata_de_personas" : true,
+   "accion_omision_dolosa_id" : 1,
    "fines_reclutamiento_id" : 2,
    "accion_omision_dolosa_array" : [2],
    "fines_reclutamiento_array" : [1]
 }
 ```
+#### Campos Obligatorios
 
-### PHP rules
+|             Campo            | Obligatorio |Tipo de dato |
+|:----------------------------:|:-----------:|:-----------:|
+| id                           |     SI      |   integer   | 
+| victima_de_trata_de_personas |     NO      |   boolean   | 
+| accion_omision_dolosa_id     |     NO      |   integer   | 
+| fines_reclutamiento_id       |     NO      |   integer   | 
+| accion_omision_dolosa_array  |     NO      |   integer   | 
+| fines_reclutamiento_array    |     NO      |   integer   | 
+|||
 
-```php
-$request->validate([
-    'id'                            => 'required|exists:mujeres_victimas_de_trata_de_personas,id',
-    'victima_de_trata_de_personas'  => 'sometimes|nullable|boolean',
-    'accion_omision_dolosa_id'      => 'sometimes|nullable|exists:catalogo_accion_omision_dolosa_con_fines_de_explotacions,id',
-    'fines_reclutamiento_id'        => 'sometimes|nullable|exists:catalogo_fines_reclutamientos,id',
-    'accion_omision_dolosa_array'   => 'sometimes|nullable|array',
-    'accion_omision_dolosa_array.*' => 'sometimes|exists:catalogo_accion_omision_dolosa_con_fines_de_explotacions,id',
-    'fines_reclutamiento_array'     => 'sometimes|nullable|array',
-    'fines_reclutamiento_array.*'   => 'sometimes|exists:catalogo_fines_reclutamientos,id'
-]);
+#### Ejemplo de solicitud.
+con curl.
+```bash
+curl --location 'API_URL/api/edita-mujer-victima-de-trata' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer TOKEN' \
+--data '{
+   "id" : 1,
+   "victima_de_trata_de_personas" : true,
+   "accion_omision_dolosa_id" : 1,
+   "fines_reclutamiento_id" : 2,
+   "accion_omision_dolosa_array" : [2],
+   "fines_reclutamiento_array" : [1]
+}
+'
 ```
+con PHP - cURL.
+```php
+<?php
 
---------------------------------------------------------------------------------
+$curl = curl_init();
 
-### Editar orden de protección
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'API_URL/api/edita-mujer-victima-de-trata',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+   "id" : 1,
+   "victima_de_trata_de_personas" : true,
+   "accion_omision_dolosa_id" : 1,
+   "fines_reclutamiento_id" : 2,
+   "accion_omision_dolosa_array" : [2],
+   "fines_reclutamiento_array" : [1]
+}
+',
+  CURLOPT_HTTPHEADER => array(
+    'Accept: application/json',
+    'Content-Type: application/json',
+    'Authorization: Bearer TOKEN'
+  ),
+));
 
-#### url
-/api/edita-orden-de-proteccion
+$response = curl_exec($curl);
 
-#### props
+curl_close($curl);
+echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+const myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", "Bearer TOKEN");
 
+const raw = JSON.stringify({
+  "id": 1,
+  "victima_de_trata_de_personas": true,
+  "accion_omision_dolosa_id": 1,
+  "fines_reclutamiento_id": 2,
+  "accion_omision_dolosa_array": [
+    2
+  ],
+  "fines_reclutamiento_array": [
+    1
+  ]
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
+
+fetch("API_URL/api/edita-mujer-victima-de-trata", requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+{
+    "id": 1,
+    "victima_de_trata_de_personas": true,
+    "accion_omision_dolosa_id": 8,
+    "fines_reclutamiento_id": 2,
+    "created_at": "2024-08-13T23:37:48.000000Z",
+    "updated_at": "2024-11-21T23:09:06.000000Z",
+    "users_id": 1,
+    "hechos_id": 5,
+    "deleted_at": null,
+    "accion_omision_dolosa_array": [
+        2
+    ],
+    "fines_reclutamiento_array": [
+        1
+    ]
+}
+```
+--------------------------------------------------------------
+### Editar una orden de protección
+--------------------------------------------------------------
+#### POST
+```json
+    API_URL/api/edita-orden-de-proteccion
+```
+catálogos: [tipo_id](https://drive.google.com/file/d/19l9hKuNa_vwlFP75k3GLNT2b3WXIU6Wa/view?usp=drive_link),[cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing), [cve_mun](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view), [autoridad_id](https://drive.google.com/file/d/1V5roC6VJQBAm_2D0Mw6VrapUoZSPlBP7/view?usp=drive_link), [dia_id](https://drive.google.com/file/d/1p54Md635_hT6MnwS9VJvTpiVmOML_GjH/view?usp=sharing), [tipo_orden_id](https://drive.google.com/file/d/1VouluPnN8QjhNhU643mMzdrOJaYfpQ4p/view?usp=drive_link), [tipo_medida_id](https://drive.google.com/file/d/1_NuvQWNCvpLrMa12XB17-5F96FQkoI6U/view?usp=drive_link), [fracciones_tipo_orden](https://drive.google.com/file/d/1o7P1e43843s33VA3wtqj45_Nwk6NsYh0/view?usp=drive_link), [fracciones_tipo_medida](https://drive.google.com/file/d/1P6754jUcYzBOpVrAcsJfFMI6K1vQtYUG/view?usp=drive_link)
+#### Body raw (json)
 ```json
 {
     "tipo_id": 2,
@@ -1745,344 +6287,878 @@ $request->validate([
     "id": 1
 }
 ```
+#### Campos Obligatorios
 
-### PHP rules
-
-```php
-$request->validate([
-    "id"                            => "required|integer|exists:ordenes_de_proteccions,id",
-    "tipo_id"                       => "required|integer|exists:catalogo_orden_de_proteccion_tipos,id",
-    "en_que_consiste"               => "sometimes|string",
-    "autoridad_emisora_otro"        => "sometimes|string",
-    "cve_ent"                       => "required|integer|between:1,32",
-    'cve_mun'                       => ['sometimes','integer', function($attribute, $value, $fail) use($request){
-        $municipio = Municipio::where('cve_ent', '=', $request->cve_ent)->where('cve_mun', '=', $value)->first();
-        if (!$municipio) {
-            $fail('El municipio no existe');
-        }
-    }],
-    "fecha_de_emision"              => "sometimes|date",
-    "tiempo_indefinido"             => "sometimes|boolean",
-    "fecha_aproximada_de_termino"   => "sometimes|date",
-    "otro_tipo_de_orden"            => "sometimes|string",
-    "fecha_de_inicio"               => "sometimes|date",
-    "hechos_id"                     => "required|integer|exists:hechos,id",
-    "autoridad_id"                  => "sometimes|integer|exists:catalogo_autoridades,id",
-    "folio"                         => "sometimes|string|max:255",
-    "dia_id"                        => "sometimes|integer|exists:catalogo_dias,id",
-    "tipo_orden_id"                 => "sometimes|integer|exists:catalogo_tipos_ordenes_proteccion,id",
-    "tipo_medida_id"                => "sometimes|integer|exists:catalogo_tipos_medidas_proteccion,id",
-    "fracciones_tipo_orden"         => "sometimes|array",
-    "fracciones_tipo_orden.*"       => "integer|exists:catalogo_fracciones_tipos_ordenes_proteccion,id",
-    "fracciones_tipo_medida"        => "sometimes|array",
-    "fracciones_tipo_medida.*"      => "integer|exists:catalogo_fracciones_tipos_medidas_proteccion,id",
-]);
-```
-
-
-## Métodos de prueba
-
-### Eliminar CURP mediante CURP
-
-#### url
-
-/api/delete-curp
-
-#### props
-
-```json
-{
-    "curp" : "VALID_CURP"
-}
-```
-
-#### respuesta
-
-```json
-{
-    "message": "CURP eliminado",
-    "folio_euv": "c6833777-82f0-3f40-9f95-b8c7430d484f"
-}
-```
-
-### PHP Rules
-
-```php
-$request->validate([
-    'curp' => 'required|exists:victimas,curp'
-]);
-```
-
-#### tipo de usuario
-
-* cualquiera
-
---------------------------------------------------------------------------------
-
-### Eliminar CURP mediante Folio EUV
-
-#### url
-
-/api/delete-curp-from-euv
-
-#### props
-
-```json
-{
-    "folio_euv" : "VALID_EUV"
-}
-```
-
-#### respuesta
-
-```json
-{
-    "message": "CURP eliminado",
-    "folio_euv": "d080b0fe-bed7-3be6-bf42-1d78881dd6e4"
-}
-```
-
-### PHP Rules
-
-```php
-$request->validate([
-    'folio_euv' => 'required|exists:victimas,folio_euv'
-]);
-```
-
-#### tipo de usuario
-
-* cualquiera
-
---------------------------------------------------------------------------------
-
-### Restaura el CURP mediante Folio EUV
-
-#### url
-
-/api/restore-curp-from-euv
-
-#### props
-
-```json
-{
-    "folio_euv" : "VALID_EUV",
-    "curp": "UNIQUE_CURP"
-}
-```
-
-#### respuesta
-
-```json
-{
-    "message": "CURP restaurado",
-    "folio_euv": "d080b0fe-bed7-3be6-bf42-1d78881dd6e4"
-}
-```
-
-### PHP Rules
-
-```php
-$request->validate([
-    'folio_euv' => 'required|exists:victimas,folio_euv',
-    'curp'      => 'required|unique:victimas,curp'
-]);
-```
-
-#### tipo de usuario
-
-* cualquiera
-
---------------------------------------------------------------------------------
-
-## Métodos de consulta personalizados disponibles
-
-
-### Infoname
-
-#### url
-
-/api/custom/infoname
-
-#### props
-
-```json
-{
-    "curp": "VVXI811212MCLVXTXX"
-}
-```
-
-
-#### respuesta
-
-[ver json](api-response-examples/infoname.json)
-
-
-### PHP Rules
-
-```php
-$request->validate([
-    'curp' => 'required|exists:victimas,curp',
-    'folio_euv' => 'nullable|exists:victimas,folio_euv'
-]);
-`````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
-
-### Actualizar registro de víctima
-url
-
-PUT /api/actualizar-registro-victimas/{id}
-
-props
-{
-    "nombre": "María",
-    "primer_apellido": "García",
-    "segundo_apellido": "Lopez",
-    "fecha_nacimiento": "1990-05-12",
-    "cve_ent": 15,
-    "nacionalidad_id": 1,
-    "extranjera": false,
-    "sexo": "F",
-    "folio_euv": "ABC123",
-    "curp": "GAML900512MJCRLR00",
-    "users_id": 41,
-    "sexo_id": 2,
-    "from_api": true,
-    "identifica_mujer": true,
-    "cve_ent_captura": 15,
-    "cve_mun_captura": 45,
-    "dependencia_captura": "Institución X",
-    "dependencia_corresponde": "Institución Y",
-
-    "usuario_corresponde": "Nombre Capturista",
-    "usuario_cargo_corresponde": "Cargo del Capturista"
-}
-
-curl
-curl --location --request PUT 'http://localhost/api/actualizar-registro-victimas/1' \
+|            Campo            | Obligatorio | Tipo de dato |
+|:---------------------------:|:-----------:|:------------:|
+| tipo_id                     |     SI      |   integer    |
+| en_que_consiste             |     NO      |   string     | 
+| autoridad_emisora_otro      |     NO      |   string     | 
+| cve_ent                     |     SI      |   integer    | 
+| cve_mun                     |     NO      |   integer    | 
+| fecha_de_emision            |     NO      |    date      | 
+| tiempo_indefinido           |     NO      |   boolean    | 
+| fecha_aproximada_de_termino |     NO      |    date      | 
+| otro_tipo_de_orden          |     NO      |   string     | 
+| fecha_de_inicio             |     NO      |    date      | 
+| hechos_id                   |     SI      |   integer    | 
+| autoridad_id                |     NO      |   integer    | 
+| folio                       |     NO      |   string     | 
+| dia_id                      |     NO      |   integer    | 
+| tipo_orden_id               |     NO      |   integer    | 
+| tipo_medida_id              |     NO      |   integer    | 
+| fracciones_tipo_orden       |     NO      |  integer[]   | 
+| fracciones_tipo_medida      |     NO      |  integer[]   | 
+| id                          |     SI      |   integer    |
+|||
+fecha_aproximada_de_termino
+#### Ejemplo de solicitud.
+con curl.
+```bash
+curl --location 'API_URL/api/edita-orden-de-proteccion' \
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
---data-raw '{
-    "nombre": "María",
-    "primer_apellido": "García",
-    "segundo_apellido": "Lopez",
-    "fecha_nacimiento": "1990-05-12",
+--header 'Authorization: Bearer TOKEN' \
+--data '{
+    "tipo_id": 2,
+    "en_que_consiste": "Descripción de la orden",
+    "autoridad_emisora_otro": "Otra autoridad",
     "cve_ent": 15,
-    "nacionalidad_id": 1,
-    "extranjera": false,
-    "sexo": "F",
-    "folio_euv": "ABC123",
-    "curp": "GAML900512MJCRLR00",
-    "users_id": 41,
-
-    "usuario_corresponde": "Nombre Capturista",
-    "usuario_cargo_corresponde": "Cargo del Capturista"
+    "cve_mun": 1,
+    "fecha_de_emision": "2023-10-01",
+    "tiempo_indefinido": true,
+    "fecha_aproximada_de_termino": "2023-12-31",
+    "otro_tipo_de_orden": "Otro tipo de orden",
+    "fecha_de_inicio": "2023-10-01",
+    "hechos_id": 1,
+    "autoridad_id": 1,
+    "folio": "ABC123",
+    "dia_id": 1,
+    "tipo_orden_id": 1,
+    "tipo_medida_id": 1,
+    "fracciones_tipo_orden": [
+        1,
+        2
+    ],
+    "fracciones_tipo_medida": [
+        1,
+        2
+    ],
+    "id": 1
 }'
+```
+con PHP - cURL.
+```php
+<?php
 
-respuesta
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'API_URL/api/edita-orden-de-proteccion',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+    "tipo_id": 2,
+    "en_que_consiste": "Descripción de la orden",
+    "autoridad_emisora_otro": "Otra autoridad",
+    "cve_ent": 15,
+    "cve_mun": 1,
+    "fecha_de_emision": "2023-10-01",
+    "tiempo_indefinido": true,
+    "fecha_aproximada_de_termino": "2023-12-31",
+    "otro_tipo_de_orden": "Otro tipo de orden",
+    "fecha_de_inicio": "2023-10-01",
+    "hechos_id": 1,
+    "autoridad_id": 1,
+    "folio": "ABC123",
+    "dia_id": 1,
+    "tipo_orden_id": 1,
+    "tipo_medida_id": 1,
+    "fracciones_tipo_orden": [
+        1,
+        2
+    ],
+    "fracciones_tipo_medida": [
+        1,
+        2
+    ],
+    "id": 1
+}',
+  CURLOPT_HTTPHEADER => array(
+    'Accept: application/json',
+    'Content-Type: application/json',
+    'Authorization: Bearer TOKEN'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+const myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", "Bearer TOKEN");
+
+const raw = JSON.stringify({
+  "tipo_id": 2,
+  "en_que_consiste": "Descripción de la orden",
+  "autoridad_emisora_otro": "Otra autoridad",
+  "cve_ent": 15,
+  "cve_mun": 1,
+  "fecha_de_emision": "2023-10-01",
+  "tiempo_indefinido": true,
+  "fecha_aproximada_de_termino": "2023-12-31",
+  "otro_tipo_de_orden": "Otro tipo de orden",
+  "fecha_de_inicio": "2023-10-01",
+  "hechos_id": 1,
+  "autoridad_id": 1,
+  "folio": "ABC123",
+  "dia_id": 1,
+  "tipo_orden_id": 1,
+  "tipo_medida_id": 1,
+  "fracciones_tipo_orden": [
+    1,
+    2
+  ],
+  "fracciones_tipo_medida": [
+    1,
+    2
+  ],
+  "id": 1
+});
+
+const requestOptions = {
+  method: "POST",
+  headers: myHeaders,
+  body: raw,
+  redirect: "follow"
+};
+
+fetch("API_URL/api/edita-orden-de-proteccion", requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
 {
-    "message": "Datos de la víctima actualizados correctamente",
-    "victima": {
+    "id": 1,
+    "tipo_id": 2,
+    "en_que_consiste": "Descripción de la orden",
+    "autoridad_emisora_otro": "Otra autoridad",
+    "cve_ent": 15,
+    "cve_mun": 1,
+    "fecha_de_emision": "2023-10-01",
+    "tiempo_indefinido": true,
+    "fecha_aproximada_de_termino": "2023-12-31",
+    "otro_tipo_de_orden": "Otro tipo de orden",
+    "created_at": "2024-08-12T22:35:55.000000Z",
+    "updated_at": "2024-11-21T22:47:22.000000Z",
+    "fecha_de_inicio": "2023-10-01",
+    "deleted_at": null,
+    "users_id": 1004,
+    "hechos_id": 1,
+    "autoridad_id": 1,
+    "folio": "ABC123",
+    "dia_id": 1,
+    "tipo_orden_id": 1,
+    "tipo_medida_id": 1,
+    "fracciones_tipo_orden": [
+        1,
+        2
+    ],
+    "fracciones_tipo_medida": [
+        1,
+        2
+    ],
+    "tipo": {
+        "id": 2,
+        "descripcion": "Orden de Protección",
+        "es_activo": true,
+        "created_at": "2023-12-01T17:04:37.000000Z",
+        "updated_at": "2023-12-01T17:04:37.000000Z"
+    },
+    "tipo_orden": {
         "id": 1,
-        "nombre": "María",
-        "primer_apellido": "García",
-        "segundo_apellido": "Lopez",
-        "folio_euv": "ABC123"
+        "descripcion": "Administrativa",
+        "es_activo": true,
+        "created_at": "2024-11-11T23:15:16.000000Z",
+        "updated_at": "2024-11-11T23:15:16.000000Z"
+    },
+    "estado": {
+        "cve_ent": 15,
+        "nom_ent": "México",
+        "created_at": "2023-12-01T16:38:18.000000Z",
+        "updated_at": "2023-12-01T16:38:18.000000Z",
+        "codigo": "mc"
     }
 }
-
-### Actualizar datos de la víctima
-url
-
-PUT /api/actualizar-datos-victima/{id}
-
-props
+```
+con estatus 422. Errores posibles de los campos requeridos.
+```json
 {
-    "edad": 34,
-    "telefono": "4491234567",
-    "correo_electronico": "correo@example.com",
-    "calle": "Av. Principal",
-    "num_exterior": "123",
-    "num_interior": "4B",
-    "cve_ent": 1,
-    "cve_mun": 10,
-    "codigo_postal": 20000,
-    "colonias_id": 15,
-    "estado_conyugal": 2,
-    "ocupacion_id": 3,
-    "presenta_discapacidad": false,
-    "enfermedad": true,
-    "cual_enfermedad": "Asma",
-
-    "usuario_corresponde": "Nombre Capturista",
-    "usuario_cargo_corresponde": "Cargo Capturista"
-}
-
-curl
-curl --location --request PUT 'http://localhost/api/actualizar-datos-victima/5' \
---header 'Accept: application/json' \
---header 'Content-Type: application/json' \
---header 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
---data-raw '{
-    "edad": 34,
-    "telefono": "4491234567",
-    "correo_electronico": "correo@example.com",
-
-    "usuario_corresponde": "Nombre Capturista",
-    "usuario_cargo_corresponde": "Cargo Capturista"
-}'
-
-respuesta
-{
-    "message": "Datos de víctima actualizados correctamente",
-    "datos_victima": {
-        "id": 5,
-        "edad": 34,
-        "telefono": "4491234567"
+    "message": "El campo id es requerido. (and 3 more errors)",
+    "errors": {
+        "id": [
+            "El campo id es requerido."
+        ],
+        "tipo_id": [
+            "El campo tipo id es requerido."
+        ],
+        "cve_ent": [
+            "El campo cve ent es requerido."
+        ],
+        "hechos_id": [
+            "El campo hechos id es requerido."
+        ]
     }
 }
+```
+-----------------------------------------------------------------
+### Infoname
+-----------------------------------------------------------------
+Método de personalizado para obtener los datos de niñas adolecentes de madres embarazadas menores de 15 años (name).
+#### POST
+```
+    API_URL/api/custom/infoname
+```
+catálogos: [cve_ent ,entidadDeLaAtencion, entidadDeLaAtencion, entidadDeNacimiento, fk_estado](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing),
+ [cve_mun, fk_municipio, municipioDeLaAtencion](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view),[cve_loc](https://drive.google.com/file/d/1VDHjmDqURqkLc5MQb84MKhI9NlVrg3m3/view), [colonias_id, codigoPostal](https://drive.google.com/file/d/1wWVhPLa0zFgdoeQYEtCRNfODEcpQx6BH/view), [nacionalidad](https://drive.google.com/file/d/1Q0gUDPgv9_3xfmPYPJ6WLfrUrFdqvEGB/view),
+ [pueblo_indigena_id](https://drive.google.com/file/d/1HUX7WHG1yI-QA-Jo7DG483HCf2kJBBDA/view?usp=drive_link), [escolaridad_id](https://drive.google.com/file/d/1Pf_eJpt_S34Ipo908Ih7RS-kQHfwJQGr/view), [dependencia](https://drive.google.com/file/d/1deTUFByYSQSG9T-cu_TmsYgsgb-YyxBW/view?usp=sharing), [fk_area_dependencia](https://drive.google.com/file/d/1UQ2ofC2VaPXo08fal_1pY32sUAAgJc6D/view?usp=sharing)
 
-### Actualizar dependiente de la víctima
-url
+#### Body raw (json)
+```json
+    {
+        "curp" : "CURP000000XXXXXXX0"
+    }
+```
+#### Campos Obligatorios
 
-PUT /api/actualizar-dependiente-victima/{id}
+|   Campo  | Obligatorio | Tipo de dato |
+|:--------:|:-----------:|:------------:|
+|  curp    |      SI     |    string    |
 
-props
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/custom/infoname' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "curp" : "CURP000000XXXXXXX0"
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/custom/infoname',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "curp" : "CURP000000XXXXXXX0"
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "curp": "CURP000000XXXXXXX0"
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/custom/infoname", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
 {
-    "nombre": "Juan",
-    "apellido_paterno": "Pérez",
-    "apellido_materno": "Gómez",
-    "parentesco_id": 3,
-    "telefono": "4499876543",
-    "correo": "dependiente@example.com",
-    "domicilio": "Calle 5, #321",
-
-    "usuario_corresponde": "Nombre Capturista",
-    "usuario_cargo_corresponde": "Cargo Capturista"
+    "datosGenerales": {
+        "fechaDeAtencion": null,
+        "fechaDeRegistro": null,
+        "municipioDeLaAtencion": null,
+        "entidadDeLaAtencion": null,
+        "lugarDeLaAtencion": null,
+        "noDeAtencion": null,
+        "NivelDeRiesgo": null
+    },
+    "datosDeLaNAME": {
+        "Nombre": {
+            "PrimerApellido": "PrimerApellido",
+            "SegundoApellido": "SegundoApellido",
+            "Nombre": "Nombre"
+        },
+        "Edad": 22,
+        "domicilio": {
+            "calle": "calle",
+            "numeroExterior": "numeroExterior",
+            "numeroInterior": "numeroInterior",
+            "cve_ent": 1,
+            "cve_mun": 231,
+            "cve_loc": 456,
+            "colonia": null,
+            "codigoPostal": null
+        },
+        "telefono": null,
+        "conQuienVive": null,
+        "curp": "CURP000000XXXXXXX0",
+        "entidadDeNacimiento": 11,
+        "discapacidad": null,
+        "nacionalidad": null,
+        "puebloIndigena": null,
+        "redDeApoyo": null,
+        "escolaridad": null,
+        "sigueEstudiando": null,
+        "hijos": null,
+        "nombreDelPadre": null,
+        "edadDelPadre": null,
+        "viveConElPadre": null,
+        "domicilioDelPadre": null,
+        "seguroSocial": null,
+        "embarazada": null,
+        "datosGeneralesEmbarazo": {
+            "numeroDeSemana": null
+        }
+    },
+    "datosDeQuienCaptura": {
+        "nombre": null,
+        "profesion": null,
+        "email": null,
+        "telefono": null,
+        "cve_ent": null,
+        "cve_mun": null,
+        "enlaceDelGrupoRector": null,
+        "dependencia": {
+            "pk_dependencia": null,
+            "descripcion": null,
+            "siglas": null,
+            "fk_area_dependencia": null,
+            "fk_estado": null,
+            "es_gubernamental": null,
+            "clave": null,
+            "fk_municipio": null
+        }
+    },
+    "seguimiento": {
+        "Seguimientos": null,
+        "Canalizaciones": null,
+        "OrdenesDeProteccion": null
+    },
+    "comentarionGenerales": null
 }
-
-curl
-curl --location --request PUT 'http://localhost/api/actualizar-dependiente-victima/10' \
---header 'Accept: application/json' \
---header 'Content-Type: application/json' \
---header 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
---data-raw '{
-    "nombre": "Juan",
-    "apellido_paterno": "Pérez",
-
-    "usuario_corresponde": "Nombre Capturista",
-    "usuario_cargo_corresponde": "Cargo Capturista"
-}'
-
-respuesta
+```
+con estatus 422. El curp es necesario ser enviado.
+```json
+    {
+        "message": "El campo curp es requerido.",
+        "errors": {
+            "curp": [
+                "El campo curp es requerido."
+            ]
+        }
+    }
+```
+-----------------------------------------------------------------
+### Eliminar CURP mediante CURP
+-----------------------------------------------------------------
+El consumo de este método requiere del curp de la víctima. Este endpoint estará disponible unicamente para las puebas en el desarrollo de sus soluciones para el consumo de la Api.
+#### POST
+```
+    API_URL/api/delete-curp
+```
+#### Body raw (json)
+```json
 {
-    "message": "Dependiente actualizado correctamente",
-    "data": {
-        "id": 10,
-        "nombre": "Juan",
-        "apellido_paterno": "Pérez"
+    "curp" : "CURP000000XXXXXXX0"
+}
+```
+#### Campos Obligatorios
+
+|   Campo  | Obligatorio | Tipo de dato |   
+|:--------:|:-----------:|:------------:|
+|  curp    |      SI     |    string    |
+
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/delete-curp' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+            "curp" : "CURP000000XXXXXXX0"
+    }'
+```
+con PHP - cURL.
+```php
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/delete-curp',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "curp" : "CURP000000XXXXXXX0"
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "curp": "CURP000000XXXXXXX0"
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/delete-curp", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+    {
+        "message": "CURP eliminado",
+        "folio_euv": "74162382-c38a-3c6d-a995-e455294e1167"
+    }
+```
+con estatus 422. Error con el curp.
+```json
+    {
+        "message": "El campo curp seleccionado no es válido.",
+        "errors": {
+            "curp": [
+                "El campo curp seleccionado no es válido."
+            ]
+        }
+    }
+```
+con estatus 422. En caso de no recibir el dato.
+```json
+{
+    "message": "El campo curp es requerido.",
+    "errors": {
+        "curp": [
+            "El campo curp es requerido."
+        ]
     }
 }
+```
+-----------------------------------------------------------------
+### Eliminar CURP mediante EUV
+-----------------------------------------------------------------
+El consumo de este método requiere del folio euv de la víctima. Este endpoint estará disponible unicamente para las puebas en el desarrollo de sus soluciones para el consumo de la Api.
+#### POST
+```
+    API_URL/api/delete-curp-from-euv
+```
+#### Body raw (json)
+```json
+    {
+        "folio_euv" : "EUV00000000000XX0X0XX0XX"
+    }
+```
+#### Campos Obligatorios
+
+|   Campo  | Obligatorio | Tipo de dato | 
+|:--------:|:-----------:|:------------:|
+|folio_euv |      SI     |    string    |
+
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/delete-curp-from-euv' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "folio_euv" : "EUV00000000000XX0X0XX0XX"
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/delete-curp-from-euv',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "folio_euv" : "EUV00000000000XX0X0XX0XX"
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "folio_euv": "EUV00000000000XX0X0XX0XX"
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/delete-curp-from-euv", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+    {
+        "message": "CURP eliminado",
+        "folio_euv": "EUV00000000000XX0X0XX0XX"
+    }
+```
+con estatus 422. Error con el folio euv.
+```json
+    {
+        "message": "El campo folio euv seleccionado no es válido.",
+        "errors": {
+            "folio_euv": [
+                "El campo folio euv seleccionado no es válido."
+            ]
+        }
+    }
+```
+con estatus 422. En caso de no recibir el dato.
+```json
+    {
+        "message": "El campo folio euv es requerido.",
+        "errors": {
+            "folio_euv": [
+                "El campo folio euv es requerido."
+            ]
+        }
+    }
+```
+-----------------------------------------------------------------
+### Restaurar CURP mediante EUV
+-----------------------------------------------------------------
+El consumo de este método requiere del curp y el folio euv de la víctima. Este endpoint estará disponible unicamente para las puebas en el desarrollo de sus soluciones para el consumo de la Api.
+#### POST
+```
+    API_URL/api/restore-curp-from-euv
+```
+#### Body raw (json)
+```json
+    {
+        "folio_euv" : "EUV00000000000XX0X0XX0XX",
+        "curp" : "CURP000000XXXXXXX0"
+    }
+```
+#### Campos Obligatorios
+
+|   Campo   | Obligatorio | Tipo de dato |
+|:---------:|:-----------:|:------------:|
+| folio_euv |      SI     |    string    |
+| curp      |      SI     |    string    | 
+
+#### Ejemplo de solicitud.
+con curl.
+```bash
+    curl --location 'API_URL/api/restore-curp-from-euv' \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    --header 'Authorization: Bearer TOKEN' \
+    --data '{
+        "folio_euv" : "EUV00000000000XX0X0XX0XX",
+        "curp" : "CURP000000XXXXXXX0"
+    }'
+```
+con PHP - cURL.
+```php
+    <?php
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'API_URL/api/restore-curp-from-euv',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS =>'{
+        "folio_euv" : "EUV00000000000XX0X0XX0XX",
+        "curp" : "CURP000000XXXXXXX0"
+    }',
+    CURLOPT_HTTPHEADER => array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        'Authorization: Bearer TOKEN'
+    ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
+```
+con JavaScrip - fetch.
+```javascript
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer TOKEN");
+
+    const raw = JSON.stringify({
+    "folio_euv": "EUV00000000000XX0X0XX0XX",
+    "curp": "CURP000000XXXXXXX0"
+    });
+
+    const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+    };
+
+    fetch("API_URL/api/restore-curp-from-euv", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+```
+#### La respuesta que se recibirá después de la petición.
+con estatus 200  en formato json.
+```json
+    {
+        "message": "CURP restaurado",
+        "folio_euv": "EUV000000000005302092024"
+    }
+```
+con estatus 422. Error con el folio euv.
+```json
+    {
+        "message": "El campo folio euv seleccionado no es válido.",
+        "errors": {
+            "folio_euv": [
+                "El campo folio euv seleccionado no es válido."
+            ]
+        }
+    }
+```
+con estatus 422. Error con el curp debido a que ya existe en la base de datos.
+```json
+{
+    "message": "El campo curp ya ha sido tomado.",
+    "errors": {
+        "curp": [
+            "El campo curp ya ha sido tomado."
+        ]
+    }
+}
+```
+con estatus 422. Error con el curp debido a que ya existe en la base de datos y folio euv incorrecto.
+```json
+    {
+        "message": "El campo folio euv seleccionado no es válido. (and 1 more error)",
+        "errors": {
+            "folio_euv": [
+                "El campo folio euv seleccionado no es válido."
+            ],
+            "curp": [
+                "El campo curp ya ha sido tomado."
+            ]
+        }
+    }
+```
+con estatus 422. En caso de no recibir el datos.
+```json
+    {
+        "message": "El campo folio euv es requerido. (and 1 more error)",
+        "errors": {
+            "folio_euv": [
+                "El campo folio euv es requerido."
+            ],
+            "curp": [
+                "El campo curp es requerido."
+            ]
+        }
+    }
+```
+
+--------------------------------------------------------------------------    
+### Catálogos
+--------------------------------------------------------------------------
+
+## Lista de Recursos de Catálogos
+
+Los siguientes catálogos están disponibles como recursos para consulta y referencia en el uso del API:
+
+### Catálogos de Ubicación Geográfica
+- [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing) - Claves de entidades federativas
+- [cve_mun](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view) - Claves de municipios
+- [cve_loc](https://drive.google.com/file/d/1VDHjmDqURqkLc5MQb84MKhI9NlVrg3m3/view) - Claves de localidades
+- [colonias_id](https://drive.google.com/file/d/1wWVhPLa0zFgdoeQYEtCRNfODEcpQx6BH/view) - Catálogo de colonias
+- [pais_id](https://drive.google.com/file/d/1-5gPflCkSALusWLp_pUN20NJbqEWE6ir/view) - Catálogo de países
+
+### Catálogos de Violencia y Hechos
+- [lugar_id](https://drive.google.com/file/d/1_rs52tWT5M-6U0AVn3texkHHpeSwtmRZ/view) - Lugares de ocurrencia
+- [lugar_detalle_id](https://drive.google.com/file/d/1HvwJJpAHiQ7h5XnzVLAMT6tDnUCZZnZk/view) - Detalles de lugares de ocurrencia
+- [tipo_violencia](https://drive.google.com/file/d/1Vf4-VABIMH5LIK308ubKLfjfFKwfnhOk/view) - Tipos de violencia
+- [modalidad_violencia](https://drive.google.com/file/d/1_Oq77ueBKXeV6e9848S7Y4i-Xa2WGUG-/view) - Modalidades de violencia
+- [efectos_fisicos](https://drive.google.com/file/d/1TFijVmvWgGEAzjrAE1WVW-WQveIg-UXy/view) - Efectos físicos
+- [consecuencias_sexuales](https://drive.google.com/file/d/1qG8ny2idjFkaGjYP_piFKFb30Dgg4jhR/view) - Consecuencias sexuales
+- [efectos_psicologicos](https://drive.google.com/file/d/1F-R-n6QdIxWPczrw_ZFcSvzQzu_FPXY0/view) - Efectos psicológicos
+- [efectos_economicos_y_patrimoniales](https://drive.google.com/file/d/1o9U4ySp0xzFkItncnuLDeqliUOhHIB1L/view) - Efectos económicos y patrimoniales
+- [agente_de_lesion](https://drive.google.com/file/d/1RjXu3Ea0osZeesVqZPWAQXP3iVVIY2Kh/view) - Agentes de lesión
+- [area_anatomica_lesionada](https://drive.google.com/file/d/1R0fblWPIU9-bc74GapgzEnBwFjP4T11p/view) - Áreas anatómicas lesionadas
+
+### Catálogos de Datos Personales y Sociales
+- [nacionalidad_id](https://drive.google.com/file/d/1Q0gUDPgv9_3xfmPYPJ6WLfrUrFdqvEGB/view) - Nacionalidades
+- [estado_conyugal](https://drive.google.com/file/d/1ealfYFyyPpz_C2VfJ3tTrpXzGMVAzfwi/view?usp=sharing) - Estados conyugales
+- [escolaridad_id](https://drive.google.com/file/d/1Pf_eJpt_S34Ipo908Ih7RS-kQHfwJQGr/view) - Niveles de escolaridad
+- [ingreso_economico_id](https://docs.google.com/spreadsheets/d/15yA5gPDJXZFZkW1fiFKhrCXeQT1uVGJB/edit?gid=717444154#gid=717444154) - Niveles de ingreso económico
+- [ocupacion_id](https://drive.google.com/file/d/1tY37QRvcZa0c-vzlSsgEpIRJnN2BqCw_/view) - Ocupaciones
+- [sexo_id](https://docs.google.com/spreadsheets/d/1KhLoeg4tQSjiADualz6AvGSHHuA4hlr7FANCYOx2HyI/edit?gid=0#gid=0) - Sexos
+
+### Catálogos de Identidad y Orientación
+- [identidad_genero_id](https://drive.google.com/file/d/1K7jBCF4E6aiBfnrg4ioD5cqh6gbFOXcL/view) - Identidades de género
+- [orientacion_sexual_id](https://drive.google.com/file/d/1hc5Yhl2gr6_pWBFED7G0QMGyooVzIS5x/view) - Orientaciones sexuales
+
+### Catálogos de Salud y Condiciones Especiales
+- [discapacidad](https://drive.google.com/file/d/1mNHUBUsaUKiOPfnoRkGyJjG9fWvcKZFU/view?usp=sharing) - Tipos de discapacidad
+- [pueblo_indigena_id](https://drive.google.com/file/d/1HUX7WHG1yI-QA-Jo7DG483HCf2kJBBDA/view?usp=drive_link) - Pueblos indígenas
+- [cual_adiccion](https://drive.google.com/file/d/165EOC-eMmor3JFDXKJT4-Scb8zgjZEAF/view?usp=sharing) - Tipos de adicción
+- [tipos_adicciones](https://drive.google.com/file/d/1Rj1oaktbwIiDQ04Jq6-n8bSXv09FCTaa/view?usp=sharing) - Tipos de adicciones
+- [gestacion_id](https://drive.google.com/file/d/1pJCpimw2w7NzZwj0_0zRW3dalcDBgzdu/view?usp=sharing) - Estados de gestación
+- [servicio_medico_id](https://drive.google.com/file/d/148DpyySvBaHaBcimb0VhGkyusW3lqrc9/view?usp=sharing) - Servicios médicos
+
+### Catálogos de Servicios y Autoridades
+- [tipo_id](https://drive.google.com/file/d/1Z6scmhtreut1JJtDr11WSGcuKlibs_cI/view) - Tipos de servicio
+- [servicios_id](https://drive.google.com/file/d/1JDVkLKaKQIshGa4Xhmx5B343_SDc1ce0/view) - Servicios disponibles
+- [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view) - Dependencias correspondientes
+- [instancias_id](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view) - Instancias
+- [instancias_envia_id](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view) - Instancias que envían
+- [autoridad_id](https://drive.google.com/file/d/1V5roC6VJQBAm_2D0Mw6VrapUoZSPlBP7/view?usp=drive_link) - Autoridades
+
+### Catálogos de Situaciones Especiales
+- [calidad_legal_id](https://drive.google.com/file/d/1MpQvCjgHaLPso9DCxl6ugngvlyUwamRF/view) - Calidades legales
+- [tortura_tipo_id](https://drive.google.com/file/d/1ycr5AJKeDrzD8q3HfJAyCNuK_uZ26n_Z/view) - Tipos de tortura
+- [tortura_momento_id](https://drive.google.com/file/d/1taXbMYYtM7tfd4X4GaX1rZrRImRmIzYZ/view) - Momentos de tortura
+
+### Catálogos de Trata y Explotación
+- [accion_omision_dolosa_id](https://drive.google.com/file/d/13CdVeVrsyRmC9PmOj5kPkgw52Xrv2b2M/view) - Acciones u omisiones dolosas
+- [accion_omision_dolosa_array](https://drive.google.com/file/d/13CdVeVrsyRmC9PmOj5kPkgw52Xrv2b2M/view) - Array de acciones u omisiones dolosas
+- [fines_reclutamiento_id](https://drive.google.com/file/d/1jC7ZmP3p_CiuNqCcflfkDsilpbrLfx02/view) - Fines de reclutamiento
+- [fines_reclutamiento_array](https://drive.google.com/file/d/1jC7ZmP3p_CiuNqCcflfkDsilpbrLfx02/view) - Array de fines de reclutamiento
+
+### Catálogos de Desaparición
+- [tipo_de_desaparicion_id](https://drive.google.com/file/d/1iILF7y_7DU-U5l_AKquuuqarLu1AA-6y/view) - Tipos de desaparición
+- [vinculo_victima_id](https://drive.google.com/file/d/1_F5CDwHh3Tq7JtOho6v1upeZYnIZf8C6/view) - Vínculos con víctima
+- [estatus_desaparicion_id](https://drive.google.com/file/d/16k8t3y2nOkq1xhZ-7aGx77V333Yq__eg/view) - Estatus de desaparición
+
+### Catálogos de Agresores
+- [tipos_armas](https://drive.google.com/file/d/1yFUao4LN0Qcs0rP2OP_YeykQoDHZXP12/view) - Tipos de armas
+- [tipos_drogas](https://drive.google.com/file/d/1YDUsKIZLzOA32YrEa4LekGQ0DY2wqFl_/view) - Tipos de drogas
+
+### Catálogos de Órdenes de Protección
+- [tipo_id (órdenes)](https://drive.google.com/file/d/19l9hKuNa_vwlFP75k3GLNT2b3WXIU6Wa/view?usp=sharing) - Tipos de órdenes de protección
+- [dia_id](https://drive.google.com/file/d/1p54Md635_hT6MnwS9VJvTpiVmOML_GjH/view?usp=sharing) - Días
+- [tipo_orden_id](https://drive.google.com/file/d/1VouluPnN8QjhNhU643mMzdrOJaYfpQ4p/view?usp=sharing) - Tipos de orden
+- [tipo_medida_id](https://drive.google.com/file/d/1_NuvQWNCvpLrMa12XB17-5F96FQkoI6U/view?usp=drive_link) - Tipos de medida
+- [fracciones_tipo_orden](https://drive.google.com/file/d/1o7P1e43843s33VA3wtqj45_Nwk6NsYh0/view?usp=sharing) - Fracciones de tipo de orden
+- [fracciones_tipo_medida](https://drive.google.com/file/d/1P6754jUcYzBOpVrAcsJfFMI6K1vQtYUG/view?usp=sharing) - Fracciones de tipo de medida
+
+
 
 ### Campos opcionales de captura
 
