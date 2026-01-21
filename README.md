@@ -7082,80 +7082,345 @@ con estatus 422. En caso de no recibir el datos.
 
 Los siguientes catálogos están disponibles como recursos para consulta y referencia en el uso del API:
 
-### Catálogos de Ubicación Geográfica
-- [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view?usp=sharing) - Claves de entidades federativas
-- [cve_mun](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view) - Claves de municipios
-- [cve_loc](https://drive.google.com/file/d/1VDHjmDqURqkLc5MQb84MKhI9NlVrg3m3/view) - Claves de localidades
-- [colonias_id](https://drive.google.com/file/d/1wWVhPLa0zFgdoeQYEtCRNfODEcpQx6BH/view) - Catálogo de colonias
-- [pais_id](https://drive.google.com/file/d/1-5gPflCkSALusWLp_pUN20NJbqEWE6ir/view) - Catálogo de países
+📍 Catálogos de Ubicación Geográfica
 
-### Catálogos de Violencia y Hechos
-- [lugar_id](https://drive.google.com/file/d/1_rs52tWT5M-6U0AVn3texkHHpeSwtmRZ/view) - Lugares de ocurrencia
-- [lugar_detalle_id](https://drive.google.com/file/d/1HvwJJpAHiQ7h5XnzVLAMT6tDnUCZZnZk/view) - Detalles de lugares de ocurrencia
-- [tipo_violencia](https://drive.google.com/file/d/1Vf4-VABIMH5LIK308ubKLfjfFKwfnhOk/view) - Tipos de violencia
-- [modalidad_violencia](https://drive.google.com/file/d/1_Oq77ueBKXeV6e9848S7Y4i-Xa2WGUG-/view) - Modalidades de violencia
-- [efectos_fisicos](https://drive.google.com/file/d/1TFijVmvWgGEAzjrAE1WVW-WQveIg-UXy/view) - Efectos físicos
-- [consecuencias_sexuales](https://drive.google.com/file/d/1qG8ny2idjFkaGjYP_piFKFb30Dgg4jhR/view) - Consecuencias sexuales
-- [efectos_psicologicos](https://drive.google.com/file/d/1F-R-n6QdIxWPczrw_ZFcSvzQzu_FPXY0/view) - Efectos psicológicos
-- [efectos_economicos_y_patrimoniales](https://drive.google.com/file/d/1o9U4ySp0xzFkItncnuLDeqliUOhHIB1L/view) - Efectos económicos y patrimoniales
-- [agente_de_lesion](https://drive.google.com/file/d/1RjXu3Ea0osZeesVqZPWAQXP3iVVIY2Kh/view) - Agentes de lesión
-- [area_anatomica_lesionada](https://drive.google.com/file/d/1R0fblWPIU9-bc74GapgzEnBwFjP4T11p/view) - Áreas anatómicas lesionadas
+Consulta completa en:
+🔗 Repositorio de Ubicación Geográfica
+https://dtic-my.sharepoint.com/:f:/g/personal/drojas_mujeres_gob_mx/IgA5Tg8Iqv26QZUib6pud5oQAbGhj8ro7UZUKf50_1RsxDU
 
-### Catálogos de Datos Personales y Sociales
-- [nacionalidad_id](https://drive.google.com/file/d/1Q0gUDPgv9_3xfmPYPJ6WLfrUrFdqvEGB/view) - Nacionalidades
-- [estado_conyugal](https://drive.google.com/file/d/1ealfYFyyPpz_C2VfJ3tTrpXzGMVAzfwi/view?usp=sharing) - Estados conyugales
-- [escolaridad_id](https://drive.google.com/file/d/1Pf_eJpt_S34Ipo908Ih7RS-kQHfwJQGr/view) - Niveles de escolaridad
-- [ingreso_economico_id](https://docs.google.com/spreadsheets/d/15yA5gPDJXZFZkW1fiFKhrCXeQT1uVGJB/edit?gid=717444154#gid=717444154) - Niveles de ingreso económico
-- [ocupacion_id](https://drive.google.com/file/d/1tY37QRvcZa0c-vzlSsgEpIRJnN2BqCw_/view) - Ocupaciones
-- [sexo_id](https://docs.google.com/spreadsheets/d/1KhLoeg4tQSjiADualz6AvGSHHuA4hlr7FANCYOx2HyI/edit?gid=0#gid=0) - Sexos
+Incluye:
 
-### Catálogos de Identidad y Orientación
-- [identidad_genero_id](https://drive.google.com/file/d/1K7jBCF4E6aiBfnrg4ioD5cqh6gbFOXcL/view) - Identidades de género
-- [orientacion_sexual_id](https://drive.google.com/file/d/1hc5Yhl2gr6_pWBFED7G0QMGyooVzIS5x/view) - Orientaciones sexuales
+Claves de entidades federativas
 
-### Catálogos de Salud y Condiciones Especiales
-- [discapacidad](https://drive.google.com/file/d/1mNHUBUsaUKiOPfnoRkGyJjG9fWvcKZFU/view?usp=sharing) - Tipos de discapacidad
-- [pueblo_indigena_id](https://drive.google.com/file/d/1HUX7WHG1yI-QA-Jo7DG483HCf2kJBBDA/view?usp=drive_link) - Pueblos indígenas
-- [cual_adiccion](https://drive.google.com/file/d/165EOC-eMmor3JFDXKJT4-Scb8zgjZEAF/view?usp=sharing) - Tipos de adicción
-- [tipos_adicciones](https://drive.google.com/file/d/1Rj1oaktbwIiDQ04Jq6-n8bSXv09FCTaa/view?usp=sharing) - Tipos de adicciones
-- [gestacion_id](https://drive.google.com/file/d/1pJCpimw2w7NzZwj0_0zRW3dalcDBgzdu/view?usp=sharing) - Estados de gestación
-- [servicio_medico_id](https://drive.google.com/file/d/148DpyySvBaHaBcimb0VhGkyusW3lqrc9/view?usp=sharing) - Servicios médicos
+Municipios
 
-### Catálogos de Servicios y Autoridades
-- [tipo_id](https://drive.google.com/file/d/1Z6scmhtreut1JJtDr11WSGcuKlibs_cI/view) - Tipos de servicio
-- [servicios_id](https://drive.google.com/file/d/1JDVkLKaKQIshGa4Xhmx5B343_SDc1ce0/view) - Servicios disponibles
-- [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view) - Dependencias correspondientes
-- [instancias_id](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view) - Instancias
-- [instancias_envia_id](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view) - Instancias que envían
-- [autoridad_id](https://drive.google.com/file/d/1V5roC6VJQBAm_2D0Mw6VrapUoZSPlBP7/view?usp=drive_link) - Autoridades
+Localidades
 
-### Catálogos de Situaciones Especiales
-- [calidad_legal_id](https://drive.google.com/file/d/1MpQvCjgHaLPso9DCxl6ugngvlyUwamRF/view) - Calidades legales
-- [tortura_tipo_id](https://drive.google.com/file/d/1ycr5AJKeDrzD8q3HfJAyCNuK_uZ26n_Z/view) - Tipos de tortura
-- [tortura_momento_id](https://drive.google.com/file/d/1taXbMYYtM7tfd4X4GaX1rZrRImRmIzYZ/view) - Momentos de tortura
+Colonias
 
-### Catálogos de Trata y Explotación
-- [accion_omision_dolosa_id](https://drive.google.com/file/d/13CdVeVrsyRmC9PmOj5kPkgw52Xrv2b2M/view) - Acciones u omisiones dolosas
-- [accion_omision_dolosa_array](https://drive.google.com/file/d/13CdVeVrsyRmC9PmOj5kPkgw52Xrv2b2M/view) - Array de acciones u omisiones dolosas
-- [fines_reclutamiento_id](https://drive.google.com/file/d/1jC7ZmP3p_CiuNqCcflfkDsilpbrLfx02/view) - Fines de reclutamiento
-- [fines_reclutamiento_array](https://drive.google.com/file/d/1jC7ZmP3p_CiuNqCcflfkDsilpbrLfx02/view) - Array de fines de reclutamiento
+Países
 
-### Catálogos de Desaparición
-- [tipo_de_desaparicion_id](https://drive.google.com/file/d/1iILF7y_7DU-U5l_AKquuuqarLu1AA-6y/view) - Tipos de desaparición
-- [vinculo_victima_id](https://drive.google.com/file/d/1_F5CDwHh3Tq7JtOho6v1upeZYnIZf8C6/view) - Vínculos con víctima
-- [estatus_desaparicion_id](https://drive.google.com/file/d/16k8t3y2nOkq1xhZ-7aGx77V333Yq__eg/view) - Estatus de desaparición
+⚖️ Catálogos de Violencia y Hechos
 
-### Catálogos de Agresores
-- [tipos_armas](https://drive.google.com/file/d/1yFUao4LN0Qcs0rP2OP_YeykQoDHZXP12/view) - Tipos de armas
-- [tipos_drogas](https://drive.google.com/file/d/1YDUsKIZLzOA32YrEa4LekGQ0DY2wqFl_/view) - Tipos de drogas
+🔗 Repositorio de Violencia y Hechos
+https://dtic-my.sharepoint.com/:f:/g/personal/drojas_mujeres_gob_mx/IgA5Tg8Iqv26QZUib6pud5oQAbGhj8ro7UZUKf50_1RsxDU
 
-### Catálogos de Órdenes de Protección
-- [tipo_id (órdenes)](https://drive.google.com/file/d/19l9hKuNa_vwlFP75k3GLNT2b3WXIU6Wa/view?usp=sharing) - Tipos de órdenes de protección
-- [dia_id](https://drive.google.com/file/d/1p54Md635_hT6MnwS9VJvTpiVmOML_GjH/view?usp=sharing) - Días
-- [tipo_orden_id](https://drive.google.com/file/d/1VouluPnN8QjhNhU643mMzdrOJaYfpQ4p/view?usp=sharing) - Tipos de orden
-- [tipo_medida_id](https://drive.google.com/file/d/1_NuvQWNCvpLrMa12XB17-5F96FQkoI6U/view?usp=drive_link) - Tipos de medida
-- [fracciones_tipo_orden](https://drive.google.com/file/d/1o7P1e43843s33VA3wtqj45_Nwk6NsYh0/view?usp=sharing) - Fracciones de tipo de orden
-- [fracciones_tipo_medida](https://drive.google.com/file/d/1P6754jUcYzBOpVrAcsJfFMI6K1vQtYUG/view?usp=sharing) - Fracciones de tipo de medida
+Incluye:
+
+Tipos y modalidades de violencia
+
+Lugares de ocurrencia
+
+Efectos físicos, psicológicos y patrimoniales
+
+Agentes de lesión
+
+Áreas anatómicas lesionadas
+
+🧍‍♀️ Catálogos de Datos Personales y Sociales
+
+🔗 Repositorio de Datos Personales y Sociales
+https://dtic-my.sharepoint.com/:f:/g/personal/drojas_mujeres_gob_mx/IgAjdAeu5ULtQ5wBK-LCTV2pAVCZe3aKhJqCU-l_y8PXctU
+
+Incluye:
+
+Nacionalidad
+
+Estado conyugal
+
+Escolaridad
+
+Ingreso económico
+
+Ocupación
+
+Sexo
+
+🌈 Catálogos de Identidad y Orientación
+
+🔗 Repositorio de Identidad y Orientación
+https://dtic-my.sharepoint.com/:f:/g/personal/drojas_mujeres_gob_mx/IgCJ0YDSeBrTR6w39HdYXJo0AVunXS0PHt6GkeAg2qB2eKs
+
+Incluye:
+
+Identidad de género
+
+Orientación sexual
+
+🏥 Catálogos de Salud y Condiciones Especiales
+
+🔗 Repositorio de Salud y Condiciones Especiales
+https://dtic-my.sharepoint.com/:f:/g/personal/drojas_mujeres_gob_mx/IgBLEOjs6q88TJcc_Dqt46lgAaUyPUV9rVMRUSukJgr1me0
+
+Incluye:
+
+Discapacidad
+
+Pueblos indígenas
+
+Adicciones
+
+Gestación
+
+Servicios médicos
+
+🏛️ Catálogos de Servicios y Autoridades
+
+🔗 Repositorio de Servicios y Autoridades
+https://dtic-my.sharepoint.com/:f:/g/personal/drojas_mujeres_gob_mx/IgD-VQhbQwNwQoq0EDyDZDxZAR36lYiF_cAqD6eOBbCLkXY
+
+Incluye:
+
+Tipos de servicio
+
+Servicios disponibles
+
+Dependencias
+
+Instancias
+
+Autoridades
+
+📜 Catálogos de Situaciones Especiales
+
+🔗 Repositorio de Situaciones Especiales
+https://dtic-my.sharepoint.com/:f:/g/personal/drojas_mujeres_gob_mx/IgCYZUEmobJ3RY7kOmcXxpceAXttHX-MJdWD236EPx6crB0
+
+Incluye:
+
+Calidades legales
+
+Tipos y momentos de tortura
+
+🔍 Catálogos de Desaparición
+
+🔗 Repositorio de Desaparición
+https://dtic-my.sharepoint.com/:f:/g/personal/drojas_mujeres_gob_mx/IgBOJmdREdziQY_wHUOybSHHAbAXdfoTx7kR6nqIiFdo1u0
+
+Incluye:
+
+Tipos de desaparición
+
+Vínculos con víctima
+
+Estatus
+
+🚨 Catálogos de Agresores
+
+🔗 Repositorio de Agresores
+https://dtic-my.sharepoint.com/:f:/g/personal/drojas_mujeres_gob_mx/IgBHEOjuHy7DQqlwIgF_FDZPAUthst-ZMpwVZ_EIsB2fHew
+
+Incluye:
+
+Tipos de armas
+
+Tipos de drogas
+
+🛡️ Catálogos de Órdenes de Protección
+
+🔗 Repositorio de Órdenes de Protección
+https://dtic-my.sharepoint.com/:f:/g/personal/drojas_mujeres_gob_mx/IgDv6j4XyDLfRZXeb7C-neLFASSf_sde2ts4PfcYYsrUfKk
+
+Incluye:
+
+Tipos de orden
+
+Tipos de medida
+
+Días
+
+Fracciones normativas
+
+📦 Repositorio General de Catálogos
+
+🔗 Todos los Catálogos
+https://dtic-my.sharepoint.com/:f:/g/personal/drojas_mujeres_gob_mx/IgAkAmC1o0ODSKsmEz3WCHb5AaysmjOfMpheU9-mCv0H5BQ
+
+Contiene la totalidad de los catálogos utilizados por el API para consulta integral.
+
+
+
+Uso de Catálogos en el API
+Validaciones, integración y ejemplos
+
+Los catálogos son utilizados por el API como mecanismos de validación, normalización y control de integridad de la información.
+Todos los valores enviados en los campos asociados a catálogos deben existir previamente en la fuente oficial de catálogos publicada.
+
+📚 Fuente Oficial de Catálogos
+
+Los catálogos se encuentran organizados por dominio funcional en repositorios públicos de OneDrive, los cuales deben ser considerados como la referencia única y vigente:
+
+Ubicación geográfica
+
+Violencia y hechos
+
+Datos personales y sociales
+
+Identidad y orientación
+
+Salud y condiciones especiales
+
+Servicios y autoridades
+
+Situaciones especiales
+
+Desaparición
+
+Agresores
+
+Órdenes de protección
+
+⚠️ El API no permite valores fuera de catálogo ni textos libres en campos catalogados.
+
+🔎 ¿Cómo se usan los catálogos en los endpoints?
+
+Los catálogos se utilizan principalmente para:
+
+Validar que un valor enviado exista
+
+Normalizar la información
+
+Evitar duplicidad de conceptos
+
+Permitir análisis estadístico confiable
+
+Ejemplo: Registro de hecho de violencia
+Endpoint
+POST /api/v1/hechos-violencia
+
+Body esperado
+{
+  "tipo_violencia_id": 3,
+  "modalidad_violencia_id": 2,
+  "lugar_id": 5,
+  "efectos_fisicos_id": 1
+}
+
+Validaciones asociadas
+Campo	Catálogo asociado	Validación
+tipo_violencia_id	Tipos de violencia	Debe existir en catálogo tipo_violencia
+modalidad_violencia_id	Modalidades de violencia	Debe existir y corresponder al tipo
+lugar_id	Lugares de ocurrencia	Debe existir
+efectos_fisicos_id	Efectos físicos	Debe existir
+🧪 Validaciones típicas del API
+Validación de existencia
+'tipo_violencia_id' => 'required|exists:tipo_violencia,id'
+
+Validación combinada (dependiente)
+
+Ejemplo: la modalidad debe pertenecer al tipo:
+
+Rule::exists('modalidad_violencia','id')
+    ->where('tipo_violencia_id', request('tipo_violencia_id'))
+
+📌 Ejemplo: Registro de persona
+Endpoint
+POST /api/v1/personas
+
+Body
+{
+  "sexo_id": 2,
+  "nacionalidad_id": 1,
+  "estado_conyugal_id": 3,
+  "escolaridad_id": 4,
+  "ocupacion_id": 12
+}
+
+Validaciones
+Campo	Catálogo
+sexo_id	Sexo
+nacionalidad_id	Nacionalidades
+estado_conyugal_id	Estados conyugales
+escolaridad_id	Escolaridad
+ocupacion_id	Ocupaciones
+🧩 Ejemplo: Órdenes de Protección
+Endpoint
+POST /api/v1/ordenes-proteccion
+
+{
+  "tipo_orden_id": 1,
+  "tipo_medida_id": 3,
+  "dia_id": 2
+}
+
+Validación
+Campo	Catálogo
+tipo_orden_id	Tipos de orden
+tipo_medida_id	Tipos de medida
+dia_id	Días
+🚫 Errores comunes relacionados con catálogos
+Valor inexistente
+{
+  "error": "El valor proporcionado para tipo_violencia_id no existe en el catálogo."
+}
+
+Valor fuera de relación
+{
+  "error": "La modalidad seleccionada no corresponde al tipo de violencia indicado."
+}
+
+📎 Buenas prácticas para consumir los catálogos
+
+✔ Consultar siempre la fuente oficial antes de enviar valores
+✔ No usar textos libres en campos catalogados
+✔ No asumir IDs estáticos sin verificar
+✔ Sincronizar periódicamente los catálogos en sistemas consumidores
+✔ Manejar catálogos como datos de referencia, no como lógica de negocio
+
+
+Tabla Global de Campos Catalogados del API
+
+La siguiente tabla identifica todos los campos del API que utilizan catálogos como fuente de validación, indicando el dominio funcional y su repositorio oficial.
+
+| Campo del API             | Catálogo asociado        | Dominio funcional              | Uso principal              |
+| ------------------------- | ------------------------ | ------------------------------ | -------------------------- |
+| cve_ent_id                | Entidades federativas    | Ubicación geográfica           | Identificar entidad        |
+| cve_mun_id                | Municipios               | Ubicación geográfica           | Identificar municipio      |
+| cve_loc_id                | Localidades              | Ubicación geográfica           | Identificar localidad      |
+| colonia_id                | Colonias                 | Ubicación geográfica           | Identificar colonia        |
+| pais_id                   | Países                   | Ubicación geográfica           | Identificar país           |
+| tipo_violencia_id         | Tipos de violencia       | Violencia y hechos             | Clasificar hecho           |
+| modalidad_violencia_id    | Modalidades de violencia | Violencia y hechos             | Detallar tipo de violencia |
+| lugar_id                  | Lugares de ocurrencia    | Violencia y hechos             | Ubicar el hecho            |
+| lugar_detalle_id          | Detalles de lugar        | Violencia y hechos             | Precisar ubicación         |
+| efectos_fisicos_id        | Efectos físicos          | Violencia y hechos             | Daños físicos              |
+| efectos_psicologicos_id   | Efectos psicológicos     | Violencia y hechos             | Daños psicológicos         |
+| efectos_economicos_id     | Efectos económicos       | Violencia y hechos             | Daños patrimoniales        |
+| consecuencias_sexuales_id | Consecuencias sexuales   | Violencia y hechos             | Daños sexuales             |
+| agente_lesion_id          | Agentes de lesión        | Violencia y hechos             | Medio de lesión            |
+| area_anatomica_id         | Áreas anatómicas         | Violencia y hechos             | Zona afectada              |
+| sexo_id                   | Sexo                     | Datos personales y sociales    | Identidad biológica        |
+| nacionalidad_id           | Nacionalidades           | Datos personales y sociales    | Nacionalidad               |
+| estado_conyugal_id        | Estados conyugales       | Datos personales y sociales    | Estado civil               |
+| escolaridad_id            | Escolaridad              | Datos personales y sociales    | Nivel educativo            |
+| ingreso_economico_id      | Ingreso económico        | Datos personales y sociales    | Nivel ingreso              |
+| ocupacion_id              | Ocupaciones              | Datos personales y sociales    | Actividad                  |
+| identidad_genero_id       | Identidad de género      | Identidad y orientación        | Autopercepción             |
+| orientacion_sexual_id     | Orientación sexual       | Identidad y orientación        | Preferencia                |
+| discapacidad_id           | Discapacidad             | Salud y condiciones especiales | Condición                  |
+| pueblo_indigena_id        | Pueblos indígenas        | Salud y condiciones especiales | Pertenencia                |
+| adiccion_id               | Tipos de adicción        | Salud y condiciones especiales | Consumo                    |
+| gestacion_id              | Estados de gestación     | Salud y condiciones especiales | Embarazo                   |
+| servicio_medico_id        | Servicios médicos        | Salud y condiciones especiales | Atención médica            |
+| tipo_servicio_id          | Tipos de servicio        | Servicios y autoridades        | Clasificar servicio        |
+| servicio_id               | Servicios disponibles    | Servicios y autoridades        | Servicio concreto          |
+| dependencia_id            | Dependencias             | Servicios y autoridades        | Institución                |
+| instancia_id              | Instancias               | Servicios y autoridades        | Órgano                     |
+| autoridad_id              | Autoridades              | Servicios y autoridades        | Autoridad                  |
+| calidad_legal_id          | Calidades legales        | Situaciones especiales         | Estatus jurídico           |
+| tortura_tipo_id           | Tipos de tortura         | Situaciones especiales         | Clasificación              |
+| tortura_momento_id        | Momentos de tortura      | Situaciones especiales         | Temporalidad               |
+| tipo_desaparicion_id      | Tipos de desaparición    | Desaparición                   | Clasificar desaparición    |
+| estatus_desaparicion_id   | Estatus de desaparición  | Desaparición                   | Seguimiento                |
+| vinculo_victima_id        | Vínculo con víctima      | Desaparición                   | Relación                   |
+| tipo_arma_id              | Tipos de armas           | Agresores                      | Medio usado                |
+| tipo_droga_id             | Tipos de drogas          | Agresores                      | Sustancia                  |
+| tipo_orden_id             | Tipos de orden           | Órdenes de protección          | Clasificar orden           |
+| tipo_medida_id            | Tipos de medida          | Órdenes de protección          | Tipo de protección         |
+| dia_id                    | Días                     | Órdenes de protección          | Vigencia                   |
+| fraccion_tipo_orden_id    | Fracciones tipo orden    | Órdenes de protección          | Base legal                 |
+| fraccion_tipo_medida_id   | Fracciones tipo medida   | Órdenes de protección          | Base legal                 |
+
 
 
 
