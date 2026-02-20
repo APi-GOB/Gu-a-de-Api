@@ -4638,117 +4638,152 @@ El registro requiere que exista un hecho de violencia, teniendo una dependencia 
 catálogos: [sexo_id](https://docs.google.com/spreadsheets/d/1KhLoeg4tQSjiADualz6AvGSHHuA4hlr7FANCYOx2HyI/edit?gid=0#gid=0), [tipos_armas](https://drive.google.com/file/d/1yFUao4LN0Qcs0rP2OP_YeykQoDHZXP12/view), [vinculo_victima_id](https://drive.google.com/file/d/1_F5CDwHh3Tq7JtOho6v1upeZYnIZf8C6/view), [identidad_genero_id](https://drive.google.com/file/d/1K7jBCF4E6aiBfnrg4ioD5cqh6gbFOXcL/view), [orientacion_sexual_id](https://drive.google.com/file/d/1hc5Yhl2gr6_pWBFED7G0QMGyooVzIS5x/view), [cve_ent](https://drive.google.com/file/d/1Y163QX4ddN4J6w8ZGNUg_11-l4EM9V5w/view), [cve_mun](https://drive.google.com/file/d/19q9v31lH0Dgq7bsCBpO3hGfr_mT5VfNk/view), [cve_loc](https://drive.google.com/file/d/1VDHjmDqURqkLc5MQb84MKhI9NlVrg3m3/view), [colonias_id](https://drive.google.com/file/d/1wWVhPLa0zFgdoeQYEtCRNfODEcpQx6BH/view), [escolaridad_id](https://drive.google.com/file/d/1Pf_eJpt_S34Ipo908Ih7RS-kQHfwJQGr/view), [ingreso_economico_id](https://docs.google.com/spreadsheets/d/15yA5gPDJXZFZkW1fiFKhrCXeQT1uVGJB/edit?gid=717444154#gid=717444154), [ocupacion_id](https://drive.google.com/file/d/1tY37QRvcZa0c-vzlSsgEpIRJnN2BqCw_/view), [tipos_drogas](https://drive.google.com/file/d/1YDUsKIZLzOA32YrEa4LekGQ0DY2wqFl_/view), [dependencia_corresponde](https://drive.google.com/file/d/152JS404Y43GSvJnTWFx3K7DSuQJX9OUK/view)
 #### Body raw (json)
 ```json
-    {
-        "hechos_id"                 : 5,
-        "nombre"                    : "FFFF",
-        "primer_apellido"           : "AAAA",
-        "segundo_apellido"          : "AAAA",
-        "curp"                      : "CURP000000XXXXXXX0",
-        "sexo_id"                   : 1,
-        "edad"                      : 50,
-        "mismo_domicilio_victima"   : true,
-        "acceso_a_armas"            : true,
-        "tipos_armas"               : [1],
-        "vinculo_victima_id"        : 5,
-        "identidad_genero_id"       : null,
-        "orientacion_sexual_id"     : 1,
-        "calle"                     : "FFFFFFFF",
-        "num_exterior"              : "23 A",
-        "num_interior"              : "5B, piso 3",
-        "cve_ent"                   : 21,
-        "cve_mun"                   : 132,
-        "cve_loc"                   : 1,
-        "codigo_postal"             : "74000",
-        "colonias_id"               : 16813,
-        "entre_calle_uno"           : "entre_calle_uno",
-        "entre_calle_dos"           : "entre_calle_dos",
-        "referencia"                : null,
-        "escolaridad_id"            : null,
-        "ingreso_economico_id"      : null,
-        "ocupacion_id"              : 3,
-        "conoce_persona"            : true,
-        "consume_drogas"            : true,
-        "tipos_drogas"              : [1],
-        "dependencia_corresponde"   : 103
-    }
+{
+  "hechos_id": 5,
+  "nombre": "FFFF",
+  "primer_apellido": "AAAA",
+  "segundo_apellido": "AAAA",
+  "curp": "CURP000000XXXXXXX0",
+  "sexo_id": 1,
+
+  "edad": 50,
+  "edad_aproximada": 50,
+  "apodo": "EL APODO",
+  "puede_identificar_al_agresor": true,
+  "identificacion_detalles": "Se identifica por tatuaje en el antebrazo derecho.",
+
+  "mismo_domicilio_victima": true,
+  "conoce_domicilio": true,
+  "puede_localizar_al_agresor": true,
+
+  "acceso_a_armas": true,
+  "tipos_armas": [1],
+
+  "vinculo_victima_id": 5,
+  "identidad_genero_id": null,
+  "orientacion_sexual_id": 1,
+
+  "calle": "FFFFFFFF",
+  "num_exterior": "23 A",
+  "num_interior": "5B, piso 3",
+  "cve_ent": 21,
+  "cve_mun": 132,
+  "cve_loc": 1,
+  "codigo_postal": "74000",
+  "colonias_id": 16813,
+  "entre_calle_uno": "entre_calle_uno",
+  "entre_calle_dos": "entre_calle_dos",
+  "referencia": null,
+
+  "lugar_id": null,
+  "lugar_detalle_id": null,
+  "lugar_detalle_otro": null,
+
+  "escolaridad_id": null,
+  "ingreso_economico_id": null,
+  "ocupacion_id": 3,
+
+  "conoce_persona": true,
+
+  "consume_drogas": true,
+  "tipos_drogas": [1],
+
+  "plataformas": [1, 2],
+  "otras_plataformas": "Otra plataforma",
+
+  "dependencia_corresponde": 103,
+  "usuario_corresponde": "Nombre del usuario",
+  "usuario_cargo_corresponde": "Cargo del usuario",
+  "cargo": "Cargo del agresor",
+
+  "programa_federal_id": null
+}
 ```
 #### Campos Obligatorios
 
-|             Campo         | Obligatorio | Tipo de dato |
-|:-------------------------:|:-----------:|:------------:|
-| hechos_id                 |      SI     |    integer   |
-| nombre                    |      SI     |    string    |
-| primer_apellido           |      SI     |    string    |
-| segundo_apellido          |      SI     |    string    |
-| curp                      |      SI     |    string    |
-| sexo_id                   |      SI     |    integer   |
-| edad                      |      NO     |    integer   |
-| mismo_domicilio_victima   |      NO     |    bolean    |
-| acceso_a_armas            |      NO     |    boolean   |
-| tipos_armas               |      NO     |   integer[]  | 
-| vinculo_victima_id        |      NO     |    integer   | 
-| identidad_genero_id       |      NO     |    integer   |
-| orientacion_sexual_id     |      NO     |    integer   |
-| calle                     |      NO     |    string    |
-| num_exterior              |      NO     |    string    |
-| num_interior              |      NO     |    string    |
-| cve_ent                   |      NO     |    integer   |
-| cve_mun                   |      NO     |    integer   |
-| cve_loc                   |      NO     |    integer   |
-| codigo_postal             |      NO     |    string    |
-| colonias_id               |      NO     |    integer   |
-| entre_calle_uno           |      NO     |    string    |
-| entre_calle_dos           |      NO     |    string    |
-| referencia                |      NO     |    string    |
-| escolaridad_id            |      NO     |    integer   |
-| ingreso_economico_id      |      NO     |    integer   |
-| ocupacion_id              |      NO     |    integer   |
-| conoce_persona            |      SI     |    boolean   |
-| consume_drogas            |      NO     |    boolean   |
-| tipos_drogas              |      NO     |   integer[]  |
-| dependencia_corresponde   |      SI     |    integer   |
-|||
+| Campo                     | Obligatorio | Tipo    |
+| ------------------------- | :---------: | ------- |
+| `hechos_id`               |      Sí     | integer |
+| `nombre`                  |      Sí     | string  |
+| `primer_apellido`         |      Sí     | string  |
+| `segundo_apellido`        |      Sí     | string  |
+| `curp`                    |      Sí     | string  |
+| `sexo_id`                 |      Sí     | integer |
+| `conoce_persona`          |      Sí     | boolean |
+| `dependencia_corresponde` |      Sí     | integer |
+
+| Campo                          | Tipo              |
+| ------------------------------ | ----------------- |
+| `edad`                         | integer           |
+| `edad_aproximada`              | integer (0–120)   |
+| `apodo`                        | string            |
+| `puede_identificar_al_agresor` | boolean           |
+| `identificacion_detalles`      | string (max 1000) |
+| `mismo_domicilio_victima`      | boolean           |
+| `conoce_domicilio`             | boolean           |
+| `puede_localizar_al_agresor`   | boolean           |
+| `acceso_a_armas`               | boolean           |
+| `tipos_armas`                  | integer[]         |
+| `vinculo_victima_id`           | integer           |
+| `identidad_genero_id`          | integer | null    |
+| `orientacion_sexual_id`        | integer           |
+| `calle`                        | string            |
+| `num_exterior`                 | string            |
+| `num_interior`                 | string            |
+| `cve_ent`                      | integer           |
+| `cve_mun`                      | integer           |
+| `cve_loc`                      | integer           |
+| `codigo_postal`                | string            |
+| `colonias_id`                  | integer           |
+| `entre_calle_uno`              | string            |
+| `entre_calle_dos`              | string            |
+| `referencia`                   | string | null     |
+| `lugar_id`                     | integer | null    |
+| `lugar_detalle_id`             | integer | null    |
+| `lugar_detalle_otro`           | string | null     |
+| `escolaridad_id`               | integer | null    |
+| `ingreso_economico_id`         | integer | null    |
+| `ocupacion_id`                 | integer | null    |
+| `consume_drogas`               | boolean           |
+| `tipos_drogas`                 | integer[]         |
+| `plataformas`                  | integer[]         |
+| `otras_plataformas`            | string | null     |
+| `usuario_corresponde`          | string | null     |
+| `usuario_cargo_corresponde`    | string | null     |
+| `cargo`                        | string | null     |
+| `programa_federal_id`          | integer | null    |
+
+
 
 #### Ejemplo de solicitud.
 con curl.
 ```bash
     curl --location 'API_URL/api/registrar-agresor' \
-    --header 'Accept: application/json' \
-    --header 'Content-Type: application/json' \
-    --header 'Authorization: Bearer TOKEN' \
-    --data '{
-        "hechos_id"                 : 5,
-        "nombre"                    : "FFFF",
-        "primer_apellido"           : "AAAA",
-        "segundo_apellido"          : "AAAA",
-        "curp"                      : "CURP000000XXXXXXX0",
-        "sexo_id"                   : 1,
-        "edad"                      : 50,
-        "mismo_domicilio_victima"   : true,
-        "acceso_a_armas"            : true,
-        "tipos_armas"               : [1],
-        "vinculo_victima_id"        : 5,
-        "identidad_genero_id"       : null,
-        "orientacion_sexual_id"     : 1,
-        "calle"                     : "FFFFFFFF",
-        "num_exterior"              : "23 A",
-        "num_interior"              : "5B, piso 3",
-        "cve_ent"                   : 21,
-        "cve_mun"                   : 132,
-        "cve_loc"                   : 1,
-        "codigo_postal"             : 74000,
-        "colonias_id"               : 16813,
-        "entre_calle_uno"           : null,
-        "entre_calle_dos"           : null,
-        "referencia"                :null,
-        "escolaridad_id"            : null,
-        "ingreso_economico_id"      : null,
-        "ocupacion_id"              : 3,
-        "conoce_persona"            : true,
-        "consume_drogas"            : true,
-        "tipos_drogas"              : [1],
-        "dependencia_corresponde"   : 103
-    }'
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: Bearer TOKEN' \
+  --data '{
+    "hechos_id": 5,
+    "nombre": "FFFF",
+    "primer_apellido": "AAAA",
+    "segundo_apellido": "AAAA",
+    "curp": "CURP000000XXXXXXX0",
+    "sexo_id": 1,
+    "conoce_persona": true,
+    "dependencia_corresponde": 103,
+
+    "puede_identificar_al_agresor": true,
+    "identificacion_detalles": "Se identifica por tatuaje en el antebrazo derecho.",
+    "apodo": "EL APODO",
+    "edad_aproximada": 50,
+
+    "acceso_a_armas": true,
+    "tipos_armas": [1],
+    "consume_drogas": true,
+    "tipos_drogas": [1],
+
+    "codigo_postal": "74000"
+  }'
 ```
 con PHP - cURL.
 ```php
@@ -4869,70 +4904,50 @@ con JavaScrip - fetch.
 con estatus 200  en formato json.
 ```json
 {
-    "hechos_id": 5,
-    "users_id": 1,
-    "nombre": "FFFF",
-    "primer_apellido": "AAAA",
-    "segundo_apellido": "AAAA",
-    "curp": "CURP000000XXXXXXX0",
-    "sexo_id": 1,
-    "edad": 50,
-    "mismo_domicilio_victima": true,
-    "acceso_a_armas": true,
-    "tipos_armas": "[1]",
-    "vinculo_victima_id": 5,
-    "identidad_genero_id": null,
-    "orientacion_sexual_id": 1,
-    "calle": "FFFFFFFF",
-    "num_exterior": "23 A",
-    "num_interior": "5B, piso 3",
-    "cve_ent": 21,
-    "cve_mun": 132,
-    "cve_loc": 1,
-    "codigo_postal": 74000,
-    "colonias_id": 16813,
-    "entre_calle_uno": null,
-    "entre_calle_dos": null,
-    "referencia": null,
-    "escolaridad_id": null,
-    "ingreso_economico_id": null,
-    "ocupacion_id": 3,
-    "conoce_persona": true,
-    "consume_drogas": true,
-    "tipos_drogas": "[1]",
-    "dependencia_corresponde": 103,
-    "updated_at": "2024-08-05T23:40:17.000000Z",
-    "created_at": "2024-08-05T23:40:17.000000Z",
-    "id": 54
+  "hechos_id": 5,
+  "users_id": 1,
+  "nombre": "FFFF",
+  "primer_apellido": "AAAA",
+  "segundo_apellido": "AAAA",
+  "curp": "CURP000000XXXXXXX0",
+  "sexo_id": 1,
+  "edad": 50,
+  "mismo_domicilio_victima": true,
+  "acceso_a_armas": true,
+  "tipos_armas": "[1]",
+  "vinculo_victima_id": 5,
+  "identidad_genero_id": null,
+  "orientacion_sexual_id": 1,
+  "calle": "FFFFFFFF",
+  "num_exterior": "23 A",
+  "num_interior": "5B, piso 3",
+  "cve_ent": 21,
+  "cve_mun": 132,
+  "cve_loc": 1,
+  "codigo_postal": 74000,
+  "colonias_id": 16813,
+  "conoce_persona": true,
+  "consume_drogas": true,
+  "tipos_drogas": "[1]",
+  "dependencia_corresponde": 103,
+  "updated_at": "2024-08-05T23:40:17.000000Z",
+  "created_at": "2024-08-05T23:40:17.000000Z",
+  "id": 54
 }
 ```
 con estatus 422. Faltan parámetros.
 ```json
 {
-    "message": "El campo hechos id es requerido. (and 6 more errors)",
-    "errors": {
-        "hechos_id": [
-            "El campo hechos id es requerido."
-        ],
-        "nombre": [
-            "El campo nombre es requerido."
-        ],
-        "primer_apellido": [
-            "El campo primer apellido es requerido."
-        ],
-        "segundo_apellido": [
-            "El campo segundo apellido es requerido."
-        ],
-        "curp": [
-            "El campo curp es requerido."
-        ],
-        "sexo_id": [
-            "El campo sexo id es requerido."
-        ],
-        "conoce_persona": [
-            "El campo conoce persona es requerido."
-        ]
-    }
+  "message": "El campo hechos id es requerido. (and 6 more errors)",
+  "errors": {
+    "hechos_id": ["El campo hechos id es requerido."],
+    "nombre": ["El campo nombre es requerido."],
+    "primer_apellido": ["El campo primer apellido es requerido."],
+    "segundo_apellido": ["El campo segundo apellido es requerido."],
+    "curp": ["El campo curp es requerido."],
+    "sexo_id": ["El campo sexo id es requerido."],
+    "conoce_persona": ["El campo conoce persona es requerido."]
+  }
 }
 ```
 --------------------------------------------------------------
